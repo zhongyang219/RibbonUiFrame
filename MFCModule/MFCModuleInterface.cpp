@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "MFCModuleInterface.h"
+#include "MFCModuleDlg.h"
 
 void MFCModuleInterface::InitInstance()
 {
@@ -44,6 +45,13 @@ void MFCModuleInterface::UnInitInstance()
 #endif
 
     AfxWinTerm();
+}
+
+void MFCModuleInterface::UiInitComplete(IMainFrame* pMainFrame)
+{
+    //显示主窗口
+    CMFCModuleDlg* pDlg = dynamic_cast<CMFCModuleDlg*>(AfxGetMainWnd());
+    pDlg->SetWindowVisible(true);
 }
 
 void* MFCModuleInterface::GetMainWindow()

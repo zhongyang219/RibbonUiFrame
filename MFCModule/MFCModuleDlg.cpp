@@ -15,7 +15,7 @@
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
-class CAboutDlg : public CDialogEx
+class CAboutDlg : public CDialog
 {
 public:
 	CAboutDlg();
@@ -33,16 +33,16 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
+CAboutDlg::CAboutDlg() : CDialog(IDD_ABOUTBOX)
 {
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialog::DoDataExchange(pDX);
 }
 
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 
@@ -56,6 +56,11 @@ CMFCModuleDlg::CMFCModuleDlg(CWnd* pParent /*=nullptr*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+void CMFCModuleDlg::SetWindowVisible(bool visible)
+{
+    m_windowVisible = visible;
+}
+
 void CMFCModuleDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -65,6 +70,7 @@ BEGIN_MESSAGE_MAP(CMFCModuleDlg, CDialog)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+    ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 
 
@@ -153,3 +159,12 @@ HCURSOR CMFCModuleDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CMFCModuleDlg::OnWindowPosChanging(WINDOWPOS* lpwndpos)
+{
+    CDialog::OnWindowPosChanging(lpwndpos);
+
+    if (!m_windowVisible)
+        lpwndpos->flags &= ~SWP_SHOWWINDOW;
+}

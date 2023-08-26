@@ -7,6 +7,7 @@ public:
     // 通过 IModule 继承
     virtual void InitInstance() override;
     virtual void UnInitInstance() override;
+    virtual void UiInitComplete(IMainFrame* pMainFrame) override;
     virtual void* GetMainWindow() override;
     virtual eMainWindowType GetMainWindowType() const override;
     virtual const char* GetModuleName() override;
