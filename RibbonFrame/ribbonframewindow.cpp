@@ -1030,6 +1030,16 @@ QWidget *RibbonFrameWindow::_GetWidget(const QString& strCmd) const
     return nullptr;
 }
 
+void RibbonFrameWindow::SetTabIndex(int index)
+{
+    d->m_pTabWidget->setCurrentIndex(index);
+}
+
+int RibbonFrameWindow::GetTabIndex() const
+{
+    return d->m_pTabWidget->currentIndex();
+}
+
 IModule *RibbonFrameWindow::GetModule(const char *strModuleName) const
 {
     auto iter = d->m_moduleNameMap.find(strModuleName);

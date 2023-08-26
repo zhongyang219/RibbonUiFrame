@@ -78,6 +78,9 @@ protected:
     QAction *_GetAction(const QString& strCmd) const;
     QWidget *_GetWidget(const QString& strCmd) const;
 
+    void SetTabIndex(int index);
+    int GetTabIndex() const;
+
 private:
     MainFramePrivate* d;        //私有成员变量，定义在cpp文件中
 
