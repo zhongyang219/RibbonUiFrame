@@ -1,0 +1,12 @@
+#ifndef TESTMODULE_GLOBAL_H
+#define TESTMODULE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(TESTMODULE_LIBRARY)
+#  define TESTMODULESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define TESTMODULESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // TESTMODULE_GLOBAL_H

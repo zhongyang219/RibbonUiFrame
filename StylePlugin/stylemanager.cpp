@@ -1,0 +1,184 @@
+﻿#include "stylemanager.h"
+#include <QFile>
+#include <QPalette>
+#include <QStyledItemDelegate>
+#include <QApplication>
+#include "StringHelper.h"
+#include <QScreen>
+#define QSTR(str) QString::fromWCharArray(L ## str)
+
+//将一个像素值根据当前屏幕DPI设置进行等比放大
+static int DPI(int x)
+{
+    return QGuiApplication::primaryScreen()->logicalDotsPerInch() * x / 96;
+}
+
+CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleType type, bool bParsePaletteColor)
+    : m_strName(name),
+      m_type(type),
+      m_bParsePaletteColor(bParsePaletteColor)
+{
+    //载入样式表文件
+//    QFile file(":/qss/darkblue.css");
+    QFile file(strPath);
+
+    if (file.open(QFile::ReadOnly))
+    {
+        m_strQss = QString::fromUtf8(file.readAll());
+        StyleDpiChange(m_strQss);
+        if (bParsePaletteColor)
+            m_strPaletteColor = m_strQss.mid(20, 7);
+        file.close();
+    }
+}
+
+void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget) const
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    if (pWidget != nullptr)
+    {
+        //设置样式表
+        if (m_bParsePaletteColor)
+            pWidget->setPalette(QPalette(m_strPaletteColor));
+        pWidget->setStyleSheet(m_strQss);
+    }
+    else
+    {
+        if (m_bParsePaletteColor)
+            qApp->setPalette(QPalette(m_strPaletteColor));
+        qApp->setStyleSheet(m_strQss);
+    }
+    QApplication::restoreOverrideCursor();
+}
+
+static int FindPxStart(const QString& str, int index)
+{
+    for (int i = index; i >= 0; i--)
+    {
+        if (!StringHelper::IsNumber(str[i].toLatin1()))
+            return i + 1;
+    }
+    return -1;
+}
+
+
+void CStyleManager::CStyle::StyleDpiChange(QString &strStyle)
+{
+    int index = 0;
+    while (true)
+    {
+        //查找“px”
+        index = strStyle.indexOf("px", index + 1);
+        if (index < 0)
+            break;
+        //查找像素的起始位置
+        int indexStart = FindPxStart(strStyle, index - 1);
+        //获取像素值
+        QString strPixel = strStyle.mid(indexStart, index - indexStart);
+        int pixel = strPixel.toInt();
+        //判断是否为radius属性
+        bool isRadius = false;
+        int indexLineStart = StringHelper::QStringFindLastOf(strStyle, "\r\n", indexStart);
+        if (indexLineStart >= 0)
+        {
+            QString strAttr = strStyle.mid(indexLineStart + 1, indexStart - indexLineStart - 1);
+            isRadius = strAttr.contains("radius");
+        }
+        //对像素值进行DPI转换
+        int newPixel = DPI(pixel);
+        //如果是radius属性，则放大后不超过8像素
+        if (isRadius)
+        {
+            int radiusMax = (std::max)(pixel, DPI(8));
+            if (newPixel > radiusMax)
+                newPixel = radiusMax;
+        }
+        //更新样式表
+        QString strNewPixel = QString::number(newPixel);
+        strStyle.replace(indexStart, strPixel.size(), strNewPixel);
+        //更新查找位置
+        index = indexStart + strNewPixel.size() + 2;
+    }
+//#ifdef QT_DEBUG
+//    //Debug模式下将更改后的样式写入文件
+//    QFile file("./styleChange.css");
+//    if (file.open(QIODevice::WriteOnly))
+//    {
+//        file.write(strStyle.toUtf8());
+//        file.close();
+//    }
+//#endif
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+CStyleManager* CStyleManager::m_instance;
+
+CStyleManager *CStyleManager::Instance()
+{
+    if (m_instance == nullptr)
+        m_instance = new CStyleManager();
+    return m_instance;
+}
+
+void CStyleManager::ApplyStyleSheet(const QString &styleName)
+{
+    ApplyStyleSheet(nullptr, styleName);
+}
+
+void CStyleManager::ApplyStyleSheet(QWidget *pWidget, const QString &styleName)
+{
+    for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
+    {
+        if (iter->m_strName == styleName)
+        {
+            iter->ApplyStyleSheet(pWidget);
+            break;
+        }
+    }
+}
+
+const QList<CStyleManager::CStyle> &CStyleManager::GetAllStyles() const
+{
+    return m_styleList;
+}
+
+CStyleManager::CStyle *CStyleManager::GetStyle(const QString &styleName)
+{
+    for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
+    {
+        if (iter->m_strName == styleName)
+        {
+            return &(*iter);
+        }
+    }
+    return nullptr;
+}
+
+void CStyleManager::ApplyQComboboxItemStyle(QComboBox *pCombobox)
+{
+    QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+    pCombobox->setItemDelegate(itemDelegate);
+}
+
+CStyleManager::CStyleManager()
+{
+    m_styleList.push_back(CStyle(":/qss/silvery.css", QSTR("银色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/blue.css", QSTR("蓝色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/lightblue.css", QSTR("浅蓝色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/darkblue.css", QSTR("深蓝色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/gray.css", QSTR("灰色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/lightgray.css", QSTR("浅灰色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/darkgray.css", QSTR("深灰色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/black.css", QSTR("黑色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/lightblack.css", QSTR("浅黑色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/darkblack.css", QSTR("深黑色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/psblack.css", QSTR("PS黑色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/flatblack.css", QSTR("黑色扁平"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/flatwhite.css", QSTR("白色扁平"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/bf.css", QSTR("深黑色2"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/test.css", QSTR("紫色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Office));
+    m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Office));
+    m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Office));
+}

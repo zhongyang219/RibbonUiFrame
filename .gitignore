@@ -1,0 +1,121 @@
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+*.obj
+*.lib
+*.exe
+
+### VC6 ###
+*.clw
+*.opt
+*.positions
+*.plg
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+*.pdb
+*.idb
+*.ilk
+*.exp
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+/.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+### C++ ###
+
+# Debug/Release
+/Debug/
+/Release/
+/*/Debug/*.*
+/*/Release/*.*
+
+# debug/release
+/debug/
+/release/
+/*/debug/*.*
+/*/release/*.*
+*/bin/debug/
+*/bin/release/
+debug
+release
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.ilk
+*.tlog
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.out
+*.app
+
+
+# IPCH
+*.ipch
+
+# SVN
+/.svn/
+*.svn
+*/.svn/
+
+#doc
+~$*
+
+
+### Word Temp File ###
+~$*
+*.tmp
+
+#msado
+*.tlh
+*.tli
+
+# Qt-es
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*-build-*
+
+# QtCreator
+
+*.autosave
+
+*.log
+

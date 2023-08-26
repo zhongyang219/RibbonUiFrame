@@ -1,0 +1,12 @@
+#ifndef STYLEPLUGIN_GLOBAL_H
+#define STYLEPLUGIN_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(STYLEPLUGIN_LIBRARY)
+#  define STYLEPLUGIN_EXPORT Q_DECL_EXPORT
+#else
+#  define STYLEPLUGIN_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // STYLEPLUGIN_GLOBAL_H

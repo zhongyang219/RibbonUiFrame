@@ -1,0 +1,293 @@
+﻿QPalette{background:#FFFFFF;}*{outline:0px;color:#000000;}
+
+QMessageBox {
+    background: #FFFFFF;
+}
+
+QToolBar#MainFrameToolbar{
+background:#FFFFFF;
+}
+
+QToolBar#MainFrameToolbar::separator{
+background:#C6C6C6;
+margin: 4px;
+width: 1px;
+}
+
+QTabWidget#MainFrameTab{
+background:#FFFFFF;
+}
+
+QTabWidget#MainFrameTab:pane{
+border:1px solid #C6C6C6;
+top: -1px;
+}
+
+.QGroupBox{
+border:1px solid #C6C6C6;
+margin-top:3ex;
+}
+
+.QGroupBox::title{
+subcontrol-origin:margin;
+position:relative;
+left:10px;
+margin:4px;
+}
+
+QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,QTimeEdit,QDateTimeEdit{
+border:1px solid #ABABAB;
+padding:2px;
+background:none;
+selection-background-color:#D7E2F3;
+selection-color:#000000;
+}
+
+QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+height: 22px;
+}
+
+QLineEdit:focus,QTextEdit:focus,QPlainTextEdit:focus,QSpinBox:focus,QDoubleSpinBox:focus,QComboBox:focus,QDateEdit:focus,QTimeEdit:focus,QDateTimeEdit:focus,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QSpinBox:hover,QDoubleSpinBox:hover,QComboBox:hover,QDateEdit:hover,QTimeEdit:hover,QDateTimeEdit:hover{
+border:1px solid #2B579A;
+}
+
+QPushButton{
+color:#000000;
+border:1px solid #ABABAB;
+padding:4px;
+min-height:15px;
+max-height: 22px;
+min-width: 65px;
+background: #FFFFFF;
+}
+
+QPushButton:hover {
+background: #D7E2F3;
+}
+
+QPushButton:pressed {
+background: #AABFDF;
+}
+
+QPushButton:disabled {
+color: #8D8D8D;
+}
+
+QPushButton#MainFrameBtn{
+padding:2px;
+}
+
+QToolButton {
+border-style: none;
+background: transparent;
+padding:2px;
+}
+
+QToolButton:hover {
+background: #D7E2F3;
+}
+
+QToolButton:disabled {
+    background: transparent;
+    color: #8D8D8D;
+}
+
+QToolButton:pressed {
+    background: #AABFDF;
+}
+
+QToolButton::menu-indicator{
+image:None;
+}
+
+QToolButton:checked{
+    background: #AABFDF;
+}
+
+QMenu,QMenu:disabled{
+background-color:#FFFFFF;
+border:1px solid #B6B6B6;
+padding:2px 2px;
+}
+
+QMenu::item{
+padding:2px 14px;
+padding-right: 24px;
+height: 20px;
+}
+
+QMenu::icon {
+margin-left: 14px;
+}
+
+QMenu::indicator{
+width:16px;
+height:16px;
+}
+
+QMenu::item:selected{
+border:0px;
+background:#D7E2F3;
+}
+QMenu::separator{
+height:1px;
+background:#D4D4D4;
+margin:4px 6px;
+}
+
+
+QTimeEdit::up-button,QDateEdit::up-button,QDateTimeEdit::up-button,QDoubleSpinBox::up-button,QSpinBox::up-button{
+image:url(:/qss/office2013/add_top.png);
+width:10px;
+height:10px;
+padding:1px 3px 1px 3px;
+}
+
+QTimeEdit::down-button,QDateEdit::down-button,QDateTimeEdit::down-button,QDoubleSpinBox::down-button,QSpinBox::down-button{
+image:url(:/qss/office2013/add_bottom.png);
+width:10px;
+height:10px;
+padding:1px 3px 1px 3px;
+}
+
+
+QTimeEdit::up-button:hover,QDateEdit::up-button:hover,QDateTimeEdit::up-button:hover,QDoubleSpinBox::up-button:hover,QSpinBox::up-button:hover,QTimeEdit::down-button:hover,QDateEdit::down-button:hover,QDateTimeEdit::down-button:hover,QDoubleSpinBox::down-button:hover,QSpinBox::down-button:hover,QSpinBox::down-button:hover{
+background:#D7E2F3;
+}
+
+QTimeEdit::up-button:pressed,QDateEdit::up-button:pressed,QDateTimeEdit::up-button:pressed,QDoubleSpinBox::up-button:pressed,QSpinBox::up-button:pressed,QTimeEdit::down-button:pressed,QDateEdit::down-button:pressed,QDateTimeEdit::down-button:pressed,QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
+background:#AABFDF;
+}
+
+QComboBox::down-arrow:hover,QDateEdit::down-arrow:hover,QDateTimeEdit::down-arrow:hover{
+background:#D7E2F3;
+}
+
+QComboBox::down-arrow:pressed,QDateEdit::down-arrow:pressed,QDateTimeEdit::down-arrow:pressed{
+background:#AABFDF;
+}
+
+QComboBox::down-arrow,QDateEdit[calendarPopup="true"]::down-arrow,QTimeEdit[calendarPopup="true"]::down-arrow,QDateTimeEdit[calendarPopup="true"]::down-arrow{
+image:url(:/qss/office2013/add_bottom.png);
+width:12px;
+height:20px;
+right:2px;
+margin-left:4px;
+}
+
+QComboBox::drop-down,QDateEdit::drop-down,QTimeEdit::drop-down,QDateTimeEdit::drop-down{
+subcontrol-origin:padding;
+subcontrol-position:top right;
+width:15px;
+border-left-width:0px;
+border-left-style:solid;
+border-left-color:#B6B6B6;
+}
+
+QComboBox QAbstractItemView{
+selection-background-color:#D7E2F3;
+selection-color:#000000;
+}
+
+QTableView::item:selected{
+background:#D7E2F3;
+color:#000000;
+}
+
+QHeaderView {
+background: #FFFFFF;
+}
+
+QHeaderView::section,QTableCornerButton:section{
+padding:3px;
+margin:0px;
+border:1px solid #EEEEEE;
+border-left-width:0px;
+border-right-width:1px;
+border-top-width:0px;
+border-bottom-width:1px;
+background:#FFFFFF;
+}
+
+QHeaderView::section:selected{
+background:#AABFDF
+}
+
+QTabBar::tab{
+border:none;
+background:transparent;
+min-height:24px;
+padding:0px 6px;
+}
+
+QTabBar::tab:selected{
+border:1px solid #C6C6C6;
+border-bottom:0px;
+border-color:#C6C6C6;
+background:#FFFFFF;
+}
+
+QTabBar::tab:hover:!selected{
+border:none;
+background:#D7E2F3;
+}
+
+QTabWidget:pane{
+border:1px solid #C6C6C6;
+top: -1px;
+}
+
+QTabBar#MainFrameTabBar::tab {
+background:transparent;
+padding:0px 12px;
+}
+
+QTabBar#MainFrameTabBar::tab:selected{
+border:1px solid #C6C6C6;
+border-bottom:0px;
+color:#204173;
+background:#FFFFFF;
+}
+
+QTabBar#MainFrameTabBar::tab:hover:!selected{
+color:#204173;
+}
+
+QListView,QTreeView,QTableView{
+border:1px solid #C6C6C6;
+}
+
+QListView::item:hover,QTreeView::item:hover{
+background:#E5F3FF;
+}
+
+QListView::item:selected,QTreeView::item:selected{
+color:#000000;
+background:#CDE8FF;
+}
+
+QCheckBox::indicator,QGroupBox::indicator,QTreeWidget::indicator,QListWidget::indicator{
+width:12px;
+height:12px;
+}
+
+QCheckBox::indicator:unchecked,QGroupBox::indicator:unchecked,QTreeWidget::indicator:unchecked,QListWidget::indicator:unchecked{
+image:url(:/qss/office2013/checkbox_unchecked.png);
+}
+
+QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeWidget::indicator:checked,QListWidget::indicator:checked{
+image:url(:/qss/office2013/checkbox_checked.png);
+}
+
+QRadioButton::indicator{
+width:12px;
+height:12px;
+}
+
+QRadioButton::indicator::unchecked{
+image:url(:/qss/office2013/radiobutton_unchecked.png);
+}
+
+QRadioButton::indicator::checked{
+image:url(:/qss/office2013/radiobutton_checked.png);
+}
