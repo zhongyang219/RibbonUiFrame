@@ -35,7 +35,9 @@ QTabWidget#MainFrameTab {
 }
 
 QTabWidget#MainFrameTab:pane {
+    border: none;
     border-bottom: 1px solid #C6C6C6;
+    top: 0px;
 }
 
 .QGroupBox{
@@ -274,11 +276,11 @@ QTabBar#MainFrameTabBar::tab {
     min-height: 30px;
 }
 
-QTabBar#MainFrameTabBar::tab:selected{
-border:1px solid #C6C6C6;
-border-bottom:0px;
-color:#204173;
-background:#FAFAFA;
+QTabBar#MainFrameTabBar::tab:selected {
+    border: none;
+    border-bottom: 0px;
+    color: #2b579a;
+    background: #f3f3f3;
 }
 
 QTabBar#MainFrameTabBar::tab:hover:!selected {
@@ -323,4 +325,8 @@ image:url(:/qss/office2013/radiobutton_unchecked.png);
 
 QRadioButton::indicator::checked{
 image:url(:/qss/office2013/radiobutton_checked.png);
+}
+
+QStatusBar {
+    background: #f3f3f3;
 }
