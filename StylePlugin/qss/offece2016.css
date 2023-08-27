@@ -6,6 +6,7 @@ QMessageBox {
 
 QToolBar#MainFrameToolbar {
     background: #f3f3f3;
+    padding:2px;
 }
 
 QToolBar#MainFrameToolbar::separator{

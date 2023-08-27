@@ -1220,3 +1220,16 @@ void* RibbonFrameWindow::GetWidget(const char* strId)
 {
     return _GetWidget(strId);
 }
+
+void RibbonFrameWindow::SetStatusBarText(const char* text, int timeOut)
+{
+    QStatusBar* pStatusBar = statusBar();
+    if (pStatusBar != nullptr)
+    {
+        QString strText = QString::fromUtf8(text);
+        if (!strText.isEmpty())
+            pStatusBar->showMessage(strText, timeOut);
+        else
+            pStatusBar->clearMessage();
+    }
+}

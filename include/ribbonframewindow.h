@@ -101,6 +101,7 @@ public:
     virtual void SetItemIcon(const char* strId, const char* iconPath, int iconSize) override;
     virtual void* GetAcion(const char* strId) override;
     virtual void* GetWidget(const char* strId) override;
+    virtual void SetStatusBarText(const char* text, int timeOut) override;
 };
 
 #endif // RIBBONFRAMEWINDOW_H
