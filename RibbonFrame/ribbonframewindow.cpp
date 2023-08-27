@@ -254,7 +254,13 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent)
     //在TabWidget右上角添加一个工具栏
     d->m_pTopRightBar = new QToolBar();
     d->m_pTopRightBar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
-    d->m_pTabWidget->setCornerWidget(d->m_pTopRightBar);
+    d->m_pTopRightBar->setObjectName("MainFrameCornerBar");
+    QWidget* pTopRightWidget = new QWidget();
+    QHBoxLayout* pTopRightLayout = new QHBoxLayout();
+    pTopRightLayout->setContentsMargins(0, 0, 0, 0);
+    pTopRightWidget->setLayout(pTopRightLayout);
+    pTopRightLayout->addWidget(d->m_pTopRightBar);
+    d->m_pTabWidget->setCornerWidget(pTopRightWidget);
 
     //添加左上角控件
     QWidget* pTopLeftBar = new QWidget(this);
@@ -492,7 +498,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
 #ifdef Q_OS_WIN
             pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
 #endif
-            d->m_pTopLeftLayout->addWidget(pMainFrameBtn);
+            d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
 
             //为按钮添加菜单
             QMenu* pMainMenu = LoadUiMenu(nodeInfo);
@@ -504,6 +510,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
         else if (tagName == "QuickAccessBar")
         {
             QToolBar* pQuickAccessbar = new QToolBar(this);
+            pQuickAccessbar->setObjectName("MainFrameCornerBar");
             pQuickAccessbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
             d->m_pTopLeftLayout->addWidget(pQuickAccessbar);
             LoadSimpleToolbar(nodeInfo, pQuickAccessbar);

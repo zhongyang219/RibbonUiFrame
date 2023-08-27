@@ -181,4 +181,5 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Office));
     m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Office));
     m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Office));
+    m_styleList.push_back(CStyle(":/qss/offece2016.css", QSTR("Office2016"), CStyle::Office));
 }

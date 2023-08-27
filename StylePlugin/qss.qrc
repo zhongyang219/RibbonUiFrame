@@ -299,5 +299,6 @@
         <file>qss/office2013/radiobutton_unchecked.png</file>
         <file>qss/offece2013darkgray.css</file>
         <file>res/office.png</file>
+        <file>qss/offece2016.css</file>
     </qresource>
 </RCC>

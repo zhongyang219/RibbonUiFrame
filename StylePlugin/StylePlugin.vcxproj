@@ -216,6 +216,7 @@
     <None Include="qss\lightblack\add_bottom.png" />
     <None Include="qss\lightblue\add_bottom.png" />
     <None Include="qss\lightgray\add_bottom.png" />
+    <None Include="qss\offece2016.css" />
     <None Include="qss\office2013\add_bottom.png" />
     <None Include="qss\psblack\add_bottom.png" />
     <None Include="qss\silvery\add_bottom.png" />
