@@ -79,7 +79,7 @@ public:
 
 //一个形如IModule* func()的函数的指针
 //模块实现IModule接口后，还应该导出一个名为“CreateInstance”的函数以创建对象，创建的对象由框架负责释放
-#ifdef Q_OS_WIN
+#if defined(WIN32) || defined(WIN64)
 typedef IModule* (__stdcall *pfCreateModuleInstance)();
 #else
 typedef IModule* (*pfCreateModuleInstance)();
