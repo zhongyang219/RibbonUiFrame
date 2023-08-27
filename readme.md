@@ -2,13 +2,13 @@
 
 这是一个界面框架模块，实现了Ribbon风格的样式，使用xml文件配置Ribbon标签页。框架完全使用原生Qt库，无第三方依赖，支持Windows和Linux系统。
 
-可以使用Qt或MFC/Wind32API编辑功能模块，并加载到主框架中，并在主框架中以Ribbon标签的方式显示。
+此框架可以将Qt或MFC/Win32程序集成到同一个应用程序中。你可以使用Qt或MFC/Win32编写功能模块，并加载到主框架中，并在主框架中以Ribbon标签的方式显示。
 
-工程中包含了一个测试程序、一个基于Qt的测试模块、一个基于MFC对话框的测试模块和一个基于Qt的主题模块。
+工程中包含了一个框架测试程序、一个基于Qt的测试模块、一个基于MFC对话框的测试模块和一个基于Qt的主题模块。
 
-界面框架支持更换主题，内置了十几种风格的主题。
+界面框架支持更换主题，内置了十几种风格的主题。主题基于QSS实现，其中部分主题来自开源项目[QSS-Skin-Builder](https://github.com/satchelwu/QSS-Skin-Builder)。
 
-Windows下截图▼
+界面截图▼
 
 ![image-20230826193445586](images/image-20230826193445586.png)
 
@@ -26,7 +26,8 @@ Windows下截图▼
 | ----------- | ------------------------------------------------------------ |
 | RibbonFrame | 界面框架核心动态库，包含一个RibbonFrameWindow类作为程序的主窗口。 |
 | MainApp     | 界面框架的测试程序，依赖RibbonFrame。                        |
-| TestModule  | 测试模块，RibbonFrame模块加载时会根据xml中配置的文件名加载该模块。 |
+| TestModule  | Qt测试模块，RibbonFrame模块加载时会根据xml中配置的文件名加载该模块。 |
+| MFCModule   | MFC测试模块，RibbonFrame模块加载时会根据xml中配置的文件名加载该模块。 |
 | StylePlugin | 主题模块，如果需要支持更换主题功能需要加载此模块。           |
 | bin         | 输出的二进制文件。                                           |
 | common      | 公共的资源文件，需要运行`复制common文件.bat`（或`复制common文件.sh`）将它们复制到bin目录的debug和release目录下。 |
@@ -52,30 +53,33 @@ Windows下截图▼
 
   * 模块类必须实现`IModule`接口，并实现以下必要的虚函数：
 
-    | 虚函数         | 说明                                                         |
-    | -------------- | ------------------------------------------------------------ |
-    | InitInstance   | 模块被加载后由框架调用，在这里添加一些初始化的代码。         |
-    | UnInitInstance | 模块被析构前由框架调用，在这里添加一些清理、保存的代码。     |
-    | UiInitComplete | 界面加载完成后由框架调用。对框架命令、控件的初始化工作必须在此函数中进行。 |
-    | GetMainWindow  | 返回一个QWidget对象的指针。为框架提供一个主窗口作为此模块的主窗口。 |
-    | GetModuleName  | 返回此模块的名称。此名称为框架区分不同模块的唯一标识，不同模块的名称不能相同。 |
-    | OnCommand      | 当主窗口触发了一个命令时由框架调用。响应框架中命令的触发事件必须在此函数中。 |
+    | 虚函数            | 说明                                                         |
+    | ----------------- | ------------------------------------------------------------ |
+    | InitInstance      | 模块被加载后由框架调用，在这里添加一些初始化的代码。         |
+    | UnInitInstance    | 模块被析构前由框架调用，在这里添加一些清理、保存的代码。     |
+    | UiInitComplete    | 界面加载完成后由框架调用，并传递`IMainFrame`接口的指针，可以通过此指针调用框架接口。 |
+    | GetMainWindowType | 返回主窗口的类型，如果模块是一个Qt工程，则返回`IModule::MT_QWIDGET`，如果是一个MFC工程，则返回`IModule::MT_HWND`。 |
+    | GetMainWindow     | 根据GetMainWindowType的返回值返回一个QWidget对象的指针或HWND句柄。为框架提供一个主窗口作为此模块的主窗口。 |
+    | GetModuleName     | 返回此模块的名称。此名称为框架区分不同模块的唯一标识，不同模块的名称不能相同。 |
+    | OnCommand         | 当主窗口触发了一个命令时由框架调用。响应框架中命令的触发事件必须在此函数中。 |
+    
   * 模块导出一个名为`CreateInstance()`的函数，在函数中创建模块类的对象，并返回其指针。此对象在模块中创建，并由框架负责释放。
+  
+  如果需要添加的模块不需要界面，并且不需要关联Ribbon页面，请在xml文件的`Plugins`节点下配置要添加的插件。例如本工程中的`StylePlugin`模块。
+
+## 集成基于MFC的模块
+
+你还可以将一个基于对话框的MFC工程集成到框架中，并在框架中显示MFC的主窗口。
+
+要集成MFC模块，请参照`MFCModule`里的示例代码。
 
 ## 模块间通信
 
 模块中重写`IModule`接口中的虚函数`UiInitComplete`，此函数会传递`IMainFrame`接口的指针，保存此指针。
 
-### 向模块发送消息
-
 * 调用`IMainFrame::SendModuleMessage`向模块发送一个消息。
-* 如果你的项目中使用protobuf来通信，也可以调用`IMainFrame::SendModuleProtoMessage`来发送一个序列化后的protobuf消息。
 
-### 接收模块消息
-
-在模块实现类中重写`IModule`接口的`OnMessage`函数，使用`SendModuleMessage`函数向此模块发送了消息时，此函数会被调用。
-
-通过`SendModuleProtoMessage`函数发送的消息则通过`OnProtoMessage`函数响应。
+* 在模块实现类中重写`IModule`接口的`OnMessage`函数，使用`SendModuleMessage`函数向此模块发送了消息时，此函数会被调用。
 
 # 界面xml文件说明
 
@@ -262,7 +266,7 @@ Plugins节点必须位于根节点下。
 
 在`MainFrame.xml`中通过`Plugins`加载主题插件：
 
-```
+```xml
 <Plugins>
 	<Plugin path="StylePlugin"/>
 </Plugins>
@@ -270,7 +274,7 @@ Plugins节点必须位于根节点下。
 
 然后在`MainFrame.xml`中添加如下代码：
 
-```
+```xml
 <Menu name="主题" icon="./Image/color.png" id="Theme" btnStyle="compact">
 	<Action name="默认主题" id="DefaultStyle" checkable="true"/>
 </Menu>
@@ -280,4 +284,4 @@ Plugins节点必须位于根节点下。
 
 `StylePlugin`模块会自动查找id为`Theme`的菜单，并在菜单下添加其他支持的主题。如果主题加载成功，“主题”菜单将如下图所示：
 
-
+![image-20230827182536244](images/image-20230827182536244.png)

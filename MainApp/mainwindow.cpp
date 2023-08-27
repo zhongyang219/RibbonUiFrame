@@ -15,7 +15,7 @@ bool MainWindow::OnCommand(const QString &strCmd, bool checked)
 {
     if (strCmd == "AppAbout")
     {
-        QMessageBox::about(this, QSTR("关于 %1").arg(qApp->applicationName()), QSTR("这是一个主框架测试程序。"));
+        QMessageBox::about(this, QSTR("关于 %1").arg(qApp->applicationName()), QSTR("%1 %2\r\n这是一个界面框架示例程序。\r\nCopyright(C) 2023 by ZhongYang").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
         return true;
     }
     return RibbonFrameWindow::OnCommand(strCmd, checked);
