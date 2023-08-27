@@ -33,13 +33,6 @@ void TestModule::UnInitInstance()
 void TestModule::UiInitComplete(IMainFrame *pMainFrame)
 {
     m_pMainFrame = pMainFrame;
-    //初始化下拉列表
-    QComboBox* pCombo = qobject_cast<QComboBox*>((QWidget*)pMainFrame->GetWidget("ComboBox1"));
-    if (pCombo != nullptr)
-    {
-        pCombo->addItems(QStringList() << QSTR("下拉列表项1") << QSTR("下拉列表项2") << QSTR("下拉列表项3"));
-        pCombo->setCurrentIndex(0);
-    }
 
     QListWidget* pListWidget = qobject_cast<QListWidget*>((QWidget*)pMainFrame->GetWidget("ListWidget1"));
     if (pListWidget != nullptr)

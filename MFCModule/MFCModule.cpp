@@ -39,7 +39,6 @@ BOOL CMFCModuleApp::InitInstance()
 {
 	CWinApp::InitInstance();
 
-
 	//// 创建 shell 管理器，以防对话框包含
 	//// 任何 shell 树视图控件或 shell 列表视图控件。
 	//CShellManager *pShellManager = new CShellManager;
@@ -54,30 +53,119 @@ BOOL CMFCModuleApp::InitInstance()
 	// 更改用于存储设置的注册表项
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
-	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
+	//SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+#ifdef _WINDLL
     CMFCModuleDlg* pDlg = new CMFCModuleDlg();
 	m_pMainWnd = pDlg;
     pDlg->Create(IDD_MFCMODULE_DIALOG);
 
+    return TRUE;
+#else
+    CMFCModuleDlg dlg;
+    m_pMainWnd = &dlg;
+    INT_PTR nResponse = dlg.DoModal();
+    if (nResponse == IDOK)
+    {
+        // TODO: 在此放置处理何时用
+        //  “确定”来关闭对话框的代码
+}
+    else if (nResponse == IDCANCEL)
+    {
+        // TODO: 在此放置处理何时用
+        //  “取消”来关闭对话框的代码
+    }
+    else if (nResponse == -1)
+    {
+        TRACE(traceAppMsg, 0, "警告: 对话框创建失败，应用程序将意外终止。\n");
+        TRACE(traceAppMsg, 0, "警告: 如果您在对话框上使用 MFC 控件，则无法 #define _AFX_NO_MFC_CONTROLS_IN_DIALOGS。\n");
+    }
+
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
 	return TRUE;
+
+#endif // _WINDLL
 }
 
 
-
-int CMFCModuleApp::ExitInstance()
+#ifdef _WINDLL
+////////////////////////////////////////////////////////////////////////////////////////
+void MFCModuleInterface::InitInstance()
 {
-    // TODO: 在此添加专用代码和/或调用基类
-    //if (pShellManager != nullptr)
-    //{
-    //    delete pShellManager;
-    //}
+    int nReturnCode = -1;
+    CWinThread* pThread = AfxGetThread();
+    CWinApp* pApp = AfxGetApp();
 
-#if !defined(_AFXDLL) && !defined(_AFX_NO_MFC_CONTROLS_IN_DIALOGS)
-    ControlBarCleanUp();
+    // AFX internal initialization
+    if (!AfxWinInit(GetModuleHandle(_T("MFCModule")), nullptr, _T(""), SW_SHOW))
+        return;
+
+    // App global initializations (rare)
+    if (pApp != NULL && !pApp->InitApplication())
+        return;
+
+    // Perform specific initializations
+    if (!pThread->InitInstance())
+    {
+        if (pThread->m_pMainWnd != NULL)
+        {
+            TRACE(traceAppMsg, 0, "Warning: Destroying non-NULL m_pMainWnd\n");
+            pThread->m_pMainWnd->DestroyWindow();
+        }
+    }
+    //nReturnCode = pThread->Run();
+}
+
+void MFCModuleInterface::UnInitInstance()
+{
+    int nReturnCode = -1;
+    CWinThread* pThread = AfxGetThread();
+    nReturnCode = pThread->ExitInstance();
+#ifdef _DEBUG
+    // Check for missing AfxLockTempMap calls
+    if (AfxGetModuleThreadState()->m_nTempMapLock != 0)
+    {
+        TRACE(traceAppMsg, 0, "Warning: Temp map lock count non-zero (%ld).\n",
+            AfxGetModuleThreadState()->m_nTempMapLock);
+    }
+    AfxLockTempMaps();
+    AfxUnlockTempMaps(-1);
 #endif
 
-    return CWinApp::ExitInstance();
+    AfxWinTerm();
 }
+
+void MFCModuleInterface::UiInitComplete(IMainFrame* pMainFrame)
+{
+    //显示主窗口
+    CMFCModuleDlg* pDlg = dynamic_cast<CMFCModuleDlg*>(AfxGetMainWnd());
+    pDlg->SetWindowVisible(true);
+}
+
+void* MFCModuleInterface::GetMainWindow()
+{
+    return AfxGetMainWnd()->GetSafeHwnd();
+}
+
+IModule::eMainWindowType MFCModuleInterface::GetMainWindowType() const
+{
+    return IModule::MT_HWND;
+}
+
+const char* MFCModuleInterface::GetModuleName()
+{
+    return "MFCModule";
+}
+
+void MFCModuleInterface::OnCommand(const char* strCmd, bool checked)
+{
+}
+
+IModule* CreateInstance()
+{
+    return new MFCModuleInterface();
+
+}
+
+#endif // _WINDLL

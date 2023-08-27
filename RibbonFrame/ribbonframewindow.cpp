@@ -766,6 +766,15 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         pComboBox->setEditable(editable);
         pComboBox->setEditText(strName);
         pUiWidget = pComboBox;
+        //加载下拉列表项
+        QDomNodeList itemElements = element.childNodes();
+        for (int i = 0; i < itemElements.count(); i++)
+        {
+            QDomElement itemElement = itemElements.at(i).toElement();
+            QString itemText = itemElement.attribute("name");
+            QString iconPath = itemElement.attribute("icon");
+            pComboBox->addItem(d->CreateIcon(qApp->applicationDirPath() + "/" + iconPath, ICON_SIZE_S), itemText);
+        }
     }
     else if (strTagName == "CheckBox")
     {

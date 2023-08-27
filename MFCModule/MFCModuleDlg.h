@@ -25,7 +25,7 @@ public:
 // 实现
 protected:
 	HICON m_hIcon;
-    bool m_windowVisible{ false };      //窗口是否显示（初始时不显示）
+    bool m_windowVisible{ true };      //窗口是否显示
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();

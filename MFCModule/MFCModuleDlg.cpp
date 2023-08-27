@@ -53,6 +53,9 @@ END_MESSAGE_MAP()
 CMFCModuleDlg::CMFCModuleDlg(CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_MFCMODULE_DIALOG, pParent)
 {
+#ifdef _WINDLL
+    m_windowVisible = false;    //初始时不显示
+#endif
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 

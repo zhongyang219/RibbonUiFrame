@@ -158,7 +158,10 @@ ActionGroup节点
 				<TextEdit name="多行编辑框" id="TextEdit1"/>
 			</ActionGroup>
 			<ActionGroup name="命令组3">
-				<ComboBox id="ComboBox1"/>
+				<ComboBox id="ComboBox1">
+					<Item name="下拉列表项1" icon="Image/edit.png"/>
+					<Item name="下拉列表项2" icon="Image/edit.png"/>
+				</ComboBox>
 				<CheckBox name="复选框" id="CheckBox1"/>
 				<RadioButton name="单选按钮1" id="RadioButton1" radioGroup="1"/>
 				<RadioButton name="单选按钮2" id="RadioButton2" radioGroup="1"/>
