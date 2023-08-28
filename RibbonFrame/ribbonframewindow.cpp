@@ -259,7 +259,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent)
     QHBoxLayout* pTopRightLayout = new QHBoxLayout();
     pTopRightLayout->setContentsMargins(0, 0, 0, 0);
     pTopRightWidget->setLayout(pTopRightLayout);
-    pTopRightLayout->addWidget(d->m_pTopRightBar);
+    pTopRightLayout->addWidget(d->m_pTopRightBar, 0, Qt::AlignVCenter);
     d->m_pTabWidget->setCornerWidget(pTopRightWidget);
 
     //添加左上角控件

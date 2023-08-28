@@ -211,6 +211,7 @@
     <None Include="qss\darkblue\add_bottom.png" />
     <None Include="qss\darkgray\add_bottom.png" />
     <None Include="qss\flatblack\add_bottom.png" />
+    <None Include="qss\flatwhite2.css" />
     <None Include="qss\flatwhite\add_bottom.png" />
     <None Include="qss\gray\add_bottom.png" />
     <None Include="qss\lightblack\add_bottom.png" />

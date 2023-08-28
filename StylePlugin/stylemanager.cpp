@@ -176,6 +176,7 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/psblack.css", QSTR("PS黑色"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/flatblack.css", QSTR("黑色扁平"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/flatwhite.css", QSTR("白色扁平"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/flatwhite2.css", QSTR("白色扁平2"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/bf.css", QSTR("深黑色2"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/test.css", QSTR("紫色"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Office));
