@@ -68,6 +68,11 @@ border:1px solid #8C4E78;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #3F3D66,stop:1 #343457);
 }
 
+QTabWidget#MainFrameTab:pane{
+    border-left:0px;
+    border-right:0px;
+}
+
 QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,QTimeEdit,QDateTimeEdit{
 border:1px solid #484775;
 border-radius:3px;
@@ -557,6 +562,24 @@ border-right-color:#484775;
 QTabBar::tab:last:left:selected,QTabBar::tab:last:left:hover,QTabBar::tab:last:right:selected,QTabBar::tab:last:right:hover{
 border-bottom-width:1px;
 border-bottom-color:#484775;
+}
+
+QTabBar::tab:left, QTabBar::tab:right, QTabBar::tab:bottom{
+    border-width:0px;
+}
+
+QTabBar::tab:top:selected, QTabBar::tab:top:hover {
+    border-left-width: 1px;
+    border-left-color: #484775;
+}
+
+QTabBar::tab:!selected{
+    border-bottom-width:0px;
+    border-right-width:0px;
+}
+
+QTabBar::tab:last:!selected{
+    border-right-width:1px;
 }
 
 QTabBar#MainFrameTabBar::tab {

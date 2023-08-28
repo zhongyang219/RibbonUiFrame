@@ -73,6 +73,26 @@
 
 要集成MFC模块，请参照`MFCModule`里的示例代码。
 
+在集成基于MFC的模块时，有以下几点需要注意：
+
+* 由于MFC窗口在初始化后且还未嵌入框架内时，会短暂地显示一段时间，导致程序时窗口会短暂地闪现一次，因此必须使得MFC窗口在初始化时保持隐藏状态，直到`IModule::UiInitComplete`函数被调用时再显示。具体做法是，响应对话框的`WM_WINDOWPOSCHANGING`消息，并在消息处理函数中添加如下代码：
+
+  ```c++
+  if (!m_windowVisible)
+      lpwndpos->flags &= ~SWP_SHOWWINDOW;
+  ```
+
+  其中`m_windowVisible`为对话框的成员变量，初始时为fase，在`IModule::UiInitComplete`函数被调用时将其置为true。
+
+* 在MFC模块中实现`IModule`的`InitInstance()`和`UnInitInstance()`接口时，请参`MFCModule`里的示例代码，并将`InitInstance()`函数中以下代码里的`"MFCModule"`改成你的模块的模块名。
+
+  ```c++
+  if (!AfxWinInit(GetModuleHandle(_T("MFCModule")), nullptr, _T(""), SW_SHOW))
+      return;
+  ```
+
+* 编译MFC项目时，在Visual Studio的“项目”>“属性”>“高级”中，“MFC 的使用”一项应该设置为“在共享 DLL 中使用 MFC”，不能设置为“在静态库中使用 MFC”。
+
 ## 模块间通信
 
 模块中重写`IModule`接口中的虚函数`UiInitComplete`，此函数会传递`IMainFrame`接口的指针，保存此指针。
@@ -91,7 +111,7 @@ xml文件唯一的根节点。
 
 **属性说明**
 
-* appName：程序的名称，用于显示在标题栏和右下角通知的默认标题。
+* appName：程序的名称。
 * font：字体名称。
 * fontSize：字体的大小。
 
@@ -115,6 +135,7 @@ Page节点为主界面中的一个标签页，对应一个模块。
 **属性说明**
 
 * name：模块名，用于显示在标签页上。
+* icon：显示在标签页上的图标。
 * modulePath：需要加载的模块的路径。（必须使用相对路径，不需要扩展名，框架会自动根据当前系统系统类型加载正确的动态库。如果动态库就放在可执行目录相同目录下，只需将modulePath属性配置为动态库的文件名即可。）
 
 你也可以在多个Page节点中指定相同的modulePath属性，此时多个标签将对应同一个模块，切换到这些标签时，显示的都该模块的主窗口。
