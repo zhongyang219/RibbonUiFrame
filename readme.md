@@ -84,12 +84,7 @@
 
   其中`m_windowVisible`为对话框的成员变量，初始时为fase，在`IModule::UiInitComplete`函数被调用时将其置为true。
 
-* 在MFC模块中实现`IModule`的`InitInstance()`和`UnInitInstance()`接口时，请参`MFCModule`里的示例代码，并将`InitInstance()`函数中以下代码里的`"MFCModule"`改成你的模块的模块名。
-
-  ```c++
-  if (!AfxWinInit(GetModuleHandle(_T("MFCModule")), nullptr, _T(""), SW_SHOW))
-      return;
-  ```
+* 在MFC模块中实现`IModule`的`InitInstance()`和`UnInitInstance()`接口时，请参`MFCModule`里的示例代码。
 
 * 编译MFC项目时，在Visual Studio的“项目”>“属性”>“高级”中，“MFC 的使用”一项应该设置为“在共享 DLL 中使用 MFC”，不能设置为“在静态库中使用 MFC”。
 

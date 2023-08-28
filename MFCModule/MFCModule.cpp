@@ -83,7 +83,7 @@ BOOL CMFCModuleApp::InitInstance()
 
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
-	return TRUE;
+	return FALSE;
 
 #endif // _WINDLL
 }
@@ -93,12 +93,11 @@ BOOL CMFCModuleApp::InitInstance()
 ////////////////////////////////////////////////////////////////////////////////////////
 void MFCModuleInterface::InitInstance()
 {
-    int nReturnCode = -1;
     CWinThread* pThread = AfxGetThread();
     CWinApp* pApp = AfxGetApp();
 
     // AFX internal initialization
-    if (!AfxWinInit(GetModuleHandle(_T("MFCModule")), nullptr, _T(""), SW_SHOW))
+    if (!AfxWinInit(reinterpret_cast<HINSTANCE>(&__ImageBase), nullptr, _T(""), SW_SHOW))
         return;
 
     // App global initializations (rare)
@@ -114,14 +113,12 @@ void MFCModuleInterface::InitInstance()
             pThread->m_pMainWnd->DestroyWindow();
         }
     }
-    //nReturnCode = pThread->Run();
 }
 
 void MFCModuleInterface::UnInitInstance()
 {
-    int nReturnCode = -1;
     CWinThread* pThread = AfxGetThread();
-    nReturnCode = pThread->ExitInstance();
+    pThread->ExitInstance();
 #ifdef _DEBUG
     // Check for missing AfxLockTempMap calls
     if (AfxGetModuleThreadState()->m_nTempMapLock != 0)
