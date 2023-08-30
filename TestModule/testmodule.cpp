@@ -60,7 +60,8 @@ void TestModule::OnCommand(const char* strCmd, bool checked)
 {
     QString itemText = QString::fromUtf8(m_pMainFrame->GetItemText(strCmd));
     QString str = QSTR("你点击了按钮“%1”，id=%2，checked=%3").arg(itemText).arg(strCmd).arg(checked);
-    QMessageBox::information(&m_mainWidget, QString(), str, QMessageBox::Ok);
+    //QMessageBox::information(&m_mainWidget, QString(), str, QMessageBox::Ok);
+    m_pMainFrame->SetStatusBarText(str.toUtf8().constData(), 15000);
 }
 
 IModule* CreateInstance()

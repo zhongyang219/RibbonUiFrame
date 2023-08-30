@@ -134,6 +134,7 @@ QToolBar#MainFrameToolbar QToolButton:pressed {
 QToolBar#MainFrameToolbar QToolButton:checked {
     background: #c6c6c6;
     border: 1px solid #808080;
+    padding: 1px;
 }
 
 QMenu, QMenu:disabled {
