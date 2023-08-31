@@ -822,6 +822,28 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         smallIcon = IsSmallIcon(element);
         pUiWidget = pUserWidget;
     }
+    else if (strTagName == "WidgetGroup")
+    {
+        bool horizontal = GetAttributeBool(element, "horizontalArrange", true);
+        QLayout* pLayout = nullptr;
+        if (horizontal)
+            pLayout = new QHBoxLayout();
+        else
+            pLayout = new QVBoxLayout();
+        pLayout->setContentsMargins(0, 0, 0, 0);
+        pUiWidget = new QWidget(pToolbar);
+        pUiWidget->setLayout(pLayout);
+        //遍历子节点
+        QDomNodeList childNodeList = element.childNodes();
+        for (int i = 0; i < childNodeList.count(); i++)
+        {
+            QDomElement childElement = childNodeList.at(i).toElement();
+            bool childSmallIcon;
+            QWidget* pChildWidget = LoadUiWidget(childElement, pUiWidget, childSmallIcon);
+            pLayout->addWidget(pChildWidget);
+        }
+        smallIcon = IsSmallIcon(element);
+}
     if (!strId.isEmpty())
         d->m_widgetMap[strId] = pUiWidget;
     return pUiWidget;
@@ -1122,31 +1144,33 @@ void *RibbonFrameWindow::SendModuleMessage(const char *moduleName, const char *m
 
 const char* RibbonFrameWindow::GetItemText(const char* strId)
 {
+    static QByteArray itemText;
+    itemText = "";
     QAction* pAction = _GetAction(strId);
     if (pAction != nullptr)
     {
-        return pAction->text().toUtf8().constData();
+        itemText = pAction->text().toUtf8();
     }
     QWidget* pWidget = _GetWidget(strId);
     if (pWidget != nullptr)
     {
         QAbstractButton* pBtn = qobject_cast<QAbstractButton*>(pWidget);
         if (pBtn != nullptr)
-            return pBtn->text().toUtf8().constData();
+            itemText = pBtn->text().toUtf8();
         QLabel* pLable = qobject_cast<QLabel*>(pWidget);
         if (pLable != nullptr)
-            return pLable->text().toUtf8().constData();
+            itemText = pLable->text().toUtf8();
         QLineEdit* pLineEdit = qobject_cast<QLineEdit*>(pWidget);
         if (pLineEdit != nullptr)
-            return pLineEdit->text().toUtf8().constData();
+            itemText =  pLineEdit->text().toUtf8();
         QTextEdit* pTextEdit = qobject_cast<QTextEdit*>(pWidget);
         if (pTextEdit != nullptr)
-            return pTextEdit->toPlainText().toUtf8().constData();
+            itemText = pTextEdit->toPlainText().toUtf8();
         QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
         if (pComboBox != nullptr)
-            return pComboBox->currentText().toUtf8().constData();
+            itemText = pComboBox->currentText().toUtf8();
     }
-    return "";
+    return itemText.constData();
 }
 
 void RibbonFrameWindow::SetItemText(const char* strId, const char* text)
@@ -1217,5 +1241,38 @@ void RibbonFrameWindow::SetStatusBarText(const char* text, int timeOut)
             pStatusBar->showMessage(strText, timeOut);
         else
             pStatusBar->clearMessage();
+    }
+}
+
+int RibbonFrameWindow::GetItemCurIndex(const char* strId)
+{
+    QWidget* pWidget = _GetWidget(strId);
+    QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
+    if (pComboBox != nullptr)
+    {
+        return pComboBox->currentIndex();
+    }
+    QListWidget* pListWidget = qobject_cast<QListWidget*>(pWidget);
+    if (pListWidget != nullptr)
+    {
+        return pListWidget->currentRow();
+    }
+    return -1;
+}
+
+void RibbonFrameWindow::SetItemCurIIndex(const char* strId, int index)
+{
+    QWidget* pWidget = _GetWidget(strId);
+    QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
+    if (pComboBox != nullptr)
+    {
+        pComboBox->setCurrentIndex(index);
+        return;
+    }
+    QListWidget* pListWidget = qobject_cast<QListWidget*>(pWidget);
+    if (pListWidget != nullptr)
+    {
+        pListWidget->setCurrentRow(index);
+        return;
     }
 }

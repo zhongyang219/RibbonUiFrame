@@ -268,6 +268,14 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 当框架需要创建此控件时，会调用对应`IModule`接口中的`CreateRibbonWidget`函数，模块需要在此函数中根据id创建自定义控件，并返回控件的指针。
 
+## WidgetGroup节点
+
+将若干个Widget组合到一起。
+
+**属性说明**
+
+* horizontalArrange：如果为true，则WidgetGroup中的项目为水平排列。未设置时为true。
+
 ## Plugins节点
 
 Plugins节点用于配置需要加载的无界面模块。类似于Page节点，但是在这里配置的模块将不会显示主窗口。

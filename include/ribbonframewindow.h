@@ -102,6 +102,8 @@ public:
     virtual void* GetAcion(const char* strId) override;
     virtual void* GetWidget(const char* strId) override;
     virtual void SetStatusBarText(const char* text, int timeOut) override;
+    virtual int GetItemCurIndex(const char* strId) override;
+    virtual void SetItemCurIIndex(const char* strId, int index) override;
 };
 
 #endif // RIBBONFRAMEWINDOW_H
