@@ -979,5 +979,14 @@
     <None Include="qss\flatwhite2.css">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="qss\offece2010black.css">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="qss\offece2010blue.css">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="qss\offece2010silvery.css">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

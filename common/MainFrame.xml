@@ -91,7 +91,7 @@ ActionGroup节点
 			<Action name="选项1" icon="Image/proj.png" id="OptionCommand1" checkable="true"/>
 			<Action name="选项2" icon="Image/edit.png" id="OptionCommand2"/>
 		</Menu>
-		<Action name="命令" icon="Image/ballicon.png" id="TestCommand" btnStyle="compact"/>
+		<Action name="命令" icon="Image/ballicon.png" id="TestCommand" btnStyle="compact" checkable="true"/>
 		<Menu name="主题" icon="Image/theme.png" id="Theme" btnStyle="compact">
 			<Action name="默认主题" id="DefaultStyle" checkable="true"/>
 		</Menu>

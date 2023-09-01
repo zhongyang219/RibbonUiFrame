@@ -1,4 +1,4 @@
-﻿QPalette{background:#FFFFFF;}*{outline:0px;color:#000000;}
+﻿QPalette{background:#FFFFFF;}*{outline:0px;color:#262626;}
 
 QMessageBox {
     background: #FFFFFF;
@@ -9,8 +9,8 @@ QToolBar#MainFrameToolbar {
     padding:2px;
 }
 
-QToolBar#MainFrameToolbar::separator{
-    background:#C6C6C6;
+QToolBar#MainFrameToolbar::separator {
+    background: #b1b1b1;
     margin: 4px;
     width: 1px;
 }
@@ -29,6 +29,11 @@ QToolBar#MainFrameCornerBar QToolButton:hover {
 
 QToolBar#MainFrameCornerBar QToolButton:pressed {
     background: #002050;
+}
+
+QToolBar#MainFrameCornerBar QToolButton:checked {
+    background: #AABFDF;
+    color: #262626
 }
 
 QTabWidget#MainFrameTab {
@@ -158,6 +163,21 @@ QToolBar#MainFrameToolbar QToolButton:pressed {
     background: #b1b1b1;
 }
 
+QToolBar#MainFrameToolbar QToolButton[popupMode="1"]:pressed {
+    border: 1px solid #808080;
+    padding: 1px;
+    background: #c6c6c6;
+}
+
+QToolBar#MainFrameToolbar QToolButton[popupMode="2"]:pressed {
+    border: 1px solid #808080;
+    padding: 1px;
+    background: #c6c6c6;
+}
+
+QToolBar#MainFrameToolbar QToolButton::menu-button:pressed {
+    border-left: 1px solid #808080;
+}
 
 QToolBar#MainFrameToolbar QToolButton:checked {
     background: #c6c6c6;
@@ -165,16 +185,28 @@ QToolBar#MainFrameToolbar QToolButton:checked {
     padding: 1px;
 }
 
-QMenu, QMenu:disabled {
+QToolBar#MainFrameToolbar QToolButton:hover:checked {
+    background: #737373;
+    color: #ffffff;
+    border: 1px solid #949494;
+    padding: 1px;
+}
+
+QMenu {
     background-color: #FFFFFF;
-    border: 1px solid #B6B6B6;
+    border: 1px solid #c8c6c4;
     padding: 1px 1px;
 }
 
-QMenu::item{
-padding:2px 14px;
-padding-right: 24px;
-height: 20px;
+QMenu::item {
+    padding: 2px 14px;
+    padding-right: 24px;
+    height: 20px;
+    color: #5e5e5e;
+}
+
+QMenu::item:disabled {
+    color: #b1b1b1;
 }
 
 QMenu::icon {
@@ -191,10 +223,14 @@ QMenu::item:selected {
     background: #c5c5c5;
 }
 
-QMenu::separator{
-height:1px;
-background:#D4D4D4;
-margin:4px 6px;
+QMenu::item:disabled:selected {
+    background: transparent;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #e0e3e6;
+    margin: 4px 6px;
 }
 
 
