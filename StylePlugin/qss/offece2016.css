@@ -91,8 +91,25 @@ QPushButton:disabled {
 color: #8D8D8D;
 }
 
-QPushButton#MainFrameBtn {
-    padding: 2px;
+QPushButton#MainFrameBtn{
+padding:2px;
+border:none;
+min-height:24px;
+background:#2B579A;
+color:#ffffff;
+}
+
+QPushButton#MainFrameBtn::hover{
+background:#124078;
+}
+
+QPushButton#MainFrameBtn::pressed{
+background:#002050;
+}
+
+QPushButton#MainFrameBtn::menu-indicator{
+image:none;
+width:0px;
 }
 
 QToolButton {
@@ -114,8 +131,19 @@ QToolButton:pressed {
     background: #AABFDF;
 }
 
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
 QToolButton::menu-indicator{
-image:None;
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
 }
 
 QToolButton:checked{

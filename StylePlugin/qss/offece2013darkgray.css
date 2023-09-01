@@ -21,6 +21,8 @@ background:#E5E5E5;
 QTabWidget#MainFrameTab:pane{
 border:1px solid #C6C6C6;
 top: -1px;
+border-left:0px;
+border-right:0px;
 }
 
 .QGroupBox{
@@ -75,6 +77,23 @@ color: #8D8D8D;
 
 QPushButton#MainFrameBtn{
 padding:2px;
+border:none;
+min-height:22px;
+background:#2B579A;
+color:#ffffff;
+}
+
+QPushButton#MainFrameBtn::hover{
+background:#3164B1;
+}
+
+QPushButton#MainFrameBtn::pressed{
+background:#3164B1;
+}
+
+QPushButton#MainFrameBtn::menu-indicator{
+image:none;
+width:0px;
 }
 
 QToolButton {
@@ -96,8 +115,19 @@ QToolButton:pressed {
     background: #AABFDF;
 }
 
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
 QToolButton::menu-indicator{
-image:None;
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
 }
 
 QToolButton:checked{
@@ -210,6 +240,10 @@ background:#E5E5E5;
 }
 
 QHeaderView::section:selected{
+background:#AABFDF
+}
+
+QHeaderView::section:pressed{
 background:#AABFDF
 }
 

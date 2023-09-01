@@ -135,8 +135,19 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #EFF0F4,stop:1 
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #D8D9DE,stop:1 #C8C8D0);
 }
 
-.QToolButton::menu-indicator{
-image:None;
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
+QToolButton::menu-indicator{
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
 }
 
 .QToolButton{
@@ -165,6 +176,11 @@ background-color:rgba(51,127,209,230);
 
 QPushButton#MainFrameBtn{
 padding:4px;
+}
+
+QPushButton#MainFrameBtn::menu-indicator{
+image:none;
+width:0px;
 }
 
 QPushButton#btnMenu_Close:hover{

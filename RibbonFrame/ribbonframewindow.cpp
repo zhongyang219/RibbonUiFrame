@@ -145,10 +145,8 @@ static QIcon CreateIcon(const QString& strPath, int size)
     if (!strPath.isEmpty())
     {
         QPixmap pixmap(strPath);
-        QIcon icon;
         if (!pixmap.isNull())
-            icon = QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-        return icon;
+            return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     }
     return QIcon();
 }
@@ -203,17 +201,6 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     d = new MainFramePrivate;
-
-#ifdef Q_OS_WIN
-    //载入样式表文件
-    QFile file(":/qss/res/styleForWindows.css");
-    if (file.open(QFile::ReadOnly))
-    {
-        QString qssContents = QString::fromUtf8(file.readAll());
-        setStyleSheet(qssContents);
-        file.close();
-    }
-#endif
 
     //设置主窗口最小大小
     setMinimumSize(DPI(400), DPI(300));
@@ -481,9 +468,9 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
                 pMainFrameBtn->setIcon(CreateIcon(strIcon, ICON_SIZE_S));
-#ifdef Q_OS_WIN
-            pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
-#endif
+//#ifdef Q_OS_WIN
+//            pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
+//#endif
             d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
 
             //为按钮添加菜单

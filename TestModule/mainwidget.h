@@ -15,6 +15,19 @@ public:
     explicit CMainWidget(QWidget *parent = nullptr);
     ~CMainWidget();
 
+private slots:
+    void on_btnInfo_clicked();
+
+    void on_btnQuestion_clicked();
+
+    void on_btnError_clicked();
+
+    void on_btnInput_clicked();
+
+    void on_btnFont_clicked();
+
+    void on_btnColor_clicked();
+
 private:
     Ui::CMainWidget *ui;
 };

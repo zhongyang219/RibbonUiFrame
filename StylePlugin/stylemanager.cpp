@@ -40,12 +40,14 @@ void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget) const
         //设置样式表
         if (m_bParsePaletteColor)
             pWidget->setPalette(QPalette(m_strPaletteColor));
+        pWidget->setStyleSheet("");
         pWidget->setStyleSheet(m_strQss);
     }
     else
     {
         if (m_bParsePaletteColor)
             qApp->setPalette(QPalette(m_strPaletteColor));
+        qApp->setStyleSheet("");
         qApp->setStyleSheet(m_strQss);
     }
     QApplication::restoreOverrideCursor();
@@ -179,6 +181,9 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/flatwhite2.css", QSTR("白色扁平2"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/bf.css", QSTR("深黑色2"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/test.css", QSTR("紫色"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/offece2010blue.css", QSTR("Office2010蓝色"), CStyle::Office));
+    m_styleList.push_back(CStyle(":/qss/offece2010silvery.css", QSTR("Office2010银色"), CStyle::Office));
+    m_styleList.push_back(CStyle(":/qss/offece2010black.css", QSTR("Office2010黑色"), CStyle::Office));
     m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Office));
     m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Office));
     m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Office));

@@ -2,7 +2,5 @@
     <qresource prefix="/icon">
         <file>res/ribbonOptionBtn.png</file>
     </qresource>
-    <qresource prefix="/qss">
-        <file>res/styleForWindows.css</file>
-    </qresource>
+    <qresource prefix="/qss"/>
 </RCC>

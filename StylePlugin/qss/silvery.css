@@ -135,8 +135,19 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #F2F3F4,stop:1 
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #E1E4E6,stop:1 #CCD3D9);
 }
 
-.QToolButton::menu-indicator{
-image:None;
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
+QToolButton::menu-indicator{
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
 }
 
 .QToolButton{
@@ -171,6 +182,11 @@ background-color:rgba(238,0,0,128);
 
 QPushButton#MainFrameBtn{
 padding:4px;
+}
+
+QPushButton#MainFrameBtn::menu-indicator{
+image:none;
+width:0px;
 }
 
 QRadioButton::indicator{
@@ -544,24 +560,14 @@ QTabBar::tab:left:selected,QTabBar::tab:left:hover{
 border-width:0px 2px 0px 0px;
 }
 
-QTabBar::tab:first:top:selected,QTabBar::tab:first:top:hover,QTabBar::tab:first:bottom:selected,QTabBar::tab:first:bottom:hover{
+QTabBar::tab:first:top:selected,QTabBar::tab:first:top:hover{
 border-left-width:1px;
 border-left-color:#B2B6B9;
 }
 
-QTabBar::tab:first:left:selected,QTabBar::tab:first:left:hover,QTabBar::tab:first:right:selected,QTabBar::tab:first:right:hover{
-border-top-width:1px;
-border-top-color:#B2B6B9;
-}
-
-QTabBar::tab:last:top:selected,QTabBar::tab:last:top:hover,QTabBar::tab:last:bottom:selected,QTabBar::tab:last:bottom:hover{
+QTabBar::tab:last:top:selected,QTabBar::tab:last:top:hover{
 border-right-width:1px;
 border-right-color:#B2B6B9;
-}
-
-QTabBar::tab:last:left:selected,QTabBar::tab:last:left:hover,QTabBar::tab:last:right:selected,QTabBar::tab:last:right:hover{
-border-bottom-width:1px;
-border-bottom-color:#B2B6B9;
 }
 
 QTabBar::tab:left, QTabBar::tab:right, QTabBar::tab:bottom{

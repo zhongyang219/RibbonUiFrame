@@ -72,6 +72,11 @@ QMessageBox {
     background: #282828;
 }
 
+QTabWidget#MainFrameTab:pane{
+border-left:0px;
+border-right:0px;
+}
+
 QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,QTimeEdit,QDateTimeEdit{
 border:1px solid #535353;
 border-radius:3px;
@@ -128,6 +133,13 @@ border-radius: 4px;
 
 QPushButton#MainFrameBtn{
 padding:4px;
+border:none;
+min-height:22px;
+}
+
+QPushButton#MainFrameBtn::menu-indicator{
+image:none;
+width:0px;
 }
 
 QPushButton:hover {
@@ -162,8 +174,19 @@ QToolButton:pressed {
     background: #404040;
 }
 
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
 QToolButton::menu-indicator{
-image:None;
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
 }
 
 QToolButton:checked{

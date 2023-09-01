@@ -1,6 +1,6 @@
 ﻿QPalette{background:#FFFFFF;}*{outline:0px;color:#404040;}
 
-/*QWidget[form="true"],QLabel[frameShape="1"]{
+QWidget[form="true"],QLabel[frameShape="1"]{
 border:1px solid #B6B6B6;
 border-radius:0px;
 }
@@ -67,7 +67,7 @@ QWidget[video="true"] QLabel:focus{
 border:1px solid #55AAFF;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #F6F6F6,stop:1 #F6F6F6);
 }
-*/
+
 
 QWidget:!enabled
 {
@@ -154,7 +154,20 @@ border:1px solid #D7D7D7;
 }
 
 QPushButton#MainFrameBtn {
+    color: white;
     padding: 4px;
+    border: none;
+    min-height: 22px;
+    background: #3C7BD4;
+}
+
+QPushButton#MainFrameBtn:hover {
+    background: #4A91FD;
+}
+
+QPushButton#MainFrameBtn::menu-indicator {
+    image: none;
+    width: 0px;
 }
 
 QToolButton {
@@ -203,10 +216,20 @@ QToolBar#MainFrameCornerBar {
     min-height: 30px;
 }
 
-/*
-.QToolButton::menu-indicator{
-image:None;
-}*/
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+    padding-right: 10px;
+}
+
+QToolButton::menu-indicator {
+    image: none;
+}
+
+QToolButton::menu-button {
+    background: transparent;
+    subcontrol-position: right center;
+    subcontrol-origin: margin;
+}
 
 QPushButton#filepath{
 min-width:10px;

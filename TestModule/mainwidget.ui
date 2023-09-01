@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CMainWidget</class>
  <widget class="QWidget" name="CMainWidget">
@@ -86,7 +86,7 @@
       </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab1">
         <attribute name="title">
@@ -251,23 +251,26 @@
              </widget>
             </item>
             <item row="2" column="4">
-             <widget class="QPushButton" name="btnInputPwd">
+             <widget class="QPushButton" name="btnFont">
               <property name="text">
-               <string>密码输入框</string>
+               <string>字体对话框</string>
               </property>
              </widget>
             </item>
             <item row="2" column="5">
-             <widget class="QPushButton" name="btnInputcbox">
+             <widget class="QPushButton" name="btnColor">
               <property name="text">
-               <string>下拉输入框</string>
+               <string>颜色对话框</string>
               </property>
              </widget>
             </item>
             <item row="2" column="6">
              <widget class="QPushButton" name="btnWidget">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
-               <string>新窗体</string>
+               <string>禁用按钮</string>
               </property>
              </widget>
             </item>

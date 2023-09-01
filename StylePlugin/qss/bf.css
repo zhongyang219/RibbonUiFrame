@@ -171,6 +171,21 @@ QPushButton#MainFrameBtn{
 padding:4px;
 }
 
+/*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
+QToolButton[popupMode="1"] {
+padding-right:10px;
+}
+
+QToolButton::menu-indicator{
+image:none;
+}
+
+QToolButton::menu-button {
+background:transparent;
+subcontrol-position: right center;
+subcontrol-origin: margin;
+}
+
 QPushButton#btnMenu_Close:hover{
 color:#FFFFFF;
 margin:1px 1px 2px 1px;

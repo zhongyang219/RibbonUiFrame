@@ -87,7 +87,7 @@ IModule::eMainWindowType StylePlugin::GetMainWindowType() const
 
 void* StylePlugin::GetMainWindow()
 {
-    return 0;
+    return nullptr;
 }
 
 const char *StylePlugin::GetModuleName()
@@ -110,11 +110,14 @@ void *StylePlugin::OnMessage(const char *msgType, void *para1, void *para2)
     if (QString(msgType) == "GetStyleType")
     {
         CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
-        return (void*)pStyle->m_type;
+        if (pStyle != nullptr)
+            return (void*)pStyle->m_type;
     }
     else if (QString(msgType) == "GetStyleName")
     {
-        return (void*)m_curStyle.toUtf8().constData();
+        static QByteArray styleName;
+        styleName = m_curStyle.toUtf8();
+        return (void*)styleName.constData();
     }
     return nullptr;
 }

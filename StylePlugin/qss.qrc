@@ -301,5 +301,8 @@
         <file>res/office.png</file>
         <file>qss/offece2016.css</file>
         <file>qss/flatwhite2.css</file>
+        <file>qss/offece2010blue.css</file>
+        <file>qss/offece2010black.css</file>
+        <file>qss/offece2010silvery.css</file>
     </qresource>
 </RCC>
