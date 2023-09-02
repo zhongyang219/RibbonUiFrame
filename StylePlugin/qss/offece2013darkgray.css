@@ -189,18 +189,18 @@ QTimeEdit::up-button:pressed,QDateEdit::up-button:pressed,QDateTimeEdit::up-butt
 background:#AABFDF;
 }
 
-QComboBox::down-arrow:hover,QDateEdit::down-arrow:hover,QDateTimeEdit::down-arrow:hover{
-background:#D7E2F3;
+QComboBox::drop-down:hover, QDateEdit::drop-down:hover, QDateTimeEdit::drop-down:hover {
+    background: #D7E2F3;
 }
 
-QComboBox::down-arrow:pressed,QDateEdit::down-arrow:pressed,QDateTimeEdit::down-arrow:pressed{
-background:#AABFDF;
+QComboBox::drop-down:pressed, QDateEdit::drop-down:pressed, QDateTimeEdit::drop-down:pressed {
+    background: #AABFDF;
 }
 
 QComboBox::down-arrow,QDateEdit[calendarPopup="true"]::down-arrow,QTimeEdit[calendarPopup="true"]::down-arrow,QDateTimeEdit[calendarPopup="true"]::down-arrow{
 image:url(:/qss/office2013/add_bottom.png);
-width:12px;
-height:20px;
+width:10px;
+height:10px;
 right:2px;
 margin-left:4px;
 }

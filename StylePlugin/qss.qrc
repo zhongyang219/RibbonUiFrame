@@ -304,5 +304,8 @@
         <file>qss/offece2010blue.css</file>
         <file>qss/offece2010black.css</file>
         <file>qss/offece2010silvery.css</file>
+        <file>qss/office2016/downArrow.png</file>
+        <file>qss/office2016/spinDownBtn.png</file>
+        <file>qss/office2016/spinUpBtn.png</file>
     </qresource>
 </RCC>
