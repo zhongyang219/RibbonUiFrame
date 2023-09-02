@@ -376,3 +376,7 @@ QStatusBar{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #494949,stop:1 #323232);
 color:#ffffff;
 }
+
+*:disabled {
+    color: #5a5a5a;
+}

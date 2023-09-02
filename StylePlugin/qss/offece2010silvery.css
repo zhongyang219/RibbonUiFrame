@@ -360,3 +360,7 @@ image:url(:/qss/office2013/radiobutton_checked.png);
 QStatusBar{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #e2e6ea,stop:1 #bfc3c8);
 }
+
+*:disabled {
+    color: #87929f;
+}

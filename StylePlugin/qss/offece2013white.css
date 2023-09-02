@@ -321,3 +321,7 @@ image:url(:/qss/office2013/radiobutton_unchecked.png);
 QRadioButton::indicator::checked{
 image:url(:/qss/office2013/radiobutton_checked.png);
 }
+
+*:disabled {
+    color: #b1b1b1;
+}
