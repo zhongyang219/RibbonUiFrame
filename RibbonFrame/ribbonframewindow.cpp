@@ -841,6 +841,15 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         pListWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
         pListWidget->setMaximumHeight(MAX_WIDGET_HEIGHT);
         pUiWidget = pListWidget;
+        //加载列表项
+        QDomNodeList itemElements = element.childNodes();
+        for (int i = 0; i < itemElements.count(); i++)
+        {
+            QDomElement itemElement = itemElements.at(i).toElement();
+            QString itemText = itemElement.attribute("name");
+            QString iconPath = itemElement.attribute("icon");
+            pListWidget->addItem(new QListWidgetItem(CreateIcon(qApp->applicationDirPath() + "/" + iconPath, ICON_SIZE_S), itemText));
+        }
         connect(pListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(OnItemIndexChanged(int)));
     }
     else if (strTagName == "UserWidget")

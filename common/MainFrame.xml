@@ -111,7 +111,12 @@ ActionGroup节点
 			<Action name="退出" id="AppExit" icon="Image/Delete.png" shortcut="Ctrl+Q"/>
 			<Separator/>
 			<Label name="测试Label" id="Label0"/>
-			<ListWidget id="ListWidget1" horizontalArrange="true"/>
+			<ListWidget id="ListWidget1" horizontalArrange="true">
+				<Item name="项目1" icon="Image/edit.png"/>
+				<Item name="项目2" icon="Image/edit.png"/>
+				<Item name="项目3" icon="Image/edit.png"/>
+				<Item name="项目4" icon="Image/edit.png"/>
+			</ListWidget>
 			<ToolBar>
 				<Action name="选项1" icon="Image/proj.png" id="OptionCommand1" checkable="true" btnStyle="compact"/>
 				<Action name="选项2" icon="Image/edit.png" id="OptionCommand2" btnStyle="compact"/>

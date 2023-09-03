@@ -33,17 +33,6 @@ void TestModule::UnInitInstance()
 void TestModule::UiInitComplete(IMainFrame *pMainFrame)
 {
     m_pMainFrame = pMainFrame;
-
-    QListWidget* pListWidget = qobject_cast<QListWidget*>((QWidget*)pMainFrame->GetWidget("ListWidget1"));
-    if (pListWidget != nullptr)
-    {
-        pListWidget->setMaximumHeight(DPI(40));
-        QIcon icon(":/res/Template.png");
-        pListWidget->addItem(new QListWidgetItem(icon, QSTR("项目1")));
-        pListWidget->addItem(new QListWidgetItem(icon, QSTR("项目2")));
-        pListWidget->addItem(new QListWidgetItem(icon, QSTR("项目3")));
-        pListWidget->addItem(new QListWidgetItem(icon, QSTR("项目4")));
-    }
 }
 
 void* TestModule::GetMainWindow()
