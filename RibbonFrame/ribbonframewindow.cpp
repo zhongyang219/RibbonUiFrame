@@ -326,6 +326,53 @@ void RibbonFrameWindow::OnActionTriggerd(bool checked)
     }
 }
 
+void RibbonFrameWindow::OnItemIndexChanged(int index)
+{
+    QString strCmdId = QObject::sender()->property("id").toString();
+    QString strText;
+    QComboBox* pCombo = qobject_cast<QComboBox*>(QObject::sender());
+    if (pCombo != nullptr)
+    {
+        strText = pCombo->itemText(index);
+    }
+    QListWidget* pListWidget = qobject_cast<QListWidget*>(QObject::sender());
+    if (pListWidget != nullptr)
+    {
+        QListWidgetItem* pItem = pListWidget->item(index);
+        if (pItem != nullptr)
+            strText = pItem->text();
+    }
+    Q_FOREACH(const auto & module, d->m_moduleNameMap)
+    {
+        if (module != nullptr)
+            module->OnItemChanged(strCmdId.toUtf8().constData(), index, strText.toUtf8().constData());
+    }
+}
+
+void RibbonFrameWindow::OnEditTextChanged(const QString& text)
+{
+    QString strCmdId = QObject::sender()->property("id").toString();
+    Q_FOREACH(const auto & module, d->m_moduleNameMap)
+    {
+        if (module != nullptr)
+            module->OnItemChanged(strCmdId.toUtf8().constData(), 0, text.toUtf8().constData());
+    }
+}
+
+void RibbonFrameWindow::OnEditTextChanged()
+{
+    QString strCmdId = QObject::sender()->property("id").toString();
+    QTextEdit* pTextEdit = qobject_cast<QTextEdit*>(QObject::sender());
+    QString strText;
+    if (pTextEdit != nullptr)
+        strText = pTextEdit->toPlainText();
+    Q_FOREACH(const auto & module, d->m_moduleNameMap)
+    {
+        if (module != nullptr)
+            module->OnItemChanged(strCmdId.toUtf8().constData(), 0, strText.toUtf8().constData());
+    }
+}
+
 void RibbonFrameWindow::LoadUIFromXml()
 {
     QFile file(qApp->applicationDirPath() + "/MainFrame.xml");
@@ -725,6 +772,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         pLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         bool editable = GetAttributeBool(element, "editable", true);
         pLineEdit->setReadOnly(!editable);
+        connect(pLineEdit, SIGNAL(textEdited(const QString&)), this, SLOT(OnEditTextChanged(const QString&)));
         pUiWidget = pLineEdit;
     }
     else if (strTagName == "TextEdit" || strTagName == "Edit")
@@ -736,6 +784,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         pTextEdit->setMaximumHeight(MAX_WIDGET_HEIGHT);
         bool editable = GetAttributeBool(element, "editable", true);
         pTextEdit->setReadOnly(!editable);
+        connect(pTextEdit, SIGNAL(textChanged()), this, SLOT(OnEditTextChanged()));
         pUiWidget = pTextEdit;
     }
     else if (strTagName == "ComboBox")
@@ -755,6 +804,8 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
             QString iconPath = itemElement.attribute("icon");
             pComboBox->addItem(CreateIcon(qApp->applicationDirPath() + "/" + iconPath, ICON_SIZE_S), itemText);
         }
+        connect(pComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnItemIndexChanged(int)));
+        connect(pComboBox, SIGNAL(editTextChanged(const QString&)), this, SLOT(OnEditTextChanged(const QString&)));
     }
     else if (strTagName == "CheckBox")
     {
@@ -790,6 +841,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         pListWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
         pListWidget->setMaximumHeight(MAX_WIDGET_HEIGHT);
         pUiWidget = pListWidget;
+        connect(pListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(OnItemIndexChanged(int)));
     }
     else if (strTagName == "UserWidget")
     {
@@ -833,6 +885,8 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
 }
     if (!strId.isEmpty())
         d->m_widgetMap[strId] = pUiWidget;
+    if (pUiWidget != nullptr)
+        pUiWidget->setProperty("id", strId);
     return pUiWidget;
 }
 
@@ -1007,22 +1061,15 @@ QWidget *RibbonFrameWindow::GetModuleMainWindow(IModule *pModule)
 
 void RibbonFrameWindow::closeEvent(QCloseEvent* event)
 {
-    bool bClose = true;
     for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
     {
         IModule* pModule = iter.value();
         if (pModule != nullptr)
         {
-            //如果有任何一个模块的OnAppExit函数返回false，则不退出程序
-            if (!pModule->OnAppExit())
-                bClose = false;
+            pModule->OnAppExit();
         }
     }
-    if (!bClose)
-    {
-        event->ignore();
-        return;
-    }
+    QMainWindow::closeEvent(event);
 }
 
 QAction *RibbonFrameWindow::_GetAction(const QString& strCmd) const

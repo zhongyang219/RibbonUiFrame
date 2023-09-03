@@ -28,6 +28,7 @@ public:
     virtual void OnCommand(const char* strCmd, bool checked) override;
     virtual void* CreateUserWidget(const char* strId, void* pParent = nullptr) override;
     virtual eMainWindowType GetMainWindowType() const override;
+    void OnItemChanged(const char* strId, int index, const char* text) override;
 };
 
 #ifdef __cplusplus

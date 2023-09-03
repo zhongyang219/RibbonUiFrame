@@ -85,3 +85,9 @@ IModule::eMainWindowType TestModule::GetMainWindowType() const
 {
     return IModule::MT_QWIDGET;
 }
+
+void TestModule::OnItemChanged(const char* strId, int index, const char* text)
+{
+    QString str = QSTR("触发控件消息：id=%1，index=%2，text=%3").arg(QString::fromUtf8(strId)).arg(index).arg(QString::fromUtf8(text));
+    m_pMainFrame->SetStatusBarText(str.toUtf8().constData(), 15000);
+}

@@ -52,6 +52,14 @@ public:
     virtual void OnCommand(const char* strCmd, bool checked) = 0;
 
     /**
+    * @brief       响应Ribbon标签中Combox或ListWidget当前选中项改变，或LineEdit或TextEdit文本改变
+    * @param[in]   strId: 命令的ID
+    * @param[in]   index: 选中项的序号
+    * @param[in]   text: 选中项的文本
+    */
+    virtual void OnItemChanged(const char* strId, int index, const char* text) {}
+
+    /**
      * @brief       向模块发送一个消息，用于在同一个进程之间的各个模块发送消息
      * @param[in]	msgType 消息类型
      * @param[in]	msgData 消息体
@@ -64,9 +72,8 @@ public:
 
     /**
      * @brief       程序在退出前由框架调用
-     * @return      如果函数返回ture，表示程序可以退出，返回false表示取消退出操作
      */
-    virtual bool OnAppExit() { return true; }
+    virtual void OnAppExit() {}
 
     /**
      * @brief       创建一个用户自定义控件（仅Qt模块支持此接口）

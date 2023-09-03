@@ -27,6 +27,9 @@ signals:
 private slots:
     void OnTabIndexChanged(int index);      //响应标签切换
     void OnActionTriggerd(bool checked);    //响应任意一个工具栏中的按钮被点击
+    void OnItemIndexChanged(int index);     //响应工具栏中ComboBox或ListWidget当前项改变
+    void OnEditTextChanged(const QString& text);    //响应LineEdit文本改变
+    void OnEditTextChanged();    //响应TextEdit文本改变
 
 private:
     void LoadUIFromXml();           //从xml文件加载界面
