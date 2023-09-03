@@ -886,7 +886,12 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     if (!strId.isEmpty())
         d->m_widgetMap[strId] = pUiWidget;
     if (pUiWidget != nullptr)
+    {
         pUiWidget->setProperty("id", strId);
+        QString strTip = element.attribute("tip");
+        if (!strTip.isEmpty())
+            pUiWidget->setToolTip(strTip);
+    }
     return pUiWidget;
 }
 
