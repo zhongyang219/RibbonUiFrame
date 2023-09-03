@@ -704,6 +704,7 @@ background:#616F76;
 }
 
 *:disabled{
+color:#afbac5;
 background:#616F76;
 border-color:#667481;
 }

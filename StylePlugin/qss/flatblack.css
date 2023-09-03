@@ -750,6 +750,7 @@ background:#191919;
 }
 
 *:disabled{
+color:#969696;
 background:#191919;
 border-color:#404244;
 }
