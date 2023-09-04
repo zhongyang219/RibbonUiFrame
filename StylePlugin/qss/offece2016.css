@@ -443,6 +443,23 @@ QListView::item:selected, QTreeView::item:selected{
     border: 1px solid #808080;
 }
 
+QTreeView::item:selected {
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+QTreeView:item:first:selected {
+    border-left-width: 1px;
+}
+
+QTreeView:item:last:selected {
+    border-right-width: 1px;
+}
+
+QTreeView:item:only-one:selected {
+    border-width: 1px;
+}
+
 /*
 QCheckBox::indicator, QGroupBox::indicator, QTreeWidget::indicator, QListWidget::indicator {
     width: 12px;

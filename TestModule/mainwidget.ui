@@ -23,38 +23,15 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QTreeWidget" name="treeWidget">
-       <column>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </column>
+      <widget class="QListWidget" name="listWidget">
        <item>
         <property name="text">
-         <string>新建项目</string>
+         <string>新建项目1</string>
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
           <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
         </property>
-        <item>
-         <property name="text">
-          <string>新建子项目1</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>新建子项目2</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-         </property>
-        </item>
        </item>
        <item>
         <property name="text">
@@ -793,9 +770,95 @@
              <string notr="true">测试列</string>
             </property>
            </column>
+           <column>
+            <property name="text">
+             <string>列1</string>
+            </property>
+           </column>
            <item>
             <property name="text">
              <string>新建项目1</string>
+            </property>
+            <property name="icon">
+             <iconset resource="resource.qrc">
+              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+            </property>
+            <property name="text">
+             <string>23344</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>新建子项目1</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resource.qrc">
+               <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+             </property>
+             <property name="text">
+              <string>435246</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>新建子项目2</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resource.qrc">
+               <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+             </property>
+             <property name="text">
+              <string>ertrg</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>新建项目2</string>
+            </property>
+            <property name="icon">
+             <iconset resource="resource.qrc">
+              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+            </property>
+            <property name="text">
+             <string>fgjskuy</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>新建项目3</string>
+            </property>
+            <property name="icon">
+             <iconset resource="resource.qrc">
+              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+            </property>
+            <property name="text">
+             <string>sfghsj</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>新建项目4</string>
+            </property>
+            <property name="icon">
+             <iconset resource="resource.qrc">
+              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
+            </property>
+            <property name="text">
+             <string>WEUdsfhg</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTreeWidget" name="treeWidget">
+           <column>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </column>
+           <item>
+            <property name="text">
+             <string>新建项目</string>
             </property>
             <property name="icon">
              <iconset resource="resource.qrc">
@@ -819,46 +882,6 @@
                <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
              </property>
             </item>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目2</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目3</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目4</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListWidget" name="listWidget">
-           <item>
-            <property name="text">
-             <string>新建项目1</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
-            </property>
            </item>
            <item>
             <property name="text">
@@ -992,21 +1015,22 @@
        </widget>
        <widget class="QWidget" name="tab_10">
         <attribute name="title">
-         <string>页</string>
+         <string>文本编辑器</string>
         </attribute>
-        <widget class="QTimeEdit" name="timeEdit_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>118</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="displayFormat">
-          <string>mm:ss</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QTextEdit" name="textEdit_3">
+           <property name="markdown">
+            <string># 基于Qt的模块化界面框架
+
+这是一个界面框架模块，实现了Ribbon风格的样式，使用xml文件配置Ribbon标签页。框架完全使用原生Qt库，无第三方依赖，支持Windows和Linux系 。 此框架可以将Qt或MFC/Win32程序集成到同一个应用程序中。你可以使用Qt或MFC/Win32编写功能模块，并加载到主框架中，并在主框架中以Ribbon标签 方式显示。  工程中包含了一个框架测试程序、一个基于Qt的测试模块、一个基于MFC对话框的测试模块和一个基于Qt的主题模块。 界面框架支持更换主题，内置了十几种风格的主题。主题基于QSS实现，其中部分主题来自开源项目 
+[QSS-Skin-Builder](https://github.com/satchelwu/QSS-Skin-Builder)。
+
+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QTextEdit" name="textEdit">
@@ -1021,12 +1045,14 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </widget>
-     <widget class="QListWidget" name="listWidget_2">
-      <item>
-       <property name="text">
-        <string>下方面板测试项</string>
-       </property>
-      </item>
+     <widget class="QTextEdit" name="textEdit_2">
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;底部面板测试&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
      </widget>
     </widget>
    </item>

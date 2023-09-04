@@ -336,14 +336,38 @@ border:1px solid #828790;
 QListView::item:hover,QTreeView::item:hover{
 background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fbedb3,stop:0.5 #fae289,stop:1 #fcf8d9);
 border:1px solid #f0cd52;
-border-radius:2px;
 }
 
 QListView::item:selected,QTreeView::item:selected{
 color:#1e395b;
 background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #ffe575,stop:0.5 #ffd86c,stop:1 #fff27e);
 border:1px solid #c1a34d;
-border-radius:2px;
+}
+
+QListView::item:hover, QListView::item:selected {
+    border-radius:2px;
+}
+
+QTreeView:item:selected, QTreeView::item:hover {
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+QTreeView:item:first:selected, QTreeView::item:first:hover {
+    border-left-width: 1px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+QTreeView:item:last:selected, QTreeView::item:last:hover {
+    border-right-width: 1px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+QTreeView:item:only-one:selected, QTreeView::item:only-one:hover {
+    border-width: 1px;
+    border-radius: 2px;
 }
 
 QCheckBox::indicator,QGroupBox::indicator,QTreeWidget::indicator,QListWidget::indicator{
