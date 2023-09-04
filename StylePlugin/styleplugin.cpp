@@ -57,6 +57,9 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
         }
     }
 
+    //保存默认Palette
+    m_defaultPalette = qApp->palette();
+
     //设置样式
     if (m_curStyle.isEmpty())
     {
@@ -137,7 +140,8 @@ void StylePlugin::SetStyle(const QString &styleName)
     {
         if (styleName.isEmpty())
         {
-            QMessageBox::information(dynamic_cast<QWidget*>(m_pMainFrame), QString(), QSTR("更改为默认主题后需要重新启动程序才能生效！"), QMessageBox::Ok);
+            qApp->setPalette(m_defaultPalette);
+            qApp->setStyleSheet("");
         }
         else
         {
