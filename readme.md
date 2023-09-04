@@ -93,8 +93,18 @@
 模块中重写`IModule`接口中的虚函数`UiInitComplete`，此函数会传递`IMainFrame`接口的指针，保存此指针。
 
 * 调用`IMainFrame::SendModuleMessage`向模块发送一个消息。
-
 * 在模块实现类中重写`IModule`接口的`OnMessage`函数，使用`SendModuleMessage`函数向此模块发送了消息时，此函数会被调用。
+
+## 不使用模块
+
+此框架也允许不使用任何模块，直接在exe工程中编写你的逻辑代码。
+
+如果在使用此框架时不需要使用模块，请遵循以下步骤。
+
+* 编写`MainFrame.xml`文件，但是`Page`节点不配置`modulePath`属性。
+* 编写一个类继承于`RibbonFrameWindow`类作为程序的主窗口。
+* 在主窗口类的构造函数中调用基类的`SetDefaultWidget`设置一个默认的窗口，此窗口会代替模块主窗口显示在界面中。
+* 重写基类的`OnCommand`函数可以响应Ribbon标签中命令的触发，重写基类的`OnItemChanged`可以响应Ribbon标签中的控件消息。
 
 # 界面xml文件说明
 

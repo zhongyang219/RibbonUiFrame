@@ -71,6 +71,14 @@ protected:
     virtual bool OnCommand(const QString& strCmd, bool checked);
 
     /**
+    * @brief       响应Ribbon标签中Combox或ListWidget当前选中项改变，或LineEdit或TextEdit文本改变
+    * @param[in]   strId: 命令的ID
+    * @param[in]   index: 选中项的序号
+    * @param[in]   text: 选中项的文本
+    */
+    virtual void OnItemChanged(const QString& strId, int index, const QString& text) {}
+
+    /**
      * @brief       显示一个提示消息
      * @param[in]	msgTitle：消息标题
      * @param[in]	msgBody：消息体
@@ -83,6 +91,13 @@ protected:
 
     void SetTabIndex(int index);
     int GetTabIndex() const;
+
+    /**
+     * @brief       设置默认主窗口
+     * @note        此函数用于设置一个默认的窗口，当MainFrame.xml中Page节点未配置modulePath属性时，切换到该标签时将显示此窗口
+     * @param[in]	pWidget：要设置的窗口
+     */
+    void SetDefaultWidget(QWidget* pWidget);
 
 private:
     MainFramePrivate* d;        //私有成员变量，定义在cpp文件中

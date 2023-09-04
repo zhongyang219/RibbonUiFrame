@@ -170,21 +170,23 @@ public:
     QMap<int, IModule*> m_moduleIndexMap;       //保存标签索引和IModuleInterface对象的对应关系
     QMap<QString, IModule*> m_moduleNameMap;    //保存模块的名称和IModuleInterface对象的对应关系
     QMap<QString, IModule*> m_modulePathMap;    //保存已加载模块的路径和模块对象
+    QMap<int, QString> m_moduleIndexPath;       //保存标签索引和模块路径的对应关系
 
     QMap<QString, QAction*> m_actionMap;    //保存命令Id和Action的对应关系
     QMap<QString, QWidget*> m_widgetMap;    //保存命令Id和Widget的对应关系
     QMap<int, QStringList> m_cmdRadioBtnGroutMap;           //保存RadioButton或命令作为单选按钮的命令组
 
-    QTabWidget* m_pTabWidget;           //主窗口的TabWidget
-    QStackedWidget* m_pStackedWidget;   //切换不同模块的主窗口
-    QToolBar* m_pTopRightBar;           //TabWidget右上角的工具栏
-    QHBoxLayout* m_pTopLeftLayout;      //TabWidget左上角的布局，包含了系统按钮和快速启动栏
+    QTabWidget* m_pTabWidget{};           //主窗口的TabWidget
+    QStackedWidget* m_pStackedWidget{};   //切换不同模块的主窗口
+    QToolBar* m_pTopRightBar{};           //TabWidget右上角的工具栏
+    QHBoxLayout* m_pTopLeftLayout{};      //TabWidget左上角的布局，包含了系统按钮和快速启动栏
 
     QLabel* m_pNoMainWindowLabel;
     QLabel* m_pModuleLoadFailedLabel;
 
     QString m_windowTitle;
     QMap<WId, QWidget*> m_mfcWindowMap;  //保存已加载过的MFC窗口
+    QWidget* m_pDefaultWidget{};
 
     MainFramePrivate()
     {
@@ -282,6 +284,7 @@ RibbonFrameWindow::~RibbonFrameWindow()
 void RibbonFrameWindow::OnTabIndexChanged(int index)
 {
     IModule* pModule = d->m_moduleIndexMap[index];
+    QString modulePath = d->m_moduleIndexPath.value(index);
     if (pModule != nullptr)
     {
         pModule->OnTabEntered();
@@ -291,9 +294,13 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
         else
             d->m_pStackedWidget->setCurrentWidget(d->m_pNoMainWindowLabel);
     }
-    else
+    else if (!modulePath.isEmpty())
     {
         d->m_pStackedWidget->setCurrentWidget(d->m_pModuleLoadFailedLabel);
+    }
+    else if (d->m_pDefaultWidget != nullptr)
+    {
+        d->m_pStackedWidget->setCurrentWidget(d->m_pDefaultWidget);
     }
 }
 
@@ -347,6 +354,7 @@ void RibbonFrameWindow::OnItemIndexChanged(int index)
         if (module != nullptr)
             module->OnItemChanged(strCmdId.toUtf8().constData(), index, strText.toUtf8().constData());
     }
+    OnItemChanged(strCmdId, index, strText);
 }
 
 void RibbonFrameWindow::OnEditTextChanged(const QString& text)
@@ -357,6 +365,7 @@ void RibbonFrameWindow::OnEditTextChanged(const QString& text)
         if (module != nullptr)
             module->OnItemChanged(strCmdId.toUtf8().constData(), 0, text.toUtf8().constData());
     }
+    OnItemChanged(strCmdId, 0, text);
 }
 
 void RibbonFrameWindow::OnEditTextChanged()
@@ -371,6 +380,7 @@ void RibbonFrameWindow::OnEditTextChanged()
         if (module != nullptr)
             module->OnItemChanged(strCmdId.toUtf8().constData(), 0, strText.toUtf8().constData());
     }
+    OnItemChanged(strCmdId, 0, strText);
 }
 
 void RibbonFrameWindow::LoadUIFromXml()
@@ -480,6 +490,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             IModule* pModule = LoadPlugin(strModulePath);
             int index = d->m_pTabWidget->count();
             d->m_moduleIndexMap[index] = pModule;
+            d->m_moduleIndexPath[index] = strModulePath;
 
             //添加标签页
             QToolBar* pToolbar = new QToolBar();
@@ -1110,6 +1121,17 @@ void RibbonFrameWindow::SetTabIndex(int index)
 int RibbonFrameWindow::GetTabIndex() const
 {
     return d->m_pTabWidget->currentIndex();
+}
+
+void RibbonFrameWindow::SetDefaultWidget(QWidget* pWidget)
+{
+    //先移除之前的defaultWidget
+    if (d->m_pDefaultWidget != nullptr)
+        d->m_pStackedWidget->removeWidget(d->m_pDefaultWidget);
+    //将defaultWidget添加到StackedWidget中
+    d->m_pStackedWidget->addWidget(pWidget);
+    d->m_pDefaultWidget = pWidget;
+    OnTabIndexChanged(d->m_pTabWidget->currentIndex());
 }
 
 IModule *RibbonFrameWindow::GetModule(const char *strModuleName) const
