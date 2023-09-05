@@ -199,7 +199,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RibbonFrameWindow::RibbonFrameWindow(QWidget *parent)
+RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath)
     : QMainWindow(parent)
 {
     d = new MainFramePrivate;
@@ -246,7 +246,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent)
     pTopLeftBar->setLayout(d->m_pTopLeftLayout);
 
     //加载功能模块
-    LoadUIFromXml();
+    LoadUIFromXml(xmlPath);
 
     //如果工具栏中有RadioButton，处理RadioButton的组
     ApplyRadioButtonGroup();
@@ -383,9 +383,11 @@ void RibbonFrameWindow::OnEditTextChanged()
     OnItemChanged(strCmdId, 0, strText);
 }
 
-void RibbonFrameWindow::LoadUIFromXml()
+void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
 {
-    QFile file(qApp->applicationDirPath() + "/MainFrame.xml");
+    if (xmlPath.isEmpty())
+        xmlPath = qApp->applicationDirPath() + "/MainFrame.xml";
+    QFile file(xmlPath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {
         QString strInfo = QSTR("打开MainFrame.xml文件失败！");

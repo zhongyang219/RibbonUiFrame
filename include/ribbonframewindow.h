@@ -19,7 +19,7 @@ class RIBBONFRAME_EXPORT RibbonFrameWindow : public QMainWindow, public IMainFra
     Q_OBJECT
 
 public:
-    RibbonFrameWindow(QWidget *parent = nullptr);
+    RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString());
     virtual ~RibbonFrameWindow();
 
 signals:
@@ -32,7 +32,7 @@ private slots:
     void OnEditTextChanged();    //响应TextEdit文本改变
 
 private:
-    void LoadUIFromXml();           //从xml文件加载界面
+    void LoadUIFromXml(QString xmlPath);           //从xml文件加载界面
     IModule* LoadPlugin(const QString &strModulePath);
     void LoadMainFrameUi(const QDomElement& element);   //从一个xml节点加载界面
     void LoadUiElement(const QDomElement& element, QToolBar* pToolbar);     //加载一组UI元素（用于Ribbin的Page）
