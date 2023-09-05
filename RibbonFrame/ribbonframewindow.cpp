@@ -151,9 +151,9 @@ static QIcon CreateIcon(const QString& strPath, int size)
     return QIcon();
 }
 
-static bool IsActionGroupTag(const QString& tagName)
+static bool IsToolBarTag(const QString& tagName)
 {
-    return tagName == "ActionGroup" || tagName == "ToolBar" || tagName == "Toolbar";
+    return tagName == "ToolBar" || tagName == "Toolbar";
 }
 
 static bool IsActionTag(const QString& tagName)
@@ -608,7 +608,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
             d->m_widgetMap[strId] = pToolButton;
         }
         //ActionGroup
-        else if (IsActionGroupTag(strTagName))
+        else if (strTagName == "ActionGroup")
         {
             previousLayout = nullptr;
 
@@ -616,7 +616,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
             {
                 QString previousTagName = groupList.at(i - 1).toElement().tagName();
                 //如果前一个元素没有添加分隔符，则在这里添加一个分隔符
-                if (!IsActionGroupTag(previousTagName))
+                if (previousTagName != "ActionGroup")
                     pToolbar->addSeparator();
             }
 
@@ -664,6 +664,13 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
 
             //则添加分隔符
             pToolbar->addSeparator();
+        }
+        else if (IsToolBarTag(strTagName))
+        {
+            QToolBar* pSubToolbar = new QToolBar;
+            pSubToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+            LoadSimpleToolbar(childElement, pSubToolbar);
+            AddUiWidget(pSubToolbar, IsSmallIcon(childElement), pToolbar, previousLayout);
         }
         else if (IsActionTag(strTagName))
         {
@@ -951,7 +958,7 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
             pMenu->addMenu(pSubMenu);
         }
         //工具栏
-        else if (IsActionGroupTag(strTagName))
+        else if (IsToolBarTag(strTagName))
         {
             QToolBar* pToolbar = new QToolBar(pMenu);
             pToolbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
