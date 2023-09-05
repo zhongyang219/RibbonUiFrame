@@ -78,14 +78,6 @@ protected:
     */
     virtual void OnItemChanged(const QString& strId, int index, const QString& text) {}
 
-    /**
-     * @brief       显示一个提示消息
-     * @param[in]	msgTitle：消息标题
-     * @param[in]	msgBody：消息体
-     * @param[in]	msgType：消息类型，同QMessageBox::Icon枚举定义
-     */
-    void ShowMessage(const QString& msgTitle, const QString& msgBody, int msgType);
-
     QAction *_GetAction(const QString& strCmd) const;
     QWidget *_GetWidget(const QString& strCmd) const;
 

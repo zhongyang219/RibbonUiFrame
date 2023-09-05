@@ -389,7 +389,7 @@ void RibbonFrameWindow::LoadUIFromXml()
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {
         QString strInfo = QSTR("打开MainFrame.xml文件失败！");
-        ShowMessage(QString(), strInfo, QMessageBox::Critical);
+        QMessageBox::critical(this, QString(), strInfo);
         return;
     }
 
@@ -401,7 +401,7 @@ void RibbonFrameWindow::LoadUIFromXml()
     if (root.isNull())
     {
         QString strInfo = QSTR("MainFrame.xml文件找不到节点！");
-        ShowMessage(QString(), strInfo, QMessageBox::Critical);
+        QMessageBox::critical(this, QString(), strInfo);
         return;
     }
 
@@ -461,13 +461,13 @@ IModule *RibbonFrameWindow::LoadPlugin(const QString& strModulePath)
             else
             {
                 QString strInfo = QSTR("从模块“%1”中获取“CreateInstance”的入口地址失败！").arg(strModulePath);
-                ShowMessage(QString(), strInfo, QMessageBox::Critical);
+                QMessageBox::critical(this, QString(), strInfo);
             }
         }
         else
         {
             QString strInfo = QSTR("加载插件%1失败!").arg(strModulePath);
-            ShowMessage(QString(), strInfo, QMessageBox::Critical);
+            QMessageBox::critical(this, QString(), strInfo);
         }
     }
     return pModule;
@@ -1036,12 +1036,6 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
         return true;
     }
     return false;
-}
-
-void RibbonFrameWindow::ShowMessage(const QString &msgTitle, const QString &msgBody, int msgType)
-{
-    QMessageBox box(static_cast<QMessageBox::Icon>(msgType), msgTitle, msgBody, QMessageBox::Ok, this);
-    box.exec();
 }
 
 void RibbonFrameWindow::ApplyRadioButtonGroup()
