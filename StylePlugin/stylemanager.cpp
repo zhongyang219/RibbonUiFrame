@@ -27,7 +27,12 @@ CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleT
         m_strQss = QString::fromUtf8(file.readAll());
         StyleDpiChange(m_strQss);
         if (bParsePaletteColor)
-            m_strPaletteColor = m_strQss.mid(20, 7);
+        {
+            QString paletteColor = m_strQss.mid(20, 7);
+            QString textColor = m_strQss.mid(49, 7);
+            m_palette = QPalette(paletteColor);
+            m_palette.setColor(QPalette::Text, textColor);
+        }
         file.close();
     }
 }
@@ -39,14 +44,14 @@ void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget) const
     {
         //设置样式表
         if (m_bParsePaletteColor)
-            pWidget->setPalette(QPalette(m_strPaletteColor));
+            pWidget->setPalette(m_palette);
         pWidget->setStyleSheet("");
         pWidget->setStyleSheet(m_strQss);
     }
     else
     {
         if (m_bParsePaletteColor)
-            qApp->setPalette(QPalette(m_strPaletteColor));
+            qApp->setPalette(m_palette);
         qApp->setStyleSheet("");
         qApp->setStyleSheet(m_strQss);
     }

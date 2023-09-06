@@ -41,7 +41,7 @@ public:
 
     private:
         QString m_strQss;             //样式表
-        QString m_strPaletteColor;    //调色板颜色
+        QPalette m_palette;           //调色板
         bool m_bParsePaletteColor;
     };
 
