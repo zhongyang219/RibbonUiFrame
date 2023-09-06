@@ -26,7 +26,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     RibbonFrameWindow::closeEvent(event);
 
-    QMessageBox box(QMessageBox::Question, QString(), QSTR("确实要退出吗？"), QMessageBox::Yes | QMessageBox::No, this);
-    if (box.exec() != QMessageBox::Yes)
-        event->ignore();
+    //QMessageBox box(QMessageBox::Question, QString(), QSTR("确实要退出吗？"), QMessageBox::Yes | QMessageBox::No, this);
+    //if (box.exec() != QMessageBox::Yes)
+    //    event->ignore();
 }

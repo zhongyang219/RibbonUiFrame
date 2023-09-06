@@ -988,5 +988,8 @@
     <None Include="qss\offece2010silvery.css">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="qss\offece2016dark.css">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
