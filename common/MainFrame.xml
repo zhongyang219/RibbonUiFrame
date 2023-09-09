@@ -95,7 +95,10 @@ ActionGroup节点
 		<Menu name="主题" icon="Image/theme.png" id="Theme" btnStyle="compact">
 			<Action name="默认主题" id="DefaultStyle" checkable="true"/>
 		</Menu>
-		<Action name="关于" icon="Image/help.png" id="AppAbout" shortcut="F1"/>
+		<Menu name="帮助" icon="Image/help.png" id="Help">
+			<Action name="关于" icon="Image/help.png" id="AppAbout" shortcut="F1"/>
+			<Action name="关于Qt" id="AppAboutQt"/>
+		</Menu>
 		<!-- 主菜单 -->
 		<SystemMenu name="文件" icon="Image/ballicon.png">
 			<Action name="命令1" icon="Image/User.png" id="TestCommand1"/>

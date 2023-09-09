@@ -80,6 +80,7 @@ protected:
 
     QAction *_GetAction(const QString& strCmd) const;
     QWidget *_GetWidget(const QString& strCmd) const;
+    void SetItemIcon(const QString& strId, const QIcon& icon);
 
     void SetTabIndex(int index);
     int GetTabIndex() const;

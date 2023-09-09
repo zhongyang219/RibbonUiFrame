@@ -78,7 +78,7 @@ QLineEdit:hover, QTextEdit:hover, QPlainTextEdit:hover, QSpinBox:hover, QDoubleS
     border:1px solid #808080;
 }
 
-QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus, QDateEdit:focus, QTimeEdit:focus, QDateTimeEdit:focus{
+QLineEdit[readOnly="false"]:focus, QTextEdit[readOnly="false"]:focus, QPlainTextEdit[readOnly="false"]:focus, QSpinBox[readOnly="false"]:focus, QDoubleSpinBox[readOnly="false"]:focus, QComboBox:focus, QDateEdit:focus, QTimeEdit:focus, QDateTimeEdit:focus {
     border: 1px solid #ffffff;
 }
 

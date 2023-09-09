@@ -262,7 +262,8 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath)
     //响应标签切换消息
     connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
 
-//    OnTabIndexChanged(0);
+    //为“关于Qt”命令设置图标
+    SetItemIcon("AppAboutQt", QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton));
 }
 
 RibbonFrameWindow::~RibbonFrameWindow()
@@ -1044,6 +1045,11 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
         close();
         return true;
     }
+    else if (strCmd == "AppAboutQt")
+    {
+        QMessageBox::aboutQt(this);
+        return true;
+    }
     return false;
 }
 
@@ -1114,6 +1120,23 @@ QWidget *RibbonFrameWindow::_GetWidget(const QString& strCmd) const
     if (iter != d->m_widgetMap.end())
         return iter.value();
     return nullptr;
+}
+
+void RibbonFrameWindow::SetItemIcon(const QString& strId, const QIcon& icon)
+{
+    QAction* pAction = _GetAction(strId);
+    if (pAction != nullptr)
+    {
+        pAction->setIcon(icon);
+    }
+    else
+    {
+        QAbstractButton* pBtn = qobject_cast<QAbstractButton*>(_GetWidget(strId));
+        if (pBtn != nullptr)
+        {
+            pBtn->setIcon(icon);
+        }
+    }
 }
 
 void RibbonFrameWindow::SetTabIndex(int index)
@@ -1279,19 +1302,8 @@ void RibbonFrameWindow::SetItemText(const char* strId, const char* text)
 
 void RibbonFrameWindow::SetItemIcon(const char* strId, const char* iconPath, int iconSize)
 {
-    QAction* pAction = _GetAction(strId);
-    if (pAction != nullptr)
-    {
-        pAction->setIcon(CreateIcon(QString::fromUtf8(iconPath), iconSize));
-    }
-    else
-    {
-        QAbstractButton* pBtn = qobject_cast<QAbstractButton*>(_GetWidget(strId));
-        if (pBtn != nullptr)
-        {
-            pBtn->setIcon(CreateIcon(QString::fromUtf8(iconPath), iconSize));
-        }
-    }
+    QIcon icon = CreateIcon(QString::fromUtf8(iconPath), iconSize);
+    SetItemIcon(QString::fromUtf8(strId), icon);
 }
 
 void* RibbonFrameWindow::GetAcion(const char* strId)
