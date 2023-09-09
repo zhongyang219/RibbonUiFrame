@@ -201,12 +201,14 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="mainwidget.cpp" />
     <ClCompile Include="testmodule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwidget.h">
     </QtMoc>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="testmodule.h" />
     <ClInclude Include="testmodule_global.h" />
   </ItemGroup>

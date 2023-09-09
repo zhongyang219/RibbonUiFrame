@@ -7,7 +7,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : RibbonFrameWindow(parent)
 {
-
+    setWindowIcon(QIcon(":/res/logo.ico"));
 }
 
 

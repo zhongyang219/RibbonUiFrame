@@ -15,6 +15,9 @@ public:
     explicit CMainWidget(QWidget *parent = nullptr);
     ~CMainWidget();
 
+private:
+    void InitSytemIcon();
+
 private slots:
     void on_btnInfo_clicked();
 
@@ -27,6 +30,8 @@ private slots:
     void on_btnFont_clicked();
 
     void on_btnColor_clicked();
+
+    void OnIconBtnClicked(bool);
 
 private:
     Ui::CMainWidget *ui;

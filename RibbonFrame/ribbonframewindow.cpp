@@ -147,6 +147,8 @@ static QIcon CreateIcon(const QString& strPath, int size)
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
             return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        else
+            qDebug() << QString(u8"加载图标“%1”失败！").arg(strPath);
     }
     return QIcon();
 }
@@ -528,7 +530,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QPushButton* pMainFrameBtn = new QPushButton(menuName, d->m_pTabWidget);
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
-                pMainFrameBtn->setIcon(CreateIcon(strIcon, ICON_SIZE_S));
+                pMainFrameBtn->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + strIcon, ICON_SIZE_S));
 //#ifdef Q_OS_WIN
 //            pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
 //#endif
@@ -931,7 +933,7 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
     QString strCmdName = element.attribute("name");
     QString strIconPath = element.attribute("icon");
     QMenu* pMenu = new QMenu(strCmdName);
-    pMenu->setIcon(CreateIcon(strIconPath, ICON_SIZE_S));
+    pMenu->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + strIconPath, ICON_SIZE_S));
 #if (QT_VERSION >= QT_VERSION_CHECK(5,1,0))
     pMenu->setToolTipsVisible(true);
 #endif
@@ -1000,6 +1002,9 @@ void RibbonFrameWindow::InitMenuButton(QToolButton *pMenuBtn, const QDomElement 
     }
     QString strName = element.attribute("name");
     pMenuBtn->setText(strName);
+    QString strTip = element.attribute("tip");
+    if (pMenuBtn->toolButtonStyle() == Qt::ToolButtonIconOnly || !strTip.isEmpty())
+        pMenuBtn->setToolTip(strTip.isEmpty() ? strName : strTip);
 }
 
 
