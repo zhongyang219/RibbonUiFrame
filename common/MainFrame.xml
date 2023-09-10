@@ -96,7 +96,7 @@ ActionGroup节点
 			<Action name="默认主题" id="DefaultStyle" checkable="true"/>
 		</Menu>
 		<Menu name="帮助" icon="Image/help.png" id="Help">
-			<Action name="关于" icon="Image/help.png" id="AppAbout" shortcut="F1"/>
+			<Action name="关于" id="AppAbout" shortcut="F1"/>
 			<Action name="关于Qt" id="AppAboutQt"/>
 		</Menu>
 		<!-- 主菜单 -->
@@ -110,7 +110,10 @@ ActionGroup节点
 				<Action name="命令4" icon="Image/edit.png" id="TestCommand4"/>
 			</Menu>
 			<Separator/>
-			<Action name="关于" icon="Image/help.png" id="AppAbout" shortcut="F1"/>
+			<Menu name="帮助" icon="Image/help.png" id="Help">
+				<Action name="关于" id="AppAbout" shortcut="F1"/>
+				<Action name="关于Qt" id="AppAboutQt"/>
+			</Menu>
 			<Action name="退出" id="AppExit" icon="Image/Delete.png" shortcut="Ctrl+Q"/>
 			<Separator/>
 			<Label name="测试Label" id="Label0"/>

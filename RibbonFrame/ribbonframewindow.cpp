@@ -142,7 +142,7 @@ static QString GetElementId(const QDomElement& element)
 //从路径创建一个指定大小的图标
 static QIcon CreateIcon(const QString& strPath, int size)
 {
-    if (!strPath.isEmpty())
+    if (!strPath.isEmpty() && strPath != qApp->applicationDirPath() + "/")
     {
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
@@ -190,6 +190,8 @@ public:
     QMap<WId, QWidget*> m_mfcWindowMap;  //保存已加载过的MFC窗口
     QWidget* m_pDefaultWidget{};
 
+    QString m_xmlPath;
+
     MainFramePrivate()
     {
         m_pNoMainWindowLabel = new QLabel(QSTR("模块未提供主窗口。"));
@@ -201,10 +203,11 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath)
+RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bool initUiManual)
     : QMainWindow(parent)
 {
     d = new MainFramePrivate;
+    d->m_xmlPath = xmlPath;
 
     //设置主窗口最小大小
     setMinimumSize(DPI(400), DPI(300));
@@ -247,8 +250,29 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath)
     d->m_pTopLeftLayout->setSpacing(DPI(2));
     pTopLeftBar->setLayout(d->m_pTopLeftLayout);
 
+    if (!initUiManual)
+        InitUi();
+}
+
+RibbonFrameWindow::~RibbonFrameWindow()
+{
+    for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
+    {
+        if (iter.value() != nullptr)
+        {
+            //反初始化插件
+            iter.value()->UnInitInstance();
+            //释放指针
+            delete iter.value();
+        }
+    }
+    delete d;
+}
+
+void RibbonFrameWindow::InitUi()
+{
     //加载功能模块
-    LoadUIFromXml(xmlPath);
+    LoadUIFromXml(d->m_xmlPath);
 
     //如果工具栏中有RadioButton，处理RadioButton的组
     ApplyRadioButtonGroup();
@@ -266,21 +290,6 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath)
 
     //为“关于Qt”命令设置图标
     SetItemIcon("AppAboutQt", QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton));
-}
-
-RibbonFrameWindow::~RibbonFrameWindow()
-{
-    for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
-    {
-        if (iter.value() != nullptr)
-        {
-            //反初始化插件
-            iter.value()->UnInitInstance();
-            //释放指针
-            delete iter.value();
-        }
-    }
-    delete d;
 }
 
 
@@ -768,7 +777,7 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     return pAction;
 }
 
-QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pToolbar, bool &smallIcon)
+QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pParent, bool &smallIcon)
 {
     QString strTagName = element.tagName();
     QString strName = element.attribute("name");
@@ -781,14 +790,14 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
 
     if (strTagName == "Label")
     {
-        QLabel* pLabel = new QLabel(pToolbar);
+        QLabel* pLabel = new QLabel(pParent);
         smallIcon = true;
         pLabel->setText(strName);
         pUiWidget = pLabel;
     }
     else if (strTagName == "LineEdit")
     {
-        QLineEdit* pLineEdit = new QLineEdit(pToolbar);
+        QLineEdit* pLineEdit = new QLineEdit(pParent);
         smallIcon = true;
         pLineEdit->setText(strName);
         pLineEdit->setMaximumWidth(DPI(120));
@@ -800,7 +809,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     }
     else if (strTagName == "TextEdit" || strTagName == "Edit")
     {
-        QTextEdit* pTextEdit = new QTextEdit(pToolbar);
+        QTextEdit* pTextEdit = new QTextEdit(pParent);
         smallIcon = false;
         pTextEdit->setPlainText(strName);
         pTextEdit->setMaximumWidth(DPI(120));
@@ -812,7 +821,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     }
     else if (strTagName == "ComboBox")
     {
-        QComboBox* pComboBox = new QComboBox(pToolbar);
+        QComboBox* pComboBox = new QComboBox(pParent);
         smallIcon = true;
         bool editable = GetAttributeBool(element, "editable");
         pComboBox->setEditable(editable);
@@ -832,7 +841,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     }
     else if (strTagName == "CheckBox")
     {
-        QCheckBox* pCheckBox = new QCheckBox(pToolbar);
+        QCheckBox* pCheckBox = new QCheckBox(pParent);
         smallIcon = true;
         pCheckBox->setText(strName);
         pCheckBox->setProperty("id", strId);
@@ -841,7 +850,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     }
     else if (strTagName == "RadioButton")
     {
-        QRadioButton* pRadioButton = new QRadioButton(pToolbar);
+        QRadioButton* pRadioButton = new QRadioButton(pParent);
         smallIcon = true;
         pRadioButton->setText(strName);
         QString strRadioGroup = element.attribute("radioGroup");
@@ -855,7 +864,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
     }
     else if (strTagName == "ListWidget")
     {
-        QListWidget* pListWidget = new QListWidget(pToolbar);
+        QListWidget* pListWidget = new QListWidget(pParent);
         smallIcon = false;
         bool horizontalArrange = GetAttributeBool(element, "horizontalArrange");
         if (horizontalArrange)
@@ -882,11 +891,13 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         {
             if (pModule->GetMainWindowType() == IModule::MT_QWIDGET)
             {
-                pUserWidget = (QWidget*)pModule->CreateUserWidget(strId.toUtf8().constData(), pToolbar);
+                pUserWidget = (QWidget*)pModule->CreateUserWidget(strId.toUtf8().constData(), pParent);
                 if (pUserWidget != nullptr)
                     break;
             }
         }
+        if (pUserWidget == nullptr)
+            pUserWidget = CreateUserWidget(strId, pParent);
         if (pUserWidget == nullptr)
             pUserWidget = new QLabel(strName.isEmpty() ? "UserWidget" : strName);
         pUserWidget->setMaximumHeight(MAX_WIDGET_HEIGHT);
@@ -902,7 +913,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pT
         else
             pLayout = new QVBoxLayout();
         pLayout->setContentsMargins(0, 0, 0, 0);
-        pUiWidget = new QWidget(pToolbar);
+        pUiWidget = new QWidget(pParent);
         pUiWidget->setLayout(pLayout);
         //遍历子节点
         QDomNodeList childNodeList = element.childNodes();

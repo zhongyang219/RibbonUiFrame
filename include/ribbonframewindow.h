@@ -19,8 +19,16 @@ class RIBBONFRAME_EXPORT RibbonFrameWindow : public QMainWindow, public IMainFra
     Q_OBJECT
 
 public:
-    RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString());
+    /**
+     * @brief       构造函数
+     * @param[in]	parent 父窗口
+     * @param[in]	xmlPath xml文件的路径，如果为空，则使用可执行文件相同目录下的“MainFrame.xml”
+     * @param[in]	initUiManual 是否手动初始化UI，如果为false中，则在构造函数中完成UI的初始化，否则，构造函数不初始化UI，需要手动调用InitUi函数。
+     */
+    RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString(), bool initUiManual = false);
     virtual ~RibbonFrameWindow();
+
+    void InitUi();
 
 signals:
 
@@ -58,6 +66,7 @@ private:
     QWidget* GetModuleMainWindow(IModule* pModule);  //获取模块的主窗口
 
 protected:
+
     IModule* CurrentModule() const;
 
     /**
@@ -91,6 +100,15 @@ protected:
      * @param[in]	pWidget：要设置的窗口
      */
     void SetDefaultWidget(QWidget* pWidget);
+
+    /**
+     * @brief       创建一个用户自定义控件
+     * @note        当xml中使用了UserWidget节点时此函数会被框架调用以创建自定义控件，模块中根据id创建对应的控件，并返回其指针。
+     * @param[in]	strId 控件的id
+     * @param[in]	pParent 控件的父窗口
+     * @return      创建的控件
+     */
+    virtual QWidget* CreateUserWidget(const QString& strId, QWidget* pParent = nullptr) { return nullptr; }
 
 private:
     MainFramePrivate* d;        //私有成员变量，定义在cpp文件中

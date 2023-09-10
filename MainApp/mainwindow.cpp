@@ -7,7 +7,9 @@
 
 MainWindow::MainWindow(QWidget *parent) : RibbonFrameWindow(parent)
 {
-    setWindowIcon(QIcon(":/res/logo.ico"));
+    QIcon appIcon(":/res/logo.png");
+    setWindowIcon(appIcon);
+    SetItemIcon("AppAbout", appIcon);
 }
 
 
