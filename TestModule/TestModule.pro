@@ -6,7 +6,7 @@
 
 QT       += widgets
 
-CONFIG += c++11
+CONFIG += c++11 plugin
 
 TARGET = TestModule
 TEMPLATE = lib
@@ -26,12 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         mainwidget.cpp \
-        testmodule.cpp
+        testmodule.cpp \
+        Common.cpp
 
 HEADERS += \
         mainwidget.h \
         testmodule.h \
-        testmodule_global.h  
+        testmodule_global.h \
+        Common.h
 
 INCLUDEPATH += $$PWD/../include
 
