@@ -223,9 +223,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     d->m_pTabWidget->setObjectName("MainFrameTab");
     d->m_pTabWidget->setAttribute(Qt::WA_StyledBackground);
     d->m_pTabWidget->tabBar()->setObjectName("MainFrameTabBar");
-#ifdef Q_OS_WIN
     d->m_pTabWidget->setStyleSheet(QString("QTabBar::tab{height:%1px}").arg(DPI(26)));     //设置tab标签的高度
-#endif
     pLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
 
     //添加状态栏
