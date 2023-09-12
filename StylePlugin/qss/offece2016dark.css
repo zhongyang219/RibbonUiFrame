@@ -10,7 +10,7 @@ QToolBar#MainFrameToolbar {
 }
 
 QToolBar#MainFrameToolbar::separator {
-    background: #b1b1b1;
+    background: #505050;
     margin: 4px;
     width: 1px;
 }
@@ -290,7 +290,7 @@ QComboBox[editable="false"]:on {
 }
 
 QComboBox::down-arrow, QDateEdit[calendarPopup="true"]::down-arrow, QTimeEdit[calendarPopup="true"]::down-arrow, QDateTimeEdit[calendarPopup="true"]::down-arrow {
-    image: url(:/qss/office2016/downArrow.png);
+    image: url(:/qss/office2016/downArrowWhite.png);
     width: 12px;
     height: 12px;
     right: 2px;
@@ -431,6 +431,7 @@ QListView::item:selected, QTreeView::item:selected{
 }
 
 QTableView::item:selected {
+    color: #ffffff;
     background: #666666;
 }
 
@@ -486,6 +487,71 @@ image:url(:/qss/office2013/radiobutton_checked.png);
 QStatusBar {
     background: #262626;
     border-top: 1px solid #434343;
+}
+
+/*滚动条*/
+QScrollBar {
+    background: #0a0a0a;
+    padding: 0px;
+}
+
+QScrollBar::handle {
+    background: #363636;
+    border: 1px solid #666666;
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+QScrollBar::handle:vertical {
+    min-height: 24px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+QScrollBar::handle:hover{
+    background: #505050;
+    border: 1px solid #808080;
+}
+
+/*handle前后的空白*/
+QScrollBar::add-page, QScrollBar::sub-page {
+    background: none;
+}
+
+/*滚动条两端的按钮*/
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: #363636;
+    border: 1px solid #666666;
+}
+
+QScrollBar::add-line:hover, QScrollBar::sub-line:hover {
+    background: #505050;
+    border: 1px solid #808080;
+}
+
+QScrollBar::add-line:pressed, QScrollBar::sub-line:pressed {
+    background: #444444;
+    border: 1px solid #737373;
+}
+
+QScrollBar::sub-line:horizontal {
+    image: url(:/qss/office2016/leftArrowWhite.png);
+}
+
+QScrollBar::add-line:horizontal {
+    image: url(:/qss/office2016/rightArrowWhite.png);
+}
+
+QScrollBar::sub-line:vertical {
+    image: url(:/qss/office2016/upArrowWhite.png);
+}
+
+QScrollBar::add-line:vertical {
+    image: url(:/qss/office2016/downArrowWhite.png);
 }
 
 *:disabled {

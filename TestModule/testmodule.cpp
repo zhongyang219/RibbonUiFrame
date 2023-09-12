@@ -33,6 +33,7 @@ void TestModule::UnInitInstance()
 void TestModule::UiInitComplete(IMainFrame *pMainFrame)
 {
     m_pMainFrame = pMainFrame;
+    pMainFrame->SetItemEnable("TestCommand13", false);
 }
 
 void* TestModule::GetMainWindow()

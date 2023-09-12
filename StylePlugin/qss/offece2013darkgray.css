@@ -326,6 +326,11 @@ QRadioButton::indicator::checked{
 image:url(:/qss/office2013/radiobutton_checked.png);
 }
 
+QStatusBar {
+    color: #ffffff;
+    background: #2b579a;
+}
+
 *:disabled {
     color: #b1b1b1;
 }

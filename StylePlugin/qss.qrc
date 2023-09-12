@@ -308,5 +308,9 @@
         <file>qss/office2016/spinDownBtn.png</file>
         <file>qss/office2016/spinUpBtn.png</file>
         <file>qss/offece2016dark.css</file>
+        <file>qss/office2016/downArrowWhite.png</file>
+        <file>qss/office2016/leftArrowWhite.png</file>
+        <file>qss/office2016/rightArrowWhite.png</file>
+        <file>qss/office2016/upArrowWhite.png</file>
     </qresource>
 </RCC>

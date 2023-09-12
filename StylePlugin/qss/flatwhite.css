@@ -191,7 +191,7 @@ subcontrol-position: right center;
 subcontrol-origin: margin;
 }
 
-QToolButton:checked{
+QToolButton:checked, QPushButton:checked{
     background: #E4E4E4;
 }
 

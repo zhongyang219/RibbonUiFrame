@@ -135,6 +135,10 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #636363,stop:1 
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #4D4D4D,stop:1 #383838);
 }
 
+QPushButton:checked, QToolButton:checked{
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #636363,stop:1 #575757);
+}
+
 /*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
 QToolButton[popupMode="1"] {
 padding-right:10px;

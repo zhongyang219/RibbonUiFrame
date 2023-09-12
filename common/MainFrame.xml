@@ -163,7 +163,7 @@ ActionGroup节点
 				<Action name="命令11" icon="Image/edit.png" id="TestCommand11"/>
 				<Action name="命令12" icon="Image/proj.png" id="TestCommand12"/>
 			</Menu>
-			<Action name="命令13" icon="Image/proj.png" id="TestCommand13"/>
+			<Action name="命令13（禁用）" icon="Image/proj.png" id="TestCommand13"/>
 			<ActionGroup name="命令组2">
 				<Label name="标签1" id="Label1"/>
 				<LineEdit name="单行编辑框" id="LineEdit1"/>

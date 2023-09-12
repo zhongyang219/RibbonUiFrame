@@ -17,6 +17,8 @@ CMainWidget::CMainWidget(QWidget *parent) :
     ui->splitter->setStretchFactor(1, 2);
     ui->splitter_2->setStretchFactor(0, 2);
 
+    ui->tableWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+
     //设置“导航界面”样式
     ui->widgetLeft->setProperty("nav", "left");
     ui->widgetBottom->setProperty("form", "bottom");

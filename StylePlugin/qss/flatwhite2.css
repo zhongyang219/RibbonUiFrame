@@ -118,6 +118,10 @@ position:relative;
 left:10px;
 }
 
+QToolButton:checked, QPushButton:checked {
+    background: #acccfe;
+}
+
 .QPushButton{
 border-style:none;
 border:1px solid #D7D7D7;
@@ -188,10 +192,6 @@ QToolButton:disabled {
 
 QToolButton::menu-indicator {
     image: None;
-}
-
-QToolButton:checked {
-    background: #acccfe;
 }
 
 QToolBar {

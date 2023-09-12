@@ -136,7 +136,11 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #181818,stop:1 
 }
 
 .QPushButton:pressed,.QToolButton:pressed{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #383A42,stop:1 #383A42);
+background:#272727;
+}
+
+QPushButton:checked, QToolButton:checked{
+background:#272727;
 }
 
 .QToolButton::menu-indicator{
@@ -707,7 +711,6 @@ background:#2A2C32;
 
 *:disabled{
 color:#a5a5a5;
-background:#2A2C32;
 border-color:#383A42;
 }
 

@@ -115,6 +115,10 @@ position:relative;
 left:10px;
 }
 
+QToolBar#MainFrameToolbar {
+    background: #16263c;
+}
+
 .QPushButton{
 border-style:none;
 border:1px solid #132743;
@@ -133,6 +137,10 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #033967,stop:1 
 
 .QPushButton:pressed,.QToolButton:pressed{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #133050,stop:1 #133050);
+}
+
+QPushButton:checked, QToolButton:checked {
+    background: #033967;
 }
 
 /*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
@@ -600,6 +608,15 @@ QTabBar::tab:last:!selected{
 
 QTabBar#MainFrameTabBar::tab {
     border: none;
+    background: #0e1a32;
+}
+
+QTabBar#MainFrameTabBar::tab:hover {
+    background: #033967;
+}
+
+QTabBar#MainFrameTabBar::tab:selected {
+    background: #16263c;
 }
 
 QStatusBar::item{
@@ -705,7 +722,6 @@ background:#0E1A32;
 
 *:disabled{
 color: #5d90c6;
-background:#0E1A32;
 border-color:#133050;
 }
 
