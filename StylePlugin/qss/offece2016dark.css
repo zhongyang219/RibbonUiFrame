@@ -100,6 +100,10 @@ QPushButton:pressed {
     background: #444444;
 }
 
+QPushButton:checked {
+    background: #505050;
+}
+
 QPushButton#MainFrameBtn{
     padding:2px;
     border:none;
@@ -566,6 +570,12 @@ QScrollBar::sub-line:vertical {
 
 QScrollBar::add-line:vertical {
     image: url(:/qss/office2016/downArrowWhite.png);
+}
+
+QToolTip {
+    background: #ebebeb;
+    color: #262626;
+    border: 1px solid #484644;
 }
 
 *:disabled {
