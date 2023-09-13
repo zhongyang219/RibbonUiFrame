@@ -293,10 +293,6 @@
         <file>qss/office2013/add_right.png</file>
         <file>qss/office2013/add_top.png</file>
         <file>qss/offece2013lightgray.css</file>
-        <file>qss/office2013/checkbox_checked.png</file>
-        <file>qss/office2013/checkbox_unchecked.png</file>
-        <file>qss/office2013/radiobutton_checked.png</file>
-        <file>qss/office2013/radiobutton_unchecked.png</file>
         <file>qss/offece2013darkgray.css</file>
         <file>res/office.png</file>
         <file>qss/offece2016.css</file>
@@ -312,5 +308,15 @@
         <file>qss/office2016/leftArrowWhite.png</file>
         <file>qss/office2016/rightArrowWhite.png</file>
         <file>qss/office2016/upArrowWhite.png</file>
+        <file>qss/office2016/checkbox_white.png</file>
+        <file>qss/office2016/radiobutton_white.png</file>
+        <file>qss/office2013/checkbox_black.png</file>
+        <file>qss/office2013/radiobutton_black.png</file>
+        <file>qss/office2013/checkbox_checked.png</file>
+        <file>qss/office2013/checkbox_unchecked.png</file>
+        <file>qss/office2013/radiobutton_checked.png</file>
+        <file>qss/office2013/radiobutton_unchecked.png</file>
+        <file>qss/office2010/checkbox.png</file>
+        <file>qss/office2010/radiobutton.png</file>
     </qresource>
 </RCC>

@@ -110,17 +110,23 @@ void StylePlugin::OnCommand(const char* strCmd, bool checked)
 void *StylePlugin::OnMessage(const char *msgType, void *para1, void *para2)
 {
     Q_UNUSED(para1)
-    if (QString(msgType) == "GetStyleType")
+    QString strMsgType = msgType;
+    if (strMsgType == "GetStyleType")
     {
         CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
         if (pStyle != nullptr)
             return (void*)pStyle->m_type;
     }
-    else if (QString(msgType) == "GetStyleName")
+    else if (strMsgType == "GetStyleName")
     {
         static QByteArray styleName;
         styleName = m_curStyle.toUtf8();
         return (void*)styleName.constData();
+    }
+    else if (strMsgType == "IsDarkTheme")
+    {
+        CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
+        return (void*)((pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark) || m_curStyle == u8"Office2016深色");
     }
     return nullptr;
 }

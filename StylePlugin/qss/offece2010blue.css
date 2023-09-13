@@ -357,30 +357,37 @@ QTreeView:item:only-one:selected, QTreeView::item:only-one:hover {
     border-radius: 2px;
 }
 
-QCheckBox::indicator,QGroupBox::indicator,QTreeWidget::indicator,QListWidget::indicator{
-width:12px;
-height:12px;
+QCheckBox::indicator, QGroupBox::indicator, QTreeWidget::indicator, QListWidget::indicator {
+    width: 12px;
+    height: 12px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #e8e9eb,stop:1 #f2f2f3);
+    border: 1px solid #aabfdf;
 }
 
-QCheckBox::indicator:unchecked,QGroupBox::indicator:unchecked,QTreeWidget::indicator:unchecked,QListWidget::indicator:unchecked{
-image:url(:/qss/office2013/checkbox_unchecked.png);
+QRadioButton::indicator {
+    width: 12px;
+    height: 12px;
+    background: #f4f4f4;
+    border: 1px solid #888a8b;
+    border-radius: 7px;
 }
 
-QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeWidget::indicator:checked,QListWidget::indicator:checked{
-image:url(:/qss/office2013/checkbox_checked.png);
+QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeWidget::indicator:hover, QListWidget::indicator:hover, QRadioButton::indicator:hover {
+    background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #faecc8,stop:1 #fdf6e4);
+    border: 1px solid #cf9037;
 }
 
-QRadioButton::indicator{
-width:12px;
-height:12px;
+QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeWidget::indicator:checked, QListWidget::indicator:checked {
+    image: url(:/qss/office2010/checkbox.png);
 }
 
-QRadioButton::indicator::unchecked{
-image:url(:/qss/office2013/radiobutton_unchecked.png);
+QRadioButton::indicator:checked {
+    image: url(:/qss/office2010/radiobutton.png);
 }
 
-QRadioButton::indicator::checked{
-image:url(:/qss/office2013/radiobutton_checked.png);
+QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeWidget::indicator:disabled, QListWidget::indicator:disabled, QRadioButton::indicator:disabled {
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #f8f8f9,stop:1 #fbfbfb);
+    border: 1px solid #b6b8ba;
 }
 
 QStatusBar{
