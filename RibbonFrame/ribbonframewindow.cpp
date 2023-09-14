@@ -191,6 +191,7 @@ public:
     QWidget* m_pDefaultWidget{};
 
     QString m_xmlPath;
+    bool m_inited{};
 
     MainFramePrivate()
     {
@@ -269,25 +270,30 @@ RibbonFrameWindow::~RibbonFrameWindow()
 
 void RibbonFrameWindow::InitUi()
 {
-    //加载功能模块
-    LoadUIFromXml(d->m_xmlPath);
+    if (!d->m_inited)
+    {
+        //加载功能模块
+        LoadUIFromXml(d->m_xmlPath);
 
-    //如果工具栏中有RadioButton，处理RadioButton的组
-    ApplyRadioButtonGroup();
+        //如果工具栏中有RadioButton，处理RadioButton的组
+        ApplyRadioButtonGroup();
 
-    //设置窗口标题
-    QString strTitle = (d->m_windowTitle.isEmpty() ? qApp->applicationName() : d->m_windowTitle);
+        //设置窗口标题
+        QString strTitle = (d->m_windowTitle.isEmpty() ? qApp->applicationName() : d->m_windowTitle);
 #ifdef QT_DEBUG
-    //Debug模式下，在标题栏中显示“Debug模式”
-    strTitle += QSTR(" (Debug 模式)");
+        //Debug模式下，在标题栏中显示“Debug模式”
+        strTitle += QSTR(" (Debug 模式)");
 #endif
-    setWindowTitle(strTitle);
+        setWindowTitle(strTitle);
 
-    //响应标签切换消息
-    connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
+        //响应标签切换消息
+        connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
 
-    //为“关于Qt”命令设置图标
-    SetItemIcon("AppAboutQt", QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton));
+        //为“关于Qt”命令设置图标
+        SetItemIcon("AppAboutQt", QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton));
+
+        d->m_inited = true;
+    }
 }
 
 
@@ -400,7 +406,7 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
     QFile file(xmlPath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {
-        QString strInfo = QSTR("打开MainFrame.xml文件失败！");
+        QString strInfo = QSTR("打开 xml 文件“%1”失败！").arg(xmlPath);
         QMessageBox::critical(this, QString(), strInfo);
         return;
     }

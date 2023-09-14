@@ -57,13 +57,13 @@ border-color:#00BB9E;
 background-color:#191919;
 }
 
-QWidget[video="true"] QLabel{
+QLabel[video="true"]{
 color:#FFFFFF;
 border:1px solid #535353;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #404244,stop:1 #404244);
 }
 
-QWidget[video="true"] QLabel:focus{
+QLabel[video="true"]:hover{
 border:1px solid #00BB9E;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #262829,stop:1 #262829);
 }
@@ -337,14 +337,14 @@ margin:0px;
 padding:3px 10px;
 }
 
-QMenuBar,QMenuBar:disabled{
+QMenuBar{
 color:#FFFFFF;
 background-color:#404244;
 border:1px solid #535353;
 margin:0px;
 }
 
-QMenu,QMenu:disabled{
+QMenu{
 color:#FFFFFF;
 background-color:#2B2B2B;
 border:1px solid #A0A0A0;

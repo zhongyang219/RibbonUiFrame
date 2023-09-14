@@ -296,7 +296,7 @@ color:#000000;
 background:#CDE8FF;
 }
 
-QCheckBox::indicator, QGroupBox::indicator, QTreeWidget::indicator, QListWidget::indicator, QRadioButton::indicator {
+QCheckBox::indicator, QGroupBox::indicator, QTreeView::indicator, QListView::indicator, QRadioButton::indicator {
     width: 12px;
     height: 12px;
     background: #ffffff;
@@ -307,20 +307,24 @@ QRadioButton::indicator {
     border-radius: 7px;
 }
 
-QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeWidget::indicator:hover, QListWidget::indicator:hover, QRadioButton::indicator:hover {
+QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeView::indicator:hover, QListView::indicator:hover, QRadioButton::indicator:hover {
     background: #d7e2f3;
     border: 1px solid #aabfdf;
 }
 
-QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeWidget::indicator:checked, QListWidget::indicator:checked {
+QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked {
     image: url(:/qss/office2013/checkbox_black.png);
+}
+
+QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate {
+    image: url(:/qss/office2013/checkbox_parcial_black.png);
 }
 
 QRadioButton::indicator:checked {
     image: url(:/qss/office2013/radiobutton_black.png);
 }
 
-QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeWidget::indicator:disabled, QListWidget::indicator:disabled, QRadioButton::indicator:disabled {
+QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeView::indicator:disabled, QListView::indicator:disabled, QRadioButton::indicator:disabled {
     background: #ffffff;
     border: 1px solid #eeeeee;
 }

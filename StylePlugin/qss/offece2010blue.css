@@ -300,7 +300,8 @@ background:#f3f8ff;
 
 QTabBar#MainFrameTabBar::tab {
 background:transparent;
-padding:0px 12px;
+padding:0px 10px;
+margin:0px 1px;
 }
 
 QTabBar#MainFrameTabBar::tab:selected{
@@ -335,29 +336,29 @@ QListView::item:hover, QListView::item:selected {
     border-radius:2px;
 }
 
-QTreeView:item:selected, QTreeView::item:hover {
+QTreeView::item:selected, QTreeView::item:hover {
     border-left-width: 0px;
     border-right-width: 0px;
 }
 
-QTreeView:item:first:selected, QTreeView::item:first:hover {
+QTreeView::item:first:selected, QTreeView::item:first:hover {
     border-left-width: 1px;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
 }
 
-QTreeView:item:last:selected, QTreeView::item:last:hover {
+QTreeView::item:last:selected, QTreeView::item:last:hover {
     border-right-width: 1px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
 }
 
-QTreeView:item:only-one:selected, QTreeView::item:only-one:hover {
+QTreeView::item:only-one:selected, QTreeView::item:only-one:hover {
     border-width: 1px;
     border-radius: 2px;
 }
 
-QCheckBox::indicator, QGroupBox::indicator, QTreeWidget::indicator, QListWidget::indicator {
+QCheckBox::indicator, QGroupBox::indicator, QTreeView::indicator, QListView::indicator {
     width: 12px;
     height: 12px;
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #e8e9eb,stop:1 #f2f2f3);
@@ -372,20 +373,24 @@ QRadioButton::indicator {
     border-radius: 7px;
 }
 
-QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeWidget::indicator:hover, QListWidget::indicator:hover, QRadioButton::indicator:hover {
+QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeView::indicator:hover, QListView::indicator:hover, QRadioButton::indicator:hover {
     background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #faecc8,stop:1 #fdf6e4);
     border: 1px solid #cf9037;
 }
 
-QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeWidget::indicator:checked, QListWidget::indicator:checked {
+QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked {
     image: url(:/qss/office2010/checkbox.png);
+}
+
+QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate {
+    image: url(:/qss/office2010/checkbox_parcial.png);
 }
 
 QRadioButton::indicator:checked {
     image: url(:/qss/office2010/radiobutton.png);
 }
 
-QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeWidget::indicator:disabled, QListWidget::indicator:disabled, QRadioButton::indicator:disabled {
+QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeView::indicator:disabled, QListView::indicator:disabled, QRadioButton::indicator:disabled {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #f8f8f9,stop:1 #fbfbfb);
     border: 1px solid #b6b8ba;
 }

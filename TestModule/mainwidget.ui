@@ -164,7 +164,10 @@
               <item row="1" column="4">
                <widget class="QCheckBox" name="ck3">
                 <property name="text">
-                 <string>复选框3</string>
+                 <string>三态复选框</string>
+                </property>
+                <property name="tristate">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -882,7 +885,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QTreeWidget" name="treeWidget">
+          <widget class="QTreeWidget" name="treeWidget_1">
            <column>
             <property name="text">
              <string>1</string>
@@ -892,6 +895,9 @@
             <property name="text">
              <string>新建项目</string>
             </property>
+            <property name="checkState">
+             <enum>PartiallyChecked</enum>
+            </property>
             <property name="icon">
              <iconset resource="resource.qrc">
               <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
@@ -899,6 +905,9 @@
             <item>
              <property name="text">
               <string>新建子项目1</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
              </property>
              <property name="icon">
               <iconset resource="resource.qrc">
@@ -908,6 +917,9 @@
             <item>
              <property name="text">
               <string>新建子项目2</string>
+             </property>
+             <property name="checkState">
+              <enum>Unchecked</enum>
              </property>
              <property name="icon">
               <iconset resource="resource.qrc">
@@ -919,6 +931,9 @@
             <property name="text">
              <string>新建项目2</string>
             </property>
+            <property name="checkState">
+             <enum>Checked</enum>
+            </property>
             <property name="icon">
              <iconset resource="resource.qrc">
               <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
@@ -928,6 +943,9 @@
             <property name="text">
              <string>新建项目3</string>
             </property>
+            <property name="checkState">
+             <enum>Checked</enum>
+            </property>
             <property name="icon">
              <iconset resource="resource.qrc">
               <normaloff>:/res/Template.png</normaloff>:/res/Template.png</iconset>
@@ -936,6 +954,9 @@
            <item>
             <property name="text">
              <string>新建项目4</string>
+            </property>
+            <property name="checkState">
+             <enum>Checked</enum>
             </property>
             <property name="icon">
              <iconset resource="resource.qrc">

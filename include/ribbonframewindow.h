@@ -104,6 +104,8 @@ protected:
     /**
      * @brief       创建一个用户自定义控件
      * @note        当xml中使用了UserWidget节点时此函数会被框架调用以创建自定义控件，模块中根据id创建对应的控件，并返回其指针。
+     *              注意：默认情况下此函数是在构造函数中调用的，因此如果派生类中重写了此函数，那么重写的函数将不会被调用。要解决这个问题，
+     *              需要将构造函数中的initUiManual设置为true，然后在派生类的构造函数中调用InitUi。
      * @param[in]	strId 控件的id
      * @param[in]	pParent 控件的父窗口
      * @return      创建的控件

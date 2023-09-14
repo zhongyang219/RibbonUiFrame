@@ -57,13 +57,13 @@ border-color:#8C4E78;
 background-color:#24243E;
 }
 
-QWidget[video="true"] QLabel{
+QLabel[video="true"]{
 color:#CAC9E3;
 border:1px solid #484775;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #454371,stop:1 #39395F);
 }
 
-QWidget[video="true"] QLabel:focus{
+QLabel[video="true"]:hover{
 border:1px solid #8C4E78;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #3F3D66,stop:1 #343457);
 }

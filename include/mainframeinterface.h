@@ -89,7 +89,18 @@ public:
      */
     virtual void* SendModuleMessage(const char* moduleName, const char* msgType, void* para1 = nullptr, void* para2 = nullptr) = 0;
 
+    /**
+     * @brief       从主窗口Ribbin工具栏获取一个命令
+     * @param[in]	strId: 命令的ID
+     * @return      命令的QAction指针
+     */
     virtual void* GetAcion(const char* strId) = 0;
+	
+    /**
+     * @brief       从主窗口Ribbin工具栏获取一个控件
+     * @param[in]	strId: 命令的ID
+     * @return      控件的QWidget指针（如果是Action则返回QToolButton的指针）
+     */
     virtual void* GetWidget(const char* strId) = 0;
 
     virtual void SetStatusBarText(const char* text, int timeOut) = 0;
