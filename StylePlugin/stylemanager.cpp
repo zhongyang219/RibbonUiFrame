@@ -83,22 +83,17 @@ void CStyleManager::CStyle::StyleDpiChange(QString &strStyle)
         //获取像素值
         QString strPixel = strStyle.mid(indexStart, index - indexStart);
         int pixel = strPixel.toInt();
-        //判断是否为radius属性
-        bool isRadius = false;
-        int indexLineStart = StringHelper::QStringFindLastOf(strStyle, "\r\n", indexStart);
-        if (indexLineStart >= 0)
-        {
-            QString strAttr = strStyle.mid(indexLineStart + 1, indexStart - indexLineStart - 1);
-            isRadius = strAttr.contains("radius");
-        }
         //对像素值进行DPI转换
         int newPixel = DPI(pixel);
-        //如果是radius属性，则放大后不超过8像素
-        if (isRadius)
+        //判断是否为QRadioButton的border-radius
+        //这里用于解决QRadioButton的border-radius在经过DPI放大后可能会超过其大小导教border-redius属性失效的问题
+        if (StringHelper::IsStringContainsForword(strStyle, "border-radius", '\n', index) && StringHelper::IsStringContainsForword(strStyle, "QRadioButton", '}', index))
         {
-            int radiusMax = (std::max)(pixel, DPI(8));
-            if (newPixel > radiusMax)
-                newPixel = radiusMax;
+            int radioBtnSize = DPI(12);         //QRadioButton的大小固定为12
+            if (radioBtnSize % 2 == 0)          //如果12像素经过DPI放大后的值为偶数。则border-radius的值应该为它的一半
+                newPixel = radioBtnSize / 2;
+            else                                //否则，border-radius的值应该为它加1的一半
+                newPixel = (radioBtnSize + 1) / 2;
         }
         //更新样式表
         QString strNewPixel = QString::number(newPixel);
