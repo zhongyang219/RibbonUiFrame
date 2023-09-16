@@ -23,7 +23,8 @@ HEADERS  += \
     ../include/mainframe_global.h \
     ../include/mainframeinterface.h \
     ../include/moduleinterface.h \
-    ../include/ribbonframewindow.h
+    ../include/ribbonframewindow.h \
+    ../include/ribbonuipredefine.h
 
 CONFIG(release, debug|release): {
     DESTDIR = $$PWD/../bin/release

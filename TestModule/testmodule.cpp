@@ -9,13 +9,7 @@
 #include <QListWidget>
 #include <QDateEdit>
 #include <QAction>
-
-#define QSTR(str) QString::fromWCharArray(L ## str)
-//将一个像素值根据当前屏幕DPI设置进行等比放大
-static int DPI(int x)
-{
-    return QGuiApplication::primaryScreen()->logicalDotsPerInch() * x / 96;
-}
+#include "ribbonuipredefine.h"
 
 TestModule::TestModule()
 {

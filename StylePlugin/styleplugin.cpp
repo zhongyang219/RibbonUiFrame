@@ -7,8 +7,8 @@
 #include "stylemanager.h"
 #include <QSettings>
 #include <QActionGroup>
+#include "ribbonuipredefine.h"
 
-#define QSTR(str) QString::fromWCharArray(L ## str)
 #define SCOPE_NAME "Apps By ZhongYang"
 
 StylePlugin::StylePlugin()

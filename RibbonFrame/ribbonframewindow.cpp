@@ -28,11 +28,8 @@
 #include <QTranslator>
 #include <QWidgetAction>
 #include <QListWidget>
-#include <QScreen>
 #include <QWindow>
-
-//使用Unicode方式从字面值创建QString对象，以避免中文出现乱码
-#define QSTR(str) QString::fromWCharArray(L ## str)
+#include "ribbonuipredefine.h"
 
 #define ICON_SIZE DPI(24)       //大图标的尺寸
 #define ICON_SIZE_S DPI(16)     //小图标的尺寸（工具栏上的小图标以及菜单图标）
@@ -59,13 +56,6 @@
 #endif
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//将一个像素值根据当前屏幕DPI设置进行等比放大
-static int DPI(int x)
-{
-    return QGuiApplication::primaryScreen()->logicalDotsPerInch() * x / 96;
-}
 
 //获取xml节点中一个属性的bool值
 static bool GetAttributeBool(const QDomElement& element, const QString& attr, bool defaultVal = false)

@@ -5,13 +5,7 @@
 #include <QApplication>
 #include "StringHelper.h"
 #include <QScreen>
-#define QSTR(str) QString::fromWCharArray(L ## str)
-
-//将一个像素值根据当前屏幕DPI设置进行等比放大
-static int DPI(int x)
-{
-    return QGuiApplication::primaryScreen()->logicalDotsPerInch() * x / 96;
-}
+#include "ribbonuipredefine.h"
 
 CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleType type, bool bParsePaletteColor)
     : m_strName(name),
@@ -25,7 +19,9 @@ CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleT
     if (file.open(QFile::ReadOnly))
     {
         m_strQss = QString::fromUtf8(file.readAll());
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
         StyleDpiChange(m_strQss);
+#endif
         if (bParsePaletteColor)
         {
             QString paletteColor = m_strQss.mid(20, 7);
