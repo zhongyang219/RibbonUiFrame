@@ -38,6 +38,9 @@ INCLUDEPATH += $$PWD/../include
 RESOURCES += \
     ribbonframe.qrc
 
+RC_FILE += \
+    RibbonFrame.rc
+
 #关闭“C4100：未引用的形参”警告
 win32-msvc* {
     QMAKE_CXXFLAGS *=  /wd"4100"

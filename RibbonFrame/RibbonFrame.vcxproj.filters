@@ -54,6 +54,9 @@
     <QtMoc Include="..\include\ribbonframewindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -62,10 +65,6 @@
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
-    
-    
-    
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbonOptionBtn.png">
@@ -77,5 +76,8 @@
     <None Include="res\styleForWindows.css">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RibbonFrame.rc" />
   </ItemGroup>
 </Project>

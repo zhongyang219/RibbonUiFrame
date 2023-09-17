@@ -44,3 +44,6 @@ unix {
 
 RESOURCES += \
     qss.qrc
+
+RC_FILE += \
+    StylePlugin.rc
