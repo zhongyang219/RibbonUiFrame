@@ -29,6 +29,7 @@
 #include <QWidgetAction>
 #include <QListWidget>
 #include <QWindow>
+#include <QFileInfo>
 #include "ribbonuipredefine.h"
 
 #define ICON_SIZE DPI(24)       //大图标的尺寸
@@ -130,10 +131,12 @@ static QString GetElementId(const QDomElement& element)
 }
 
 //从路径创建一个指定大小的图标
-static QIcon CreateIcon(const QString& strPath, int size)
+static QIcon CreateIcon(QString strPath, int size)
 {
-    if (!strPath.isEmpty() && strPath != qApp->applicationDirPath() + "/")
+    if (!strPath.isEmpty())
     {
+        if (!QFileInfo(strPath).isFile())
+            strPath = qApp->applicationDirPath() + '/' + strPath;
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
             return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
@@ -503,7 +506,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             //添加标签页
             QToolBar* pToolbar = new QToolBar();
             QString strIcon = nodeInfo.attribute("icon");
-            d->m_pTabWidget->addTab(pToolbar, CreateIcon(qApp->applicationDirPath() + "/" + strIcon, ICON_SIZE_S), strTabName);
+            d->m_pTabWidget->addTab(pToolbar, CreateIcon(strIcon, ICON_SIZE_S), strTabName);
             pToolbar->setObjectName("MainFrameToolbar");
             //从模块获取主窗口
             if (pModule != nullptr)
@@ -533,7 +536,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QPushButton* pMainFrameBtn = new QPushButton(menuName, d->m_pTabWidget);
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
-                pMainFrameBtn->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + strIcon, ICON_SIZE_S));
+                pMainFrameBtn->setIcon(CreateIcon(strIcon, ICON_SIZE_S));
 //#ifdef Q_OS_WIN
 //            pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
 //#endif
@@ -606,7 +609,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
             SetToolButtonStyle(pToolButton, childElement);
             InitMenuButton(pToolButton, childElement);
             QString menuIconPath = childElement.attribute("icon");
-            pToolButton->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + menuIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE));
+            pToolButton->setIcon(CreateIcon(menuIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE));
 
             //创建菜单并添加到工具栏按钮中
             QMenu* pMenu = LoadUiMenu(childElement);
@@ -728,7 +731,7 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
             SetToolButtonStyle(pToolButton, childElement, Qt::ToolButtonIconOnly);
             InitMenuButton(pToolButton, childElement);
             QString menuIconPath = childElement.attribute("icon");
-            pToolButton->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + menuIconPath, ICON_SIZE_S));
+            pToolButton->setIcon(CreateIcon(menuIconPath, ICON_SIZE_S));
 
             //创建菜单并添加到工具栏按钮中
             QMenu* pMenu = LoadUiMenu(childElement);
@@ -759,7 +762,7 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     }
     QString strTip = actionNodeInfo.attribute("tip");
 
-    QAction* pAction = new QAction(CreateIcon(qApp->applicationDirPath() + "/" + strIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE), strCmdName, this);
+    QAction* pAction = new QAction(CreateIcon(strIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE), strCmdName, this);
     pAction->setProperty("id", strCmdId);       //将命令的ID作为用户数据保存到QAction对象中
     pAction->setCheckable(bCheckable);
     pAction->setToolTip(strTip);
@@ -828,7 +831,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             QDomElement itemElement = itemElements.at(i).toElement();
             QString itemText = itemElement.attribute("name");
             QString iconPath = itemElement.attribute("icon");
-            pComboBox->addItem(CreateIcon(qApp->applicationDirPath() + "/" + iconPath, ICON_SIZE_S), itemText);
+            pComboBox->addItem(CreateIcon(iconPath, ICON_SIZE_S), itemText);
         }
         connect(pComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnItemIndexChanged(int)));
         connect(pComboBox, SIGNAL(editTextChanged(const QString&)), this, SLOT(OnEditTextChanged(const QString&)));
@@ -874,7 +877,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             QDomElement itemElement = itemElements.at(i).toElement();
             QString itemText = itemElement.attribute("name");
             QString iconPath = itemElement.attribute("icon");
-            pListWidget->addItem(new QListWidgetItem(CreateIcon(qApp->applicationDirPath() + "/" + iconPath, ICON_SIZE_S), itemText));
+            pListWidget->addItem(new QListWidgetItem(CreateIcon(iconPath, ICON_SIZE_S), itemText));
         }
         connect(pListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(OnItemIndexChanged(int)));
     }
@@ -938,7 +941,7 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
     QString strCmdName = element.attribute("name");
     QString strIconPath = element.attribute("icon");
     QMenu* pMenu = new QMenu(strCmdName);
-    pMenu->setIcon(CreateIcon(qApp->applicationDirPath() + "/" + strIconPath, ICON_SIZE_S));
+    pMenu->setIcon(CreateIcon(strIconPath, ICON_SIZE_S));
 #if (QT_VERSION >= QT_VERSION_CHECK(5,1,0))
     pMenu->setToolTipsVisible(true);
 #endif
