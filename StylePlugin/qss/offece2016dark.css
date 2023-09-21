@@ -194,12 +194,28 @@ QMenu::item:disabled {
 }
 
 QMenu::icon {
-margin-left: 14px;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    left: 4px;
 }
 
-QMenu::indicator{
-width:16px;
-height:16px;
+QMenu:icon:checked {
+    background: #505050;
+}
+
+QMenu::indicator {
+    width: 14px;
+    height: 14px;
+    left: 6px;
+}
+
+QMenu::indicator:checked {
+    image: url(:/qss/office2016/checkbox_white.png);
+}
+
+QMenu::indicator:checked:exclusive {
+    image: url(:/qss/office2016/radiobutton_white.png);
 }
 
 QMenu::item:selected {

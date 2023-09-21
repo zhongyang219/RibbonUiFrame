@@ -87,83 +87,89 @@ ActionGroup节点
 <root appName="RibbonUiFrame">
 	<MainWindow title="界面框架示例程序">
 		<!-- 右上角命令 -->
-		<Menu name="选项" icon="Image/more.png" btnStyle="compact">
-			<Action name="选项1" icon="Image/proj.png" id="OptionCommand1" checkable="true"/>
-			<Action name="选项2" icon="Image/edit.png" id="OptionCommand2"/>
-		</Menu>
-		<Action name="命令" icon="Image/ballicon.png" id="TestCommand" btnStyle="compact" checkable="true"/>
-		<Menu name="主题" icon="Image/theme.png" id="Theme" btnStyle="compact">
+		<Menu name="菜单测试" icon=":/res/Image/more.png" btnStyle="compact">
+			<Action name="带图标可选中" icon=":/res/Image/proj.png" id="MenuTestCommand1" checkable="true"/>
+			<Action name="带图标不可选中" icon=":/res/Image/edit.png" id="MenuTestCommand2"/>
+			<Action name="无图标可选中" id="MenuTestCommand3" checkable="true"/>
+      <Menu name="单选菜单" icon=":/res/Image/more.png">
+        <Action name="菜单项1" id="MenuRadioCommand1" radioGroup="3"/>
+        <Action name="菜单项2" id="MenuRadioCommand2" radioGroup="3"/>
+        <Action name="菜单项3" id="MenuRadioCommand3" radioGroup="3"/>
+      </Menu>
+    </Menu>
+		<Action name="命令" icon=":/res/Image/ballicon.png" id="TestCommand" btnStyle="compact" checkable="true"/>
+		<Menu name="主题" icon=":/res/Image/theme.png" id="Theme" btnStyle="compact">
 			<Action name="默认主题" id="DefaultStyle" checkable="true"/>
 		</Menu>
-		<Menu name="帮助" icon="Image/help.png" id="Help">
+		<Menu name="帮助" icon=":/res/Image/help.png" id="Help">
 			<Action name="关于" id="AppAbout" shortcut="F1"/>
 			<Action name="关于Qt" id="AppAboutQt"/>
 		</Menu>
 		<!-- 主菜单 -->
-		<SystemMenu name="文件" icon="Image/ballicon.png">
-			<Action name="命令1" icon="Image/User.png" id="TestCommand1"/>
-			<Action name="命令2" icon="Image/more.png" id="TestCommand2" checkable="true"/>
-			<Action name="命令3" icon="Image/proj.png" id="TestCommand3"/>
-			<Action name="命令4" icon="Image/edit.png" id="TestCommand4"/>
-			<Menu name="子菜单" icon="Image/more.png">
-				<Action name="命令3" icon="Image/proj.png" id="TestCommand3"/>
-				<Action name="命令4" icon="Image/edit.png" id="TestCommand4"/>
+		<SystemMenu name="文件" icon=":/res/Image/ballicon.png">
+			<Action name="命令1" icon=":/res/Image/User.png" id="TestCommand1"/>
+			<Action name="命令2" icon=":/res/Image/more.png" id="TestCommand2" checkable="true"/>
+			<Action name="命令3" icon=":/res/Image/proj.png" id="TestCommand3"/>
+			<Action name="命令4" icon=":/res/Image/edit.png" id="TestCommand4"/>
+			<Menu name="子菜单" icon=":/res/Image/more.png">
+				<Action name="命令3" icon=":/res/Image/proj.png" id="TestCommand3"/>
+				<Action name="命令4" icon=":/res/Image/edit.png" id="TestCommand4"/>
 			</Menu>
 			<Separator/>
-			<Menu name="帮助" icon="Image/help.png" id="Help">
+			<Menu name="帮助" icon=":/res/Image/help.png" id="Help">
 				<Action name="关于" id="AppAbout" shortcut="F1"/>
 				<Action name="关于Qt" id="AppAboutQt"/>
 			</Menu>
-			<Action name="退出" id="AppExit" icon="Image/Delete.png" shortcut="Ctrl+Q"/>
+			<Action name="退出" id="AppExit" icon=":/res/Image/Delete.png" shortcut="Ctrl+Q"/>
 			<Separator/>
 			<Label name="测试Label" id="Label0"/>
 			<ListWidget id="ListWidget1" horizontalArrange="true">
-				<Item name="项目1" icon="Image/edit.png"/>
-				<Item name="项目2" icon="Image/edit.png"/>
-				<Item name="项目3" icon="Image/edit.png"/>
-				<Item name="项目4" icon="Image/edit.png"/>
+				<Item name="项目1" icon=":/res/Image/edit.png"/>
+				<Item name="项目2" icon=":/res/Image/edit.png"/>
+				<Item name="项目3" icon=":/res/Image/edit.png"/>
+				<Item name="项目4" icon=":/res/Image/edit.png"/>
 			</ListWidget>
 			<ToolBar>
-				<Action name="选项1" icon="Image/proj.png" id="OptionCommand1" checkable="true" btnStyle="compact"/>
-				<Action name="选项2" icon="Image/edit.png" id="OptionCommand2" btnStyle="compact"/>
-				<Action name="退出" id="AppExit" icon="Image/Delete.png" shortcut="Ctrl+Q" btnStyle="compact"/>
+				<Action name="选项1" icon=":/res/Image/proj.png" id="OptionCommand1" checkable="true" btnStyle="compact"/>
+				<Action name="选项2" icon=":/res/Image/edit.png" id="OptionCommand2" btnStyle="compact"/>
+				<Action name="退出" id="AppExit" icon=":/res/Image/Delete.png" shortcut="Ctrl+Q" btnStyle="compact"/>
 			</ToolBar>
 		</SystemMenu>
 		<!-- 快速启动栏 -->
 		<QuickAccessBar>
-			<Action name="命令1" icon="Image/User.png" id="TestCommand1"/>
-			<Action name="命令2" icon="Image/more.png" id="TestCommand2" checkable="true"/>
+			<Action name="命令1" icon=":/res/Image/User.png" id="TestCommand1"/>
+			<Action name="命令2" icon=":/res/Image/more.png" id="TestCommand2" checkable="true"/>
 			<Separator/>
-			<Menu name="命令菜单" icon="Image/edit.png" id="CommandMenu1" menuBtn="true">
-				<Action name="命令11" icon="Image/edit.png" id="TestCommand11"/>
-				<Action name="命令12" icon="Image/proj.png" id="TestCommand12"/>
+			<Menu name="命令菜单" icon=":/res/Image/edit.png" id="CommandMenu1" menuBtn="true">
+				<Action name="命令11" icon=":/res/Image/edit.png" id="TestCommand11"/>
+				<Action name="命令12" icon=":/res/Image/proj.png" id="TestCommand12"/>
 			</Menu>
 		</QuickAccessBar>
 		<!-- Ribbin标签 -->
-		<Page name="模块1" icon="Image/module.png" modulePath="./TestModule">
-			<Action name="命令1" icon="Image/User.png" id="TestCommand1"/>
-			<Action name="命令2" icon="Image/more.png" id="TestCommand2" checkable="true" smallIcon="true"/>
-			<Action name="命令3" icon="Image/proj.png" id="TestCommand3" smallIcon="true"/>
+		<Page name="模块1" icon=":/res/Image/module.png" modulePath="./TestModule">
+			<Action name="命令1" icon=":/res/Image/User.png" id="TestCommand1"/>
+			<Action name="命令2" icon=":/res/Image/more.png" id="TestCommand2" checkable="true" smallIcon="true"/>
+			<Action name="命令3" icon=":/res/Image/proj.png" id="TestCommand3" smallIcon="true"/>
 			<ActionGroup name="命令组1" id="Group1Option" optionBtn="true">
-				<Action name="命令4" icon="Image/edit.png" id="TestCommand4" smallIcon="true"/>
-				<Action name="命令5" icon="Image/edit.png" id="TestCommand5" smallIcon="true"/>
-				<Menu name="菜单" icon="Image/proj.png">
-					<Action name="命令6" icon="Image/proj.png" id="TestCommand6"/>
+				<Action name="命令4" icon=":/res/Image/edit.png" id="TestCommand4" smallIcon="true"/>
+				<Action name="命令5" icon=":/res/Image/edit.png" id="TestCommand5" smallIcon="true"/>
+				<Menu name="菜单" icon=":/res/Image/proj.png">
+					<Action name="命令6" icon=":/res/Image/proj.png" id="TestCommand6"/>
 				</Menu>
 			</ActionGroup>
-			<Menu name="下拉菜单" icon="Image/more.png" id="DorpDownMenu1" smallIcon="true">
-				<Action name="命令7" icon="Image/proj.png" id="TestCommand7"/>
-				<Action name="命令8" icon="Image/edit.png" id="TestCommand8"/>
-				<Menu name="子菜单" icon="Image/more.png">
-					<Action name="命令9" icon="Image/proj.png" id="TestCommand9"/>
-					<Action name="命令19" icon="Image/edit.png" id="TestCommand10"/>
+			<Menu name="下拉菜单" icon=":/res/Image/more.png" id="DorpDownMenu1" smallIcon="true">
+				<Action name="命令7" icon=":/res/Image/proj.png" id="TestCommand7"/>
+				<Action name="命令8" icon=":/res/Image/edit.png" id="TestCommand8"/>
+				<Menu name="子菜单" icon=":/res/Image/more.png">
+					<Action name="命令9" icon=":/res/Image/proj.png" id="TestCommand9"/>
+					<Action name="命令19" icon=":/res/Image/edit.png" id="TestCommand10"/>
 				</Menu>
 			</Menu>
-			<Menu name="命令菜单" icon="Image/edit.png" id="CommandMenu1" smallIcon="true" menuBtn="true">
-				<Action name="命令11" icon="Image/edit.png" id="TestCommand11"/>
-				<Action name="命令12" icon="Image/proj.png" id="TestCommand12"/>
+			<Menu name="命令菜单" icon=":/res/Image/edit.png" id="CommandMenu1" smallIcon="true" menuBtn="true">
+				<Action name="命令11" icon=":/res/Image/edit.png" id="TestCommand11"/>
+				<Action name="命令12" icon=":/res/Image/proj.png" id="TestCommand12"/>
 			</Menu>
-			<Action name="命令13（禁用）" icon="Image/proj.png" id="TestCommand13"/>
+			<Action name="命令13（禁用）" icon=":/res/Image/proj.png" id="TestCommand13"/>
 			<ActionGroup name="命令组2">
 				<Label name="标签1" id="Label1"/>
 				<LineEdit name="单行编辑框" id="LineEdit1"/>
@@ -171,8 +177,8 @@ ActionGroup节点
 			</ActionGroup>
 			<ActionGroup name="命令组3">
 				<ComboBox id="ComboBox1">
-					<Item name="下拉列表项1" icon="Image/edit.png"/>
-					<Item name="下拉列表项2" icon="Image/edit.png"/>
+					<Item name="下拉列表项1" icon=":/res/Image/edit.png"/>
+					<Item name="下拉列表项2" icon=":/res/Image/edit.png"/>
 				</ComboBox>
 				<CheckBox name="复选框" id="CheckBox1"/>
 				<RadioButton name="单选按钮1" id="RadioButton1" radioGroup="1"/>
@@ -185,9 +191,9 @@ ActionGroup节点
 			</ActionGroup>
 		</Page>
 
-		<Page name="MFC测试模块" icon="Image/mfc.png" modulePath="./MFCModule">
-			<Action name="选项1" icon="Image/proj.png" id="OptionCommand1" checkable="true"/>
-			<Action name="选项2" icon="Image/edit.png" id="OptionCommand2"/>
+		<Page name="MFC测试模块" icon=":/res/Image/mfc.png" modulePath="./MFCModule">
+			<Action name="选项1" icon=":/res/Image/proj.png" id="OptionCommand1" checkable="true"/>
+			<Action name="选项2" icon=":/res/Image/edit.png" id="OptionCommand2"/>
 		</Page>
 	</MainWindow>
 

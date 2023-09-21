@@ -321,5 +321,8 @@
         <file>qss/office2016/checkbox_parcial_white.png</file>
         <file>qss/office2013/checkbox_parcial_black.png</file>
         <file>qss/office2010/checkbox_parcial.png</file>
+        <file>qss/office2016/leftArrow.png</file>
+        <file>qss/office2016/rightArrow.png</file>
+        <file>qss/office2016/upArrow.png</file>
     </qresource>
 </RCC>

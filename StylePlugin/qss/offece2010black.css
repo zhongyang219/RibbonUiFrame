@@ -155,7 +155,7 @@ QToolButton:checked,QPushButton:checked {
     padding: 1px;
 }
 
-QMenu,QMenu:disabled{
+QMenu{
 background-color:#FFFFFF;
 border:1px solid #B6B6B6;
 padding:2px 2px;
@@ -169,19 +169,44 @@ height: 20px;
 }
 
 QMenu::icon {
-margin-left: 14px;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    left: 4px;
+}
+
+QMenu:icon:checked {
+    border: 1px solid #f29536;
+    border-radius: 2px;
+    background: #fcf1c2;
+    left: 3px;
 }
 
 QMenu::indicator{
-width:16px;
-height:16px;
+    width:14px;
+    height:14px;
+    padding: 3px;
+    left: 4px;
 }
 
-QMenu::item:selected{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fbedb3,stop:0.5 #fae289,stop:1 #fcf8d9);
-border:1px solid #f1ca58;
-border-radius:2px;
+QMenu::indicator:checked {
+    image: url(:/qss/office2010/checkbox.png);
+    border: 1px solid #f29536;
+    border-radius: 2px;
+    background: #fcf1c2;
+    left: 3px;
 }
+
+QMenu::indicator:checked:exclusive{
+    image: url(:/qss/office2010/radiobutton.png);
+}
+
+QMenu::item:selected {
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fbedb3,stop:0.5 #fae289,stop:1 #fcf8d9);
+    border: 1px solid #f1ca58;
+    border-radius: 2px;
+}
+
 QMenu::separator{
 height:1px;
 background:#D4D4D4;

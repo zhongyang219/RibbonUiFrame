@@ -30,6 +30,7 @@
 #include <QListWidget>
 #include <QWindow>
 #include <QFileInfo>
+#include <QActionGroup>
 #include "ribbonuipredefine.h"
 
 #define ICON_SIZE DPI(24)       //大图标的尺寸
@@ -1071,9 +1072,19 @@ void RibbonFrameWindow::ApplyRadioButtonGroup()
     for (auto iter = d->m_cmdRadioBtnGroutMap.begin(); iter != d->m_cmdRadioBtnGroutMap.end(); ++iter)
     {
         //为所有具有相同命令组的RadioButton对象创建按钮组。
+        QActionGroup* actionGroup = nullptr;
         QButtonGroup* btnGroup = nullptr;
         Q_FOREACH(const QString& id, iter.value())
         {
+            QAction* pAction = _GetAction(id.toUtf8().constData());
+            if (pAction != nullptr)
+            {
+                if (actionGroup == nullptr)
+                    actionGroup = new QActionGroup(this);
+                actionGroup->addAction(pAction);
+                continue;
+            }
+
             QRadioButton* pRadioBtn = qobject_cast<QRadioButton*>(_GetWidget(id.toUtf8().constData()));
             if (pRadioBtn != nullptr)
             {

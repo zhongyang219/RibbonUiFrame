@@ -5,7 +5,8 @@
 
 #define QSTR(str) QString::fromWCharArray(L ## str)
 
-MainWindow::MainWindow(QWidget *parent) : RibbonFrameWindow(parent)
+MainWindow::MainWindow(QWidget *parent)
+    : RibbonFrameWindow(parent, ":/res/MainFrame.xml")
 {
     QIcon appIcon(":/res/logo.png");
     setWindowIcon(appIcon);

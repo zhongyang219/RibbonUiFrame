@@ -2,5 +2,16 @@
     <qresource prefix="/">
         <file>res/logo.ico</file>
         <file>res/logo.png</file>
+        <file>res/MainFrame.xml</file>
+        <file>res/Image/ballicon.png</file>
+        <file>res/Image/Delete.png</file>
+        <file>res/Image/edit.png</file>
+        <file>res/Image/help.png</file>
+        <file>res/Image/mfc.png</file>
+        <file>res/Image/module.png</file>
+        <file>res/Image/more.png</file>
+        <file>res/Image/proj.png</file>
+        <file>res/Image/theme.png</file>
+        <file>res/Image/User.png</file>
     </qresource>
 </RCC>

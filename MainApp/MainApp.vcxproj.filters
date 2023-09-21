@@ -50,16 +50,12 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    
-    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <None Include="res\logo.ico">
@@ -71,5 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\res.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\MainFrame.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

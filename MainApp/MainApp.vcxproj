@@ -224,6 +224,9 @@
   <ItemGroup>
     <ResourceCompile Include="res\res.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\MainFrame.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
