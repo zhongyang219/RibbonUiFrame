@@ -538,9 +538,6 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
                 pMainFrameBtn->setIcon(CreateIcon(strIcon, ICON_SIZE_S));
-//#ifdef Q_OS_WIN
-//            pMainFrameBtn->setStyleSheet(QString("border:none;min-width:%1px;min-height:%2px;").arg(DPI(72)).arg(DPI(24)));
-//#endif
             d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
 
             //为按钮添加菜单
@@ -753,6 +750,7 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     QString strCmdName = actionNodeInfo.attribute("name");
     QString strIconPath = actionNodeInfo.attribute("icon");
     bool bCheckable = GetAttributeBool(actionNodeInfo,"checkable");
+    bool checked = GetAttributeBool(actionNodeInfo,"checked");
     QString strRadioGroup = actionNodeInfo.attribute("radioGroup");
     QString strShortcut = actionNodeInfo.attribute("shortcut");
     bool smallIcon = IsSmallIcon(actionNodeInfo);
@@ -766,6 +764,7 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     QAction* pAction = new QAction(CreateIcon(strIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE), strCmdName, this);
     pAction->setProperty("id", strCmdId);       //将命令的ID作为用户数据保存到QAction对象中
     pAction->setCheckable(bCheckable);
+    pAction->setChecked(checked);
     pAction->setToolTip(strTip);
     pAction->setShortcut(QKeySequence(strShortcut));
 
@@ -843,6 +842,8 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         smallIcon = true;
         pCheckBox->setText(strName);
         pCheckBox->setProperty("id", strId);
+        bool checked = GetAttributeBool(element,"checked");
+        pCheckBox->setChecked(checked);
         connect(pCheckBox, SIGNAL(clicked(bool)), this, SLOT(OnActionTriggerd(bool)));
         pUiWidget = pCheckBox;
     }
@@ -857,6 +858,8 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             d->m_cmdRadioBtnGroutMap[strRadioGroup.toInt()].push_back(strId);
         }
         pRadioButton->setProperty("id", strId);
+        bool checked = GetAttributeBool(element,"checked");
+        pRadioButton->setChecked(checked);
         connect(pRadioButton, SIGNAL(clicked(bool)), this, SLOT(OnActionTriggerd(bool)));
         pUiWidget = pRadioButton;
     }
@@ -932,6 +935,12 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         QString strTip = element.attribute("tip");
         if (!strTip.isEmpty())
             pUiWidget->setToolTip(strTip);
+        int width = element.attribute("width").toInt();
+        int height = element.attribute("height").toInt();
+        if (width > 0)
+            pUiWidget->setFixedWidth(DPI(width));
+        if (height > 0)
+            pUiWidget->setFixedHeight(DPI(height));
     }
     return pUiWidget;
 }

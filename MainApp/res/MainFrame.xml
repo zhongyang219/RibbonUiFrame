@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
 界面xml文件说明：
 root节点：
@@ -88,11 +88,11 @@ ActionGroup节点
 	<MainWindow title="界面框架示例程序">
 		<!-- 右上角命令 -->
 		<Menu name="菜单测试" icon=":/res/Image/more.png" btnStyle="compact">
-			<Action name="带图标可选中" icon=":/res/Image/proj.png" id="MenuTestCommand1" checkable="true"/>
+                        <Action name="带图标可选中" icon=":/res/Image/proj.png" id="MenuTestCommand1" checkable="true" checked="true"/>
 			<Action name="带图标不可选中" icon=":/res/Image/edit.png" id="MenuTestCommand2"/>
-			<Action name="无图标可选中" id="MenuTestCommand3" checkable="true"/>
+                        <Action name="无图标可选中" id="MenuTestCommand3" checkable="true" checked="true"/>
       <Menu name="单选菜单" icon=":/res/Image/more.png">
-        <Action name="菜单项1" id="MenuRadioCommand1" radioGroup="3"/>
+        <Action name="菜单项1" id="MenuRadioCommand1" radioGroup="3" checked="true"/>
         <Action name="菜单项2" id="MenuRadioCommand2" radioGroup="3"/>
         <Action name="菜单项3" id="MenuRadioCommand3" radioGroup="3"/>
       </Menu>
@@ -172,8 +172,8 @@ ActionGroup节点
 			<Action name="命令13（禁用）" icon=":/res/Image/proj.png" id="TestCommand13"/>
 			<ActionGroup name="命令组2">
 				<Label name="标签1" id="Label1"/>
-				<LineEdit name="单行编辑框" id="LineEdit1"/>
-				<TextEdit name="多行编辑框" id="TextEdit1"/>
+                                <LineEdit name="单行编辑框" id="LineEdit1" width="60"/>
+                                <TextEdit name="多行编辑框" id="TextEdit1" width="80"/>
 			</ActionGroup>
 			<ActionGroup name="命令组3">
 				<ComboBox id="ComboBox1">
