@@ -103,6 +103,13 @@ public:
      */
     virtual void* GetWidget(const char* strId) = 0;
 
+    /**
+     * @brief       从主窗口Ribbin工具栏获取一个菜单
+     * @param[in]	strId: 菜单的ID
+     * @return      菜单的QMenu指针
+     */
+    virtual void* GetMenu(const char* strId) = 0;
+
     virtual void SetStatusBarText(const char* text, int timeOut) = 0;
 };
 

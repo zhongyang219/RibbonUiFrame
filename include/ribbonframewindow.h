@@ -89,6 +89,7 @@ protected:
 
     QAction *_GetAction(const QString& strCmd) const;
     QWidget *_GetWidget(const QString& strCmd) const;
+    QMenu *_GetMenu(const QString& strCmd) const;
     void SetItemIcon(const QString& strId, const QIcon& icon);
 
     void SetTabIndex(int index);
@@ -132,6 +133,7 @@ public:
     virtual void SetItemIcon(const char* strId, const char* iconPath, int iconSize) override;
     virtual void* GetAcion(const char* strId) override;
     virtual void* GetWidget(const char* strId) override;
+    virtual void* GetMenu(const char* strId) override;
     virtual void SetStatusBarText(const char* text, int timeOut) override;
     virtual int GetItemCurIndex(const char* strId) override;
     virtual void SetItemCurIIndex(const char* strId, int index) override;

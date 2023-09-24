@@ -170,6 +170,7 @@ public:
 
     QMap<QString, QAction*> m_actionMap;    //保存命令Id和Action的对应关系
     QMap<QString, QWidget*> m_widgetMap;    //保存命令Id和Widget的对应关系
+    QMap<QString, QMenu*> m_menuMap;        //保存命令Id和菜单的对应关系
     QMap<int, QStringList> m_cmdRadioBtnGroutMap;           //保存RadioButton或命令作为单选按钮的命令组
 
     QTabWidget* m_pTabWidget{};           //主窗口的TabWidget
@@ -951,6 +952,9 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
     QString strCmdName = element.attribute("name");
     QString strIconPath = element.attribute("icon");
     QMenu* pMenu = new QMenu(strCmdName);
+    QString strId = GetElementId(element);
+    if (!strId.isEmpty())
+        d->m_menuMap[strId] = pMenu;
     pMenu->setIcon(CreateIcon(strIconPath, ICON_SIZE_S));
 #if (QT_VERSION >= QT_VERSION_CHECK(5,1,0))
     pMenu->setToolTipsVisible(true);
@@ -1155,6 +1159,14 @@ QWidget *RibbonFrameWindow::_GetWidget(const QString& strCmd) const
     return nullptr;
 }
 
+QMenu *RibbonFrameWindow::_GetMenu(const QString &strCmd) const
+{
+    auto iter = d->m_menuMap.find(strCmd);
+    if (iter != d->m_menuMap.end())
+        return iter.value();
+    return nullptr;
+}
+
 void RibbonFrameWindow::SetItemIcon(const QString& strId, const QIcon& icon)
 {
     QAction* pAction = _GetAction(strId);
@@ -1341,12 +1353,17 @@ void RibbonFrameWindow::SetItemIcon(const char* strId, const char* iconPath, int
 
 void* RibbonFrameWindow::GetAcion(const char* strId)
 {
-    return _GetAction(strId);
+    return _GetAction(QString::fromUtf8(strId));
 }
 
 void* RibbonFrameWindow::GetWidget(const char* strId)
 {
-    return _GetWidget(strId);
+    return _GetWidget(QString::fromUtf8(strId));
+}
+
+void *RibbonFrameWindow::GetMenu(const char *strId)
+{
+    return _GetMenu(QString::fromUtf8(strId));
 }
 
 void RibbonFrameWindow::SetStatusBarText(const char* text, int timeOut)
