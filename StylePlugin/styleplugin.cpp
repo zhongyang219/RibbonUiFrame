@@ -8,8 +8,7 @@
 #include <QSettings>
 #include <QActionGroup>
 #include "ribbonuipredefine.h"
-
-#define SCOPE_NAME "Apps By ZhongYang"
+#include "ribbonuipredefine.h"
 
 StylePlugin::StylePlugin()
 {
@@ -154,6 +153,8 @@ void StylePlugin::SetStyle(const QString &styleName)
             CStyleManager::Instance()->ApplyStyleSheet(styleName);
         }
         m_curStyle = styleName;
+        QByteArray curStyleData = m_curStyle.toUtf8();
+        m_pMainFrame->SendModuleMessage(nullptr, MODULE_MSG_StyleChanged, (void*)curStyleData.constData());
     }
 }
 

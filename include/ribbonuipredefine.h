@@ -4,6 +4,19 @@
 //使用Unicode方式从字面值创建QString对象，以避免中文出现乱码
 #define QSTR(str) QString::fromWCharArray(L ## str)
 
+#define SCOPE_NAME "Apps By ZhongYang"
+
+//命令id定义
+#define CMD_AppExit "AppExit"
+#define CMD_AppAboutQt "AppAboutQt"
+#define CMD_RibbonPin "RibbonPin"
+
+//模块消息定义
+#define MODULE_MSG_GetStyleType "GetStyleType"      //获取当前主题样式类别，向StylePlugin模块发送，返回CStyleManager::StyleType类型
+#define MODULE_MSG_GetStyleName "GetStyleName"      //获取当前主题样式名称，向StylePlugin模块发送，返回const char*类型
+#define MODULE_MSG_IsDarkTheme "IsDarkTheme"        //获取当前主题是否为深色主题，向StylePlugin模块发送，返回bool类型
+#define MODULE_MSG_StyleChanged "StyleChanged"      //由StylePlugin模块发出，通知主题样式已改变。para1：样式名称，const char*类型
+
 #include <QGuiApplication>
 #include <QScreen>
 

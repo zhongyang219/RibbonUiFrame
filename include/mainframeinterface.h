@@ -82,7 +82,7 @@ public:
 
     /**
      * @brief       向一个模块发送消息
-     * @param[in]	moduleName 模块名称
+     * @param[in]	moduleName 模块名称（如果为nullptr或空字符，则向所有模块发送）
      * @param[in]	msgType 消息类型
      * @param[in]	para1 para2 可选参数
      * @return      返回的消息

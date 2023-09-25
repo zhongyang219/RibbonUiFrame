@@ -34,10 +34,13 @@ signals:
 
 private slots:
     void OnTabIndexChanged(int index);      //响应标签切换
+    void OnTabBarClicked(int index);
+    void OnTabBarDoubleClicked(int index);
     void OnActionTriggerd(bool checked);    //响应任意一个工具栏中的按钮被点击
     void OnItemIndexChanged(int index);     //响应工具栏中ComboBox或ListWidget当前项改变
     void OnEditTextChanged(const QString& text);    //响应LineEdit文本改变
     void OnEditTextChanged();    //响应TextEdit文本改变
+    void FocusChanged(QWidget* old, QWidget* now);
 
 private:
     void LoadUIFromXml(QString xmlPath);           //从xml文件加载界面
@@ -64,6 +67,9 @@ private:
     void ApplyRadioButtonGroup();
 
     QWidget* GetModuleMainWindow(IModule* pModule);  //获取模块的主窗口
+
+    void SetRibbonPin(bool pin);
+    void ShowHideRibbon(bool show);
 
 protected:
 

@@ -31,6 +31,8 @@
 #include <QWindow>
 #include <QFileInfo>
 #include <QActionGroup>
+#include <QSettings>
+#include <QTimer>
 #include "ribbonuipredefine.h"
 
 #define ICON_SIZE DPI(24)       //大图标的尺寸
@@ -184,9 +186,12 @@ public:
     QString m_windowTitle;
     QMap<WId, QWidget*> m_mfcWindowMap;  //保存已加载过的MFC窗口
     QWidget* m_pDefaultWidget{};
+    QAction* actionPinRibbon{};
 
     QString m_xmlPath;
     bool m_inited{};
+    bool ribbonPin{ true };
+    bool ribbonShow{ true };
 
     MainFramePrivate()
     {
@@ -222,6 +227,14 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     d->m_pTabWidget->setStyleSheet(QString("QTabBar::tab{height:%1px}").arg(DPI(26)));     //设置tab标签的高度
     pLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
 
+    //为功能区添加一个右键菜单
+    d->m_pTabWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    d->actionPinRibbon = new QAction(QSTR("显示功能区"));
+    d->actionPinRibbon->setCheckable(true);
+    d->actionPinRibbon->setProperty("id", CMD_RibbonPin);
+    connect(d->actionPinRibbon, SIGNAL(triggered(bool)), this, SLOT(OnActionTriggerd(bool)));
+    d->m_pTabWidget->addAction(d->actionPinRibbon);
+
     //添加状态栏
     setStatusBar(new QStatusBar(this));
 
@@ -250,6 +263,10 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
 
 RibbonFrameWindow::~RibbonFrameWindow()
 {
+    //保存设置
+    QSettings settings(SCOPE_NAME, qApp->applicationName());
+    settings.setValue("ribbonPin", d->ribbonPin);
+
     for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
     {
         if (iter.value() != nullptr)
@@ -283,9 +300,20 @@ void RibbonFrameWindow::InitUi()
 
         //响应标签切换消息
         connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
+        connect(d->m_pTabWidget, SIGNAL(tabBarClicked(int)), this, SLOT(OnTabBarClicked(int)));
+        connect(d->m_pTabWidget, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(OnTabBarDoubleClicked(int)));
+
+        QObject::connect(qApp, &QApplication::focusChanged, this, &RibbonFrameWindow::FocusChanged);
 
         //为“关于Qt”命令设置图标
         SetItemIcon("AppAboutQt", QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton));
+
+        //设置“固定功能区”命令的选中状态
+        QSettings settings(SCOPE_NAME, qApp->applicationName());
+        d->ribbonPin = settings.value("ribbonPin", true).toBool();
+        d->actionPinRibbon->setChecked(d->ribbonPin);
+        SetItemChecked(CMD_RibbonPin, d->ribbonPin);
+        QTimer::singleShot(100, [this](){ SetRibbonPin(d->ribbonPin); });
 
         d->m_inited = true;
     }
@@ -313,6 +341,21 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
     {
         d->m_pStackedWidget->setCurrentWidget(d->m_pDefaultWidget);
     }
+}
+
+void RibbonFrameWindow::OnTabBarClicked(int index)
+{
+    Q_UNUSED(index)
+    if (!d->ribbonPin)
+    {
+//        ShowHideRibbon(true);
+    }
+}
+
+void RibbonFrameWindow::OnTabBarDoubleClicked(int index)
+{
+    Q_UNUSED(index)
+    SetRibbonPin(!d->ribbonPin);
 }
 
 void RibbonFrameWindow::OnActionTriggerd(bool checked)
@@ -392,6 +435,15 @@ void RibbonFrameWindow::OnEditTextChanged()
             module->OnItemChanged(strCmdId.toUtf8().constData(), 0, strText.toUtf8().constData());
     }
     OnItemChanged(strCmdId, 0, strText);
+}
+
+void RibbonFrameWindow::FocusChanged(QWidget *old, QWidget *now)
+{
+//    Q_UNUSED(old)
+//    if(now != nullptr && now != this && !d->ribbonPin && d->ribbonShow)
+//    {
+//        ShowHideRibbon(false);
+//    }
 }
 
 void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
@@ -1067,14 +1119,19 @@ IModule* RibbonFrameWindow::CurrentModule() const
 bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
 {
     Q_UNUSED(checked)
-    if (strCmd == "AppExit")
+    if (strCmd == CMD_AppExit)
     {
         close();
         return true;
     }
-    else if (strCmd == "AppAboutQt")
+    else if (strCmd == CMD_AppAboutQt)
     {
         QMessageBox::aboutQt(this);
+        return true;
+    }
+    else if (strCmd == CMD_RibbonPin)
+    {
+        SetRibbonPin(checked);
         return true;
     }
     return false;
@@ -1128,6 +1185,27 @@ QWidget *RibbonFrameWindow::GetModuleMainWindow(IModule *pModule)
         pWidget = (QWidget*)pModule->GetMainWindow();
     }
     return pWidget;
+}
+
+void RibbonFrameWindow::SetRibbonPin(bool pin)
+{
+    d->ribbonPin = pin;
+    SetItemChecked(CMD_RibbonPin, pin);
+    d->actionPinRibbon->setChecked(pin);
+    ShowHideRibbon(pin);
+}
+
+void RibbonFrameWindow::ShowHideRibbon(bool show)
+{
+    d->ribbonShow = show;
+    if (show)
+    {
+        d->m_pTabWidget->setMaximumHeight(QWIDGETSIZE_MAX);
+    }
+    else
+    {
+        d->m_pTabWidget->setMaximumHeight(d->m_pTabWidget->tabBar()->height() + DPI(1));
+    }
 }
 
 void RibbonFrameWindow::closeEvent(QCloseEvent* event)
@@ -1277,9 +1355,30 @@ bool RibbonFrameWindow::IsItemChecked(const char *strCmd)
 
 void *RibbonFrameWindow::SendModuleMessage(const char *moduleName, const char *msgType, void *para1, void *para2)
 {
-    IModule* pModule = GetModule(moduleName);
-    if (pModule != nullptr)
-        return pModule->OnMessage(msgType, para1, para2);
+    //响应主题变化
+    if (QString::fromUtf8(msgType) == MODULE_MSG_StyleChanged)
+    {
+        //主题变化时，如果功能区未显示，则重新调用ShowHideRibbon函数以更新ribbon标签的高度
+        if (!d->ribbonPin)
+            SetRibbonPin(false);
+    }
+
+    //如果模块名为空，则向所有模块发送
+    if (moduleName == nullptr || moduleName[0] == '\0')
+    {
+        Q_FOREACH(IModule* pModule, d->m_moduleNameMap)
+        {
+            if (pModule != nullptr)
+                return pModule->OnMessage(msgType, para1, para2);
+        }
+    }
+    //否则向指定模块发送
+    else
+    {
+        IModule* pModule = GetModule(moduleName);
+        if (pModule != nullptr)
+            return pModule->OnMessage(msgType, para1, para2);
+    }
     return nullptr;
 }
 

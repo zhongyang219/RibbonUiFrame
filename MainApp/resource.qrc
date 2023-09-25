@@ -13,5 +13,6 @@
         <file>res/Image/proj.png</file>
         <file>res/Image/theme.png</file>
         <file>res/Image/User.png</file>
+        <file>res/Image/pin.png</file>
     </qresource>
 </RCC>
