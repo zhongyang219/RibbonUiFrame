@@ -190,8 +190,9 @@ public:
 
     QString m_xmlPath;
     bool m_inited{};
-    bool ribbonPin{ true };
-    bool ribbonShow{ true };
+    bool ribbonPin{ true };     //“固定功能区”是否选中
+    bool ribbonShow{ true };    //功能区是否显示
+    bool tabbarClicked{ false };    //点击ribbon标签后的500毫秒内为ture，其他时候为false
 
     MainFramePrivate()
     {
@@ -345,17 +346,19 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
 
 void RibbonFrameWindow::OnTabBarClicked(int index)
 {
+    d->tabbarClicked = true;
+    QTimer::singleShot(500, [this](){ d->tabbarClicked = false; });
     Q_UNUSED(index)
     if (!d->ribbonPin)
     {
-//        ShowHideRibbon(true);
+        ShowHideRibbon(true);
     }
 }
 
 void RibbonFrameWindow::OnTabBarDoubleClicked(int index)
 {
     Q_UNUSED(index)
-    SetRibbonPin(!d->ribbonPin);
+//    SetRibbonPin(!d->ribbonPin);
 }
 
 void RibbonFrameWindow::OnActionTriggerd(bool checked)
@@ -439,11 +442,12 @@ void RibbonFrameWindow::OnEditTextChanged()
 
 void RibbonFrameWindow::FocusChanged(QWidget *old, QWidget *now)
 {
-//    Q_UNUSED(old)
-//    if(now != nullptr && now != this && !d->ribbonPin && d->ribbonShow)
-//    {
-//        ShowHideRibbon(false);
-//    }
+    Q_UNUSED(old)
+    Q_UNUSED(now)
+    if(!d->ribbonPin && d->ribbonShow && !d->tabbarClicked)
+    {
+        ShowHideRibbon(false);
+    }
 }
 
 void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
