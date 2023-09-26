@@ -192,12 +192,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ribbonframewindow.cpp" />
+    <ClCompile Include="settingsdialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h" />
     <ClInclude Include="..\include\mainframeinterface.h" />
     <ClInclude Include="..\include\moduleinterface.h" />
     <ClInclude Include="resource.h" />
+    <QtMoc Include="settingsdialog.h" />
     <QtMoc Include="..\include\ribbonframewindow.h">
     </QtMoc>
   </ItemGroup>
@@ -227,6 +229,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RibbonFrame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="settingsdialog.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
