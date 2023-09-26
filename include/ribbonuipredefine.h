@@ -10,6 +10,7 @@
 #define CMD_AppExit "AppExit"
 #define CMD_AppAboutQt "AppAboutQt"
 #define CMD_RibbonPin "RibbonPin"
+#define CMD_RibbonOptions "RibbonOptions"
 
 //模块消息定义
 #define MODULE_MSG_GetStyleType "GetStyleType"      //获取当前主题样式类别，向StylePlugin模块发送，返回CStyleManager::StyleType类型

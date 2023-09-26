@@ -71,6 +71,8 @@ private:
     void SetRibbonPin(bool pin);
     void ShowHideRibbon(bool show);
 
+    QAction* AddRibbonContextAction(const QString& strId, const QString& strName);
+
 protected:
 
     IModule* CurrentModule() const;

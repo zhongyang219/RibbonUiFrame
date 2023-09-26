@@ -17,14 +17,16 @@ DEFINES += RIBBONFRAME_LIBRARY
 
 
 SOURCES += \
-    ribbonframewindow.cpp
+    ribbonframewindow.cpp \
+    settingsdialog.cpp
 
 HEADERS  += \
     ../include/mainframe_global.h \
     ../include/mainframeinterface.h \
     ../include/moduleinterface.h \
     ../include/ribbonframewindow.h \
-    ../include/ribbonuipredefine.h
+    ../include/ribbonuipredefine.h \
+    settingsdialog.h
 
 CONFIG(release, debug|release): {
     DESTDIR = $$PWD/../bin/release
@@ -46,3 +48,6 @@ win32-msvc* {
     QMAKE_CXXFLAGS *=  /wd"4100"
     contains (QMAKE_CXXFLAGS_WARN_ON, -w34100) : QMAKE_CXXFLAGS_WARN_ON -= -w34100
 }
+
+FORMS += \
+    settingsdialog.ui
