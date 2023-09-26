@@ -43,7 +43,7 @@
        <item>
         <widget class="QCheckBox" name="ribbonPinCheck">
          <property name="text">
-          <string>固定功能区</string>
+          <string>总是显示功能区</string>
          </property>
         </widget>
        </item>

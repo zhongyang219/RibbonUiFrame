@@ -365,8 +365,16 @@ void RibbonFrameWindow::OnTabBarClicked(int index)
 void RibbonFrameWindow::OnTabBarDoubleClicked(int index)
 {
     Q_UNUSED(index)
+
     if (d->m_ribbonOptionData.ribbonHideEnable && d->m_ribbonOptionData.ribbonDoubleClickEnable)
-        SetRibbonPin(!d->m_ribbonOptionData.ribbonPin);
+    {
+        QTimer::singleShot(50, [this](){
+            d->m_ribbonOptionData.ribbonPin = !d->m_ribbonOptionData.ribbonPin;
+            SetItemChecked(CMD_RibbonPin, d->m_ribbonOptionData.ribbonPin);
+            d->actionPinRibbon->setChecked(d->m_ribbonOptionData.ribbonPin);
+            ShowHideRibbon(d->m_ribbonOptionData.ribbonPin);
+        });
+    }
 }
 
 void RibbonFrameWindow::OnActionTriggerd(bool checked)
