@@ -10,6 +10,12 @@
 #include <QStyleFactory>
 #include "ribbonuipredefine.h"
 
+#ifdef Q_OS_WIN
+#define DEFAULT_STYLE_KEY "windowsvista"
+#else
+#define DEFAULT_STYLE_KEY "Fusion"
+#endif
+
 StylePlugin::StylePlugin()
 {
 }
@@ -159,8 +165,7 @@ void StylePlugin::SetStyle(const QString &styleName)
         {
             qApp->setPalette(m_defaultPalette);
             qApp->setStyleSheet("");
-            if (!QStyleFactory::keys().isEmpty())
-                qApp->setStyle(QStyleFactory::create(QStyleFactory::keys().front()));
+            qApp->setStyle(QStyleFactory::create(DEFAULT_STYLE_KEY));
         }
         else if (QStyleFactory::keys().contains(styleName))
         {
@@ -170,8 +175,7 @@ void StylePlugin::SetStyle(const QString &styleName)
         }
         else
         {
-            if (!QStyleFactory::keys().isEmpty())
-                qApp->setStyle(QStyleFactory::create(QStyleFactory::keys().front()));
+            qApp->setStyle(QStyleFactory::create(DEFAULT_STYLE_KEY));
             CStyleManager::Instance()->ApplyStyleSheet(styleName);
         }
         m_curStyle = styleName;
