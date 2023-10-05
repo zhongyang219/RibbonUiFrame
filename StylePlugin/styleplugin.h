@@ -34,7 +34,7 @@ private slots:
 
 private:
     QList<QAction*> m_themeActionList;
-    IMainFrame* m_pMainFrame;
+    IMainFrame* m_pMainFrame{};
     QString m_curStyle;
     QPalette m_defaultPalette;
 };

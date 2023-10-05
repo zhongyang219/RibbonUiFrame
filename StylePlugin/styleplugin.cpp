@@ -7,7 +7,7 @@
 #include "stylemanager.h"
 #include <QSettings>
 #include <QActionGroup>
-#include "ribbonuipredefine.h"
+#include <QStyleFactory>
 #include "ribbonuipredefine.h"
 
 StylePlugin::StylePlugin()
@@ -28,7 +28,8 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
     QActionGroup* pGroup = new QActionGroup(this);
     if (pMainFrame != nullptr)
     {
-        pGroup->addAction((QAction*)pMainFrame->GetAcion("DefaultStyle"));
+        //默认主题
+        pGroup->addAction((QAction*)pMainFrame->GetAcion(CMD_DefaultStyle));
         //查找“主题”菜单按钮
         QToolButton* pThemeBtn = qobject_cast<QToolButton*>((QWidget*)pMainFrame->GetWidget("Theme"));
         if (pThemeBtn != nullptr)
@@ -36,6 +37,14 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
             QMenu* pMenu = pThemeBtn->menu();
             if (pMenu != nullptr)
             {
+                //添加当前平台支持的主题
+                QMenu* pPlatformSupportedTheme = pMenu->addMenu(QSTR("平台支持的主题"));
+                for (const auto& key : QStyleFactory::keys())
+                {
+                    pGroup->addAction(AddThemeAction(key, pPlatformSupportedTheme));
+                }
+
+                //更多主题
                 QMenu* pLightThemeMenu = pMenu->addMenu(QIcon(":/res/light_mode.png"), QSTR("浅色主题"));
                 QMenu* pDarkThemeMenu = pMenu->addMenu(QIcon(":/res/dark_mode.png"), QSTR("深色主题"));
                 QMenu* pOfficeThemeMenu = pMenu->addMenu(QIcon(":/res/office.png"), QSTR("Office主题"));
@@ -62,11 +71,14 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
     //设置样式
     if (m_curStyle.isEmpty())
     {
-        pMainFrame->SetItemChecked("DefaultStyle", true);
+        pMainFrame->SetItemChecked(CMD_DefaultStyle, true);
     }
     else
     {
-        CStyleManager::Instance()->ApplyStyleSheet(m_curStyle);
+        if (QStyleFactory::keys().contains(m_curStyle))
+            qApp->setStyle(QStyleFactory::create(m_curStyle));
+        else
+            CStyleManager::Instance()->ApplyStyleSheet(m_curStyle);
         Q_FOREACH(QAction* pAction, m_themeActionList)
         {
             if (pAction != nullptr && pAction->text() == m_curStyle)
@@ -100,7 +112,7 @@ const char *StylePlugin::GetModuleName()
 void StylePlugin::OnCommand(const char* strCmd, bool checked)
 {
     Q_UNUSED(checked)
-    if (QString(strCmd) == "DefaultStyle")
+    if (QString(strCmd) == CMD_DefaultStyle)
     {
         SetStyle(QString());
     }
@@ -147,9 +159,19 @@ void StylePlugin::SetStyle(const QString &styleName)
         {
             qApp->setPalette(m_defaultPalette);
             qApp->setStyleSheet("");
+            if (!QStyleFactory::keys().isEmpty())
+                qApp->setStyle(QStyleFactory::create(QStyleFactory::keys().front()));
+        }
+        else if (QStyleFactory::keys().contains(styleName))
+        {
+            qApp->setPalette(m_defaultPalette);
+            qApp->setStyleSheet("");
+            qApp->setStyle(QStyleFactory::create(styleName));
         }
         else
         {
+            if (!QStyleFactory::keys().isEmpty())
+                qApp->setStyle(QStyleFactory::create(QStyleFactory::keys().front()));
             CStyleManager::Instance()->ApplyStyleSheet(styleName);
         }
         m_curStyle = styleName;
