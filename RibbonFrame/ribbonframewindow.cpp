@@ -777,6 +777,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
 
 void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *pToolbar)
 {
+    pToolbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
     QDomNodeList groupList = element.childNodes();
     for (int i = 0; i < groupList.count(); i++)
     {
@@ -997,9 +998,21 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         for (int i = 0; i < childNodeList.count(); i++)
         {
             QDomElement childElement = childNodeList.at(i).toElement();
+            QString childTagName = childElement.tagName();
             bool childSmallIcon;
-            QWidget* pChildWidget = LoadUiWidget(childElement, pUiWidget, childSmallIcon);
-            pLayout->addWidget(pChildWidget);
+            if (IsToolBarTag(childTagName))
+            {
+                QToolBar* pChildToolbar = new QToolBar(pUiWidget);
+                pChildToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+                LoadSimpleToolbar(childElement, pChildToolbar);
+                pLayout->addWidget(pChildToolbar);
+            }
+            else
+            {
+                QWidget* pChildWidget = LoadUiWidget(childElement, pUiWidget, childSmallIcon);
+                if (pChildWidget != nullptr)
+                    pLayout->addWidget(pChildWidget);
+            }
         }
         smallIcon = IsSmallIcon(element);
 }
