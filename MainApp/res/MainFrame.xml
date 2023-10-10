@@ -171,7 +171,7 @@ ActionGroup节点
       </Menu>
       <Action name="命令13（禁用）" icon=":/res/Image/proj.png" id="TestCommand13"/>
       <ActionGroup name="命令组2">
-        <Label name="标签1" id="Label1"/>
+        <Label name="标签1" id="Label1" icon=":/res/Image/proj.png"/>
         <LineEdit name="单行编辑框" id="LineEdit1" width="60"/>
         <TextEdit name="多行编辑框" id="TextEdit1" width="80"/>
       </ActionGroup>

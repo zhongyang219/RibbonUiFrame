@@ -864,10 +864,32 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
 
     if (strTagName == "Label")
     {
-        QLabel* pLabel = new QLabel(pParent);
+        QString strIcon = element.attribute("icon");
         smallIcon = true;
-        pLabel->setText(strName);
-        pUiWidget = pLabel;
+        //没有图标，只显示一个QLabel
+        if (strIcon.isEmpty())
+        {
+            QLabel* pLabel = new QLabel(pParent);
+            pLabel->setText(strName);
+            pUiWidget = pLabel;
+        }
+        //有图标，需要一个水平布局
+        else
+        {
+            QWidget* pWidget = new QWidget(pParent);
+            QHBoxLayout* pLayout = new QHBoxLayout;
+            pLayout->setContentsMargins(0, 0, 0, 0);
+            pWidget->setLayout(pLayout);
+            QLabel* pImageLabel = new QLabel(pWidget);
+            QPixmap iconPixmap(strIcon);
+            pImageLabel->setPixmap(iconPixmap.scaled(ICON_SIZE_S, ICON_SIZE_S, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            pLayout->addWidget(pImageLabel);
+            QLabel* pLabel = new QLabel(pWidget);
+            pLabel->setText(strName);
+            pLayout->addWidget(pLabel);
+            pLayout->addStretch();
+            pUiWidget = pWidget;
+        }
     }
     else if (strTagName == "LineEdit")
     {
