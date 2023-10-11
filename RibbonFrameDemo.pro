@@ -9,6 +9,7 @@ TEMPLATE = subdirs
 SUBDIRS += RibbonFrame \
     StylePlugin \
     TestModule \
-    MainApp
+    MainApp \
+    OfficeStyleApp
 
 CONFIG += ordered

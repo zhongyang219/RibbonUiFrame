@@ -138,7 +138,8 @@ static QIcon CreateIcon(QString strPath, int size)
 {
     if (!strPath.isEmpty())
     {
-        if (!QFileInfo(strPath).isFile())
+        //如果图标路径不是资源路径且文件不存在，则在路径前面加上应用程序目录
+        if (!strPath.startsWith(":/") && !QFileInfo(strPath).isFile())
             strPath = qApp->applicationDirPath() + '/' + strPath;
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
@@ -620,6 +621,10 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QMenu* pMainMenu = LoadUiMenu(nodeInfo);
             pMainMenu->setObjectName("MainFrameMenu");
             pMainFrameBtn->setMenu(pMainMenu);
+            QString id = GetElementId(nodeInfo);
+            if (id.isEmpty())
+                id = "SystemMenu";
+            d->m_menuMap[id] = pMainMenu;
         }
 
         //加载快速启动栏
@@ -717,7 +722,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
                 pActionGroupWidget->setLayout(pActionGroupLayout);
                 pActionGroupLayout->setContentsMargins(0, 0, 0, 0);
                 pActionGroupLayout->setSpacing(0);
-                pActionGroupLayout->addWidget(pSubToolbar);
+                pActionGroupLayout->addWidget(pSubToolbar, 1);
                 //添加名称标签
                 QHBoxLayout* pLabelLayout = new QHBoxLayout;
                 pLabelLayout->setContentsMargins(0, 0, 0, 0);

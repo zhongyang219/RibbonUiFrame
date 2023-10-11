@@ -1,0 +1,320 @@
+﻿<root>
+    <Menu name="主题" icon=":/res/Image/color.png" id="Theme">
+		<Action name="默认主题" id="DefaultStyle" checkable="true"/>
+    </Menu>
+    <Action name="关于" id="AppAbout" icon="://res/Image/help.png" shortcut="F1"/>
+
+    <SystemMenu name="文件">
+        <Action name="新建" id="FileNew" icon="://res/Image/new16x16.png" shortcut="Ctrl+N"/>
+        <Action name="打开" id="FileOpen" icon="://res/Image/open32x32.png" shortcut="Ctrl+O"/>
+        <Action name="保存" id="FileSave" icon="://res/Image/save32x32.png" shortcut="Ctrl+S"/>
+        <Action name="另存为" id="FileSaveAs" icon="://res/Image/saveasfile32x32.png"/>
+        <Separator/>
+        <Action name="打印" id="FilePrint" icon="://res/Image/print16x16.png"/>
+        <Action name="打印预览" id="FilePrintPreview" icon="://res/Image/largePrepare.png"/>
+        <Action name="发送" id="FileSend" icon="://res/Image/largeSend.png"/>
+        <Separator/>
+        <Action name="关闭" id="AppExit" icon="://res/Image/close32x32.png" shortcut="Ctrl+C"/>
+    </SystemMenu>
+
+    <QuickAccessBar>
+        <Action name="保存" id="FileSave" icon="://res/Image/save32x32.png" shortcut="Ctrl+S"/>
+        <Action name="撤销" id="undo" icon="://res/Image/undo16x16.png"/>
+        <Action name="重复" id="redo" icon="://res/Image/redo16x16.png"/>
+        <Action name="打印" id="FilePrint" icon="://res/Image/print16x16.png"/>
+    </QuickAccessBar>
+
+	<Page name="开始">
+        <ActionGroup name="剪贴板" id="GroupClipBoard" optionBtn="true">
+            <Menu name="粘贴" icon="://res/Image/clipboard32x32.png" id="Paste" menuBtn="true">
+                <Action name="粘贴" icon="://res/Image/clipboard32x32.png" id="Paste"/>
+                <Action name="选择性粘贴" id="PasteSpecal"/>
+            </Menu>
+            <Action name="剪切" id="Cut" icon="://res/Image/cut16x16.png" smallIcon="true"/>
+            <Action name="复制" id="Copy" icon="://res/Image/smallcopy.png" smallIcon="true"/>
+        </ActionGroup>
+        <ActionGroup name="字体" id="GroupFont" optionBtn="true">
+            <WidgetGroup smallIcon="true">
+                <UserWidget id="FontCombobox" width="100" height="28"/>
+                <ComboBox id="FontSizeCombobox" width="60">
+                    <Item name="6"/>
+                    <Item name="7"/>
+                    <Item name="8"/>
+                    <Item name="9"/>
+                    <Item name="10"/>
+                    <Item name="11"/>
+                    <Item name="12"/>
+                    <Item name="14"/>
+                    <Item name="16"/>
+                    <Item name="18"/>
+                    <Item name="20"/>
+                    <Item name="24"/>
+                    <Item name="26"/>
+                    <Item name="28"/>
+                    <Item name="36"/>
+                </ComboBox>
+                <ToolBar optionBtn="true" smallIcon="true">
+                    <Action name="增大字体" id="FontGrow" icon="://res/Image/smallfontgrow.png" smallIcon="true"/>
+                    <Action name="减小字体" id="FontShink" icon="://res/Image/smallfontshrink.png" smallIcon="true"/>
+                    <Separator/>
+                    <Action name="清除格式" id="ClearFormat" icon="://res/Image/smallfontclear.png" smallIcon="true"/>
+                </ToolBar>
+            </WidgetGroup>
+            <ToolBar optionBtn="true" smallIcon="true">
+                <Action name="粗体" id="Bold" icon="://res/Image/smalltextbold.png" smallIcon="true"/>
+                <Action name="斜体" id="Italic" icon="://res/Image/smalltextitalic.png" smallIcon="true"/>
+                <Action name="下划线" id="UnderLine" icon="://res/Image/smalltextunder.png" smallIcon="true"/>
+                <Action name="删除线" id="Strickout" icon="://res/Image/smallstrikethrough.png" smallIcon="true"/>
+                <Separator/>
+                <Action name="上标" id="superscript" icon="://res/Image/smallsuperscript.png" smallIcon="true"/>
+                <Action name="下标" id="subscript" icon="://res/Image/smallsubscript.png" smallIcon="true"/>
+                <Action name="大小写转换" id="changecase" icon="://res/Image/smallchangecase.png" smallIcon="true"/>
+                <Separator/>
+                <Action name="高亮颜色" id="highlightcolor" icon="://res/Image/smallhighlightcolor.png" smallIcon="true"/>
+                <Menu name="颜色" id="color" icon="://res/Image/smallcolor.png" menuBtn="true">
+                    <Action name="自动" id="colorAuto"/>
+                    <Action name="其他颜色" id="colorOther" icon="://res/Image/smallcolor.png"/>
+                </Menu>
+            </ToolBar>
+        </ActionGroup>
+
+        <ActionGroup name="段落" id="GroupParagraph" optionBtn="true">
+            <ToolBar optionBtn="true" smallIcon="true">
+                <Menu name="项目符号" id="bullets" icon="://res/Image/smallbullets.png" menuBtn="true">
+                    <Action name="无" id="noNullets"/>
+                    <Action name="定义新项目符号" id="newNullets" icon="://res/Image/smallbullets.png"/>
+                </Menu>
+                <Menu name="编号" id="numbering" icon="://res/Image/smallnumbering.png" menuBtn="true">
+                    <Action name="无" id="noNumbering"/>
+                    <Action name="定义新编号格式" id="newNumbering" icon="://res/Image/smallnumbering.png"/>
+                </Menu>
+                <Menu name="多级列表" id="multilevellist" icon="://res/Image/smallmultilevellist.png" menuBtn="false">
+                    <Action name="无" id="noMultilevel"/>
+                    <Action name="更改列表级别" id="changeMultilevel"/>
+                    <Action name="定义新的多级列表" id="newMultilevel" icon="://res/Image/smallmultilevellist.png"/>
+                </Menu>
+                <Separator/>
+                <Action name="减少缩进" id="decreaseindent" icon="://res/Image/smalldecreaseindent.png" smallIcon="true"/>
+                <Action name="增加缩进" id="increaseindent" icon="://res/Image/smallincreaseindent.png" smallIcon="true"/>
+                <Separator/>
+                <Action name="排序" id="sort" icon="://res/Image/smallsort.png" smallIcon="true"/>
+                <Separator/>
+                <Action name="显示/隐藏标记" id="show_hide_marks" icon="://res/Image/smallshow_hide_marks.png" smallIcon="true"/>
+            </ToolBar>
+            <ToolBar optionBtn="true" smallIcon="true">
+                <Action name="左对齐" id="alignleft" icon="://res/Image/smallalignleft.png"/>
+                <Action name="居中" id="center" icon="://res/Image/smallcenter.png"/>
+                <Action name="右对齐" id="alignright" icon="://res/Image/smallalignright.png"/>
+                <Action name="两端对齐" id="justify" icon="://res/Image/smalljustify.png"/>
+                <Separator/>
+                <Menu name="行距" id="linespacing" icon="://res/Image/smalllinespacing.png" menuBtn="false">
+                    <Action name="1.0" id="linespacing1_0" radioGroup="1"/>
+                    <Action name="1.15" id="linespacing1_15" radioGroup="1"/>
+                    <Action name="1.5" id="linespacing1_5" radioGroup="1"/>
+                    <Action name="2.0" id="linespacing2_0" radioGroup="1"/>
+                    <Action name="2.5" id="linespacing2_5" radioGroup="1"/>
+                </Menu>
+                <Separator/>
+                <Menu name="底纹" id="shading" icon="://res/Image/smallshading.png" menuBtn="true">
+                    <Action name="自动" id="colorAuto"/>
+                    <Action name="其他颜色" id="colorOther" icon="://res/Image/smallcolor.png"/>
+                </Menu>
+                <Separator/>
+                <Menu name="边框" id="border" icon="://res/Image/smallnoborder.png" menuBtn="true">
+                    <Action name="下框线" id="buttomBorder"/>
+                    <Action name="上框线" id="topBorder"/>
+                    <Action name="左框线" id="leftBorder"/>
+                    <Action name="右框线" id="rightBorder"/>
+                    <Separator/>
+                    <Action name="无框线" id="noBorder"/>
+                    <Action name="所有框线" id="allBorder"/>
+                </Menu>
+            </ToolBar>
+        </ActionGroup>
+        <ActionGroup name="样式">
+            <ListWidget id="ListWidget1" horizontalArrange="true" height="52">
+                <Item name="正文" icon="://res/Image/smallfonts.png"/>
+                <Item name="标题1" icon="://res/Image/wordart32x32.png"/>
+                <Item name="标题2" icon="://res/Image/wordart32x32.png"/>
+                <Item name="标题3" icon="://res/Image/wordart32x32.png"/>
+                <Item name="副标题" icon="://res/Image/smallfonts.png"/>
+                <Item name="不明显强调" icon="://res/Image/smallfonts.png"/>
+            </ListWidget>
+        </ActionGroup>
+        <ActionGroup name="编辑">
+            <Menu name="查找" icon="://res/Image/smallfind.png" id="find" menuBtn="true" smallIcon="true">
+                <Action name="查找" icon="://res/Image/smallfind.png" id="find"/>
+                <Action name="转到" icon="://res/Image/smallgoto.png" id="goto"/>
+            </Menu>
+            <Action name="替换" icon="://res/Image/smallreplace.png" id="replace" smallIcon="true"/>
+            <Menu name="选择" icon="://res/Image/smallselect.png" id="select" menuBtn="false" smallIcon="true">
+                <Action name="全选" id="selectAll"/>
+                <Action name="选择对象" icon="://res/Image/smallselect.png" id="selectObject"/>
+                <Action name="选择多个对象" id="selectMutipleObject"/>
+            </Menu>
+        </ActionGroup>
+    </Page>
+
+    <Page name="插入">
+        <ActionGroup name="页">
+            <Menu name="封面" id="coverpage" icon="://res/Image/coverpage32x32.png" menuBtn="false">
+            </Menu>
+            <Action name="空白页" icon="://res/Image/blankpage32x32.png" id="blankpage"/>
+            <Action name="分页" icon="://res/Image/pagebreak32x32.png" id="pagebreak"/>
+        </ActionGroup>
+        <ActionGroup name="表格">
+            <Menu name="表格" id="table" icon="://res/Image/table32x32.png" menuBtn="false">
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="插图">
+            <Action name="图片" icon="://res/Image/picture32x32.png" id="picture"/>
+            <Action name="剪贴画" icon="://res/Image/clipart32x32.png" id="clipart"/>
+            <Menu name="形状" id="shapes" icon="://res/Image/shapes32x32.png" menuBtn="false">
+            </Menu>
+            <Action name="SmartArt" icon="://res/Image/smartart32x32.png" id="smartart"/>
+            <Action name="图表" icon="://res/Image/chart32x32.png" id="chart"/>
+        </ActionGroup>
+        <ActionGroup name="链接">
+            <Action name="超链接" icon="://res/Image/hyperlink32x32.png" id="hyperlink"/>
+            <Action name="书签" icon="://res/Image/bookmark32x32.png" id="bookmark"/>
+            <Action name="交叉引用" icon="://res/Image/crossref32x32.png" id="crossref"/>
+        </ActionGroup>
+        <ActionGroup name="页眉和页脚">
+            <Menu name="页眉" id="header" icon="://res/Image/header32x32.png" menuBtn="false">
+            </Menu>
+            <Menu name="页脚" id="footer" icon="://res/Image/footer32x32.png" menuBtn="false">
+            </Menu>
+            <Menu name="页码" id="pagenumber" icon="://res/Image/pagenumber32x32.png" menuBtn="false">
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="文本">
+            <Menu name="文本框" id="textbox" icon="://res/Image/textbox32x32.png" menuBtn="false">
+            </Menu>
+            <Menu name="方框部件" id="quickparts" icon="://res/Image/quickparts32x32.png" menuBtn="false">
+            </Menu>
+            <Menu name="艺术字" id="wordart" icon="://res/Image/wordart32x32.png" menuBtn="false">
+            </Menu>
+            <Menu name="首字下沉" id="dropcap" icon="://res/Image/dropcap32x32.png" menuBtn="false" smallIcon="true">
+            </Menu>
+            <Menu name="签名行" id="signatureline" icon="://res/Image/signatureline16x16.png" menuBtn="true" smallIcon="true">
+            </Menu>
+            <Action name="日期时间" icon="://res/Image/datatime16x16.png" id="datatime" smallIcon="true"/>
+            <Menu name="对象" id="signatureline" icon="://res/Image/signatureline16x16.png" menuBtn="false" smallIcon="true">
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="符号">
+            <Action name="公式" icon="://res/Image/equation32x32.png" id="equation"/>
+            <Menu name="符号" id="symbol" icon="://res/Image/symbol32x32.png" menuBtn="false">
+            </Menu>
+        </ActionGroup>
+    </Page>
+
+    <Page name="页面布局">
+        <ActionGroup name="主题">
+            <Menu name="主题" icon="://res/Image/largeThemes.png" id="theme" menuBtn="true">
+                <Action name="粘贴" icon="://res/Image/clipboard32x32.png" id="Paste"/>
+                <Action name="选择性粘贴" id="PasteSpecal"/>
+            </Menu>
+            <Menu name="颜色" id="themecolors" icon="://res/Image/smallcolors.png" menuBtn="true" smallIcon="false">
+            </Menu>
+            <Menu name="字体" id="themefont" icon="://res/Image/smallfonts.png" menuBtn="true" smallIcon="true">
+            </Menu>
+            <Menu name="效果" id="themeeffects" icon="://res/Image/smalleffects.png" menuBtn="true" smallIcon="true">
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="页面设置" id="GroupPageSetup" optionBtn="true">
+            <Menu name="页边距" id="Margins" icon="://res/Image/largeMargins.png" menuBtn="false" smallIcon="false">
+            </Menu>
+            <Menu name="纸张方向" id="orientation" icon="://res/Image/orientation32x32.png" menuBtn="false" smallIcon="false">
+            </Menu>
+            <Menu name="纸张大小" id="size" icon="://res/Image/size32x32.png" menuBtn="false" smallIcon="false">
+            </Menu>
+            <Menu name="分栏" id="columns" icon="://res/Image/columns32x32.png" menuBtn="false" smallIcon="true">
+            </Menu>
+            <Menu name="分隔符" id="breaks" icon="://res/Image/pagebreak32x32.png" menuBtn="false" smallIcon="true">
+            </Menu>
+            <Menu name="行号" id="linenumbers" icon="://res/Image/smalllinenumbers.png" menuBtn="false" smallIcon="true">
+            </Menu>
+            <Menu name="断字" id="hyphenation" icon="://res/Image/smallhyphenation.png" menuBtn="false" smallIcon="true">
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="页面背景">
+            <Menu name="水印" id="watermark" icon="://res/Image/watermark32x32.png" menuBtn="false" smallIcon="false">
+            </Menu>
+            <Menu name="页面颜色" id="pagecolor" icon="://res/Image/pagecolor32x32.png" menuBtn="false" smallIcon="false">
+            </Menu>
+            <Action name="页面边框" icon="://res/Image/pageborders32x32.png" id="pageborders"/>
+        </ActionGroup>
+        <ActionGroup name="段落">
+            <WidgetGroup smallIcon="true">
+                <Label name="左：" icon="://res/Image/smallleft.png"/>
+                <UserWidget id="IndentLeftSpin"/>
+            </WidgetGroup>
+            <WidgetGroup smallIcon="true">
+                <Label name="右：" icon="://res/Image/smallright.png"/>
+                <UserWidget id="IndentRightSpin"/>
+            </WidgetGroup>
+            <WidgetGroup smallIcon="true">
+                <Label name="段前：" icon="://res/Image/smallbefore.png"/>
+                <UserWidget id="SpacingBeforeSpin"/>
+            </WidgetGroup>
+            <WidgetGroup smallIcon="true">
+                <Label name="段后：" icon="://res/Image/smallafter.png"/>
+                <UserWidget id="SpacingAfterSpin"/>
+            </WidgetGroup>
+        </ActionGroup>
+    </Page>
+
+    <Page name="引用">
+        <ActionGroup name="目录">
+            <Menu name="目录" id="tablecontents" icon="://res/Image/largetablecontents.png" menuBtn="true" smallIcon="false">
+            </Menu>
+            <Menu name="添加文字" id="addtext" icon="://res/Image/smalladdtext.png" menuBtn="false" smallIcon="true">
+            </Menu>
+            <Action name="更新目录" icon="://res/Image/smallupdatetable.png" id="updatecontents" smallIcon="true"/>
+        </ActionGroup>
+        <ActionGroup name="脚注">
+            <Action name="插入脚注" icon="://res/Image/largeInsertFootnote.png" id="InsertFootnote" smallIcon="false"/>
+            <Action name="插入尾注" icon="://res/Image/smallinsertendnote.png" id="insertendnote" smallIcon="false"/>
+            <Menu name="下一条脚注" id="nextfootnote" icon="://res/Image/smallnextfootnote.png" menuBtn="true" smallIcon="true">
+            </Menu>
+            <Action name="显示备注" icon="://res/Image/smallshownotes.png" id="shownotes" smallIcon="true"/>
+        </ActionGroup>
+        <ActionGroup name="题注">
+            <Action name="插入题注" icon="://res/Image/largeInsertCaption.png" id="InsertCaption" smallIcon="false"/>
+            <Action name="插入表目录" icon="://res/Image/smallinserttablefigures.png" id="inserttablefigures" smallIcon="false"/>
+            <Action name="更新表格" icon="://res/Image/smallupdatetable.png" id="updatetable" smallIcon="true"/>
+            <Action name="交叉引用" icon="://res/Image/smallcrossreference.png" id="crossreference" smallIcon="true"/>
+        </ActionGroup>
+        <ActionGroup name="索引">
+            <Action name="标记索引项" icon="://res/Image/largeMarkEntry.png" id="MarkEntry" smallIcon="false"/>
+            <Action name="插入索引" icon="://res/Image/smallinserttablefigures.png" id="insertindex" smallIcon="true"/>
+            <Action name="更新索引" icon="://res/Image/smallupdatetable.png" id="updateindex" smallIcon="true"/>
+        </ActionGroup>
+    </Page>
+
+    <Page name="视图">
+        <ActionGroup name="文档视图">
+            <Action name="页面视图" icon="://res/Image/printlayout32x32.png" id="printlayout" smallIcon="false" radioGroup="2"/>
+            <Action name="阅读版式视图" icon="://res/Image/largefullscreen.png" id="fullscreen" smallIcon="false" radioGroup="2"/>
+            <Action name="Web版式视图" icon="://res/Image/largeweblayout.png" id="weblayout" smallIcon="false" radioGroup="2"/>
+            <Action name="大纲视图" icon="://res/Image/largeoutline.png" id="outline" smallIcon="false" radioGroup="2"/>
+            <Action name="草稿" icon="://res/Image/largedraft.png" id="draft" smallIcon="false" radioGroup="2"/>
+        </ActionGroup>
+        <ActionGroup name="显示">
+            <CheckBox name="标尺" id="chekcboxRuler"/>
+            <CheckBox name="网格" id="chekcboxGridline"/>
+            <CheckBox name="导航窗格" id="chekcboxDocumentMap"/>
+            <CheckBox name="状态栏" id="chekcboxStatusbar"/>
+        </ActionGroup>
+        <ActionGroup name="显示比例">
+            <Action name="显示比例" icon="://res/Image/largezoom.png" id="zoom" smallIcon="false"/>
+            <Action name="单页" icon="://res/Image/smallonepage.png" id="onepage" smallIcon="true"/>
+            <Action name="双页" icon="://res/Image/smalltwopage.png" id="twopage" smallIcon="true"/>
+        </ActionGroup>
+    </Page>
+
+	<Plugins>
+		<Plugin path="StylePlugin"/>
+	</Plugins>
+</root>

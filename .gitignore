@@ -120,3 +120,4 @@ Makefile*
 *.log
 
 /bin
+*.qtvscr

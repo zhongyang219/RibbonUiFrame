@@ -350,6 +350,14 @@ QStatusBar {
     background: #2b579a;
 }
 
+QStatusBar QToolButton {
+    color: #ffffff;
+}
+
+QStatusBar QToolButton:hover, QStatusBar QToolButton:pressed{
+    color: #000000;
+}
+
 *:disabled {
     color: #b1b1b1;
 }

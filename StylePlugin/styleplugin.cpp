@@ -74,6 +74,8 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
     //保存默认Palette
     m_defaultPalette = qApp->palette();
 
+    qApp->setPalette(m_defaultPalette);
+    qApp->setStyle(QStyleFactory::create(DEFAULT_STYLE_KEY));
     //设置样式
     if (m_curStyle.isEmpty())
     {

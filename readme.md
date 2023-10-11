@@ -26,11 +26,11 @@
 | ----------- | ------------------------------------------------------------ |
 | RibbonFrame | 界面框架核心动态库，包含一个RibbonFrameWindow类作为程序的主窗口。 |
 | MainApp     | 界面框架的测试程序，依赖RibbonFrame。                        |
+| OfficeStyleApp | 一个不使用模块的Office风格的示例程序。                       |
 | TestModule  | Qt测试模块，RibbonFrame模块加载时会根据xml中配置的文件名加载该模块。 |
 | MFCModule   | MFC测试模块，RibbonFrame模块加载时会根据xml中配置的文件名加载该模块。 |
 | StylePlugin | 主题模块，如果需要支持更换主题功能需要加载此模块。           |
 | bin         | 输出的二进制文件。                                           |
-| common      | 公共的资源文件，需要运行`复制common文件.bat`（或`复制common文件.sh`）将它们复制到bin目录的debug和release目录下。 |
 | include     | 公共的头文件。                                               |
 
 # 二次开发说明
@@ -45,7 +45,7 @@
 
   * 你也可以自定义`RibbonFrameWindow`类的派生类作为程序主窗口，在派生类中重写`OnCommand`用于响应需要在主窗口中响应的命令。
 
-* 编辑`common/Mainframe.xml`文件定义框架中的命令、菜单、控件等。关于此文件的编写规则请参照本文档中的“界面xml文件说明”章节。编辑完成后需要运行`复制common文件.bat`（或`复制common文件.sh`）。
+* 编辑`MainApp/res/Mainframe.xml`文件定义框架中的命令、菜单、控件等。关于此文件的编写规则请参照本文档中的“界面xml文件说明”章节。xml文件可以放在资源文件中，也可以独立于应用程序。xml文件的路径通过`RibbonFrameWindow`的构造函数传递，如果该路径为空，则默认读取应用程序所在目录下名为`Mainframe.xml`的文件。
 
 * 添加你自己的功能模块。
 
@@ -108,7 +108,7 @@
 
 # 界面xml文件说明
 
-界面框架使用xml文件配置界面，xml文件名为`MainFrame.xml`，必须位于可执行文件同一级目录下。
+界面框架使用xml文件配置界面，xml文件的路径通过`RibbonFrameWindow`的构造函数传递，如果该路径为空，则默认读取应用程序所在目录下名为`Mainframe.xml`的文件。。
 
 ## root节点
 

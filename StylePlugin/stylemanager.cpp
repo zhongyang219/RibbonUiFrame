@@ -13,7 +13,6 @@ CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleT
       m_bParsePaletteColor(bParsePaletteColor)
 {
     //载入样式表文件
-//    QFile file(":/qss/darkblue.css");
     QFile file(strPath);
 
     if (file.open(QFile::ReadOnly))
@@ -54,6 +53,12 @@ void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget) const
     QApplication::restoreOverrideCursor();
 }
 
+/**
+ * @brief       查找qss样式表中“px”的第一个数字的位置
+ * @param[in]	str qss样式表
+ * @param[in]	index “px”的位置
+ * @return      px第一个数字的位置
+ */
 static int FindPxStart(const QString& str, int index)
 {
     for (int i = index; i >= 0; i--)
@@ -63,7 +68,6 @@ static int FindPxStart(const QString& str, int index)
     }
     return -1;
 }
-
 
 void CStyleManager::CStyle::StyleDpiChange(QString &strStyle)
 {
@@ -82,7 +86,7 @@ void CStyleManager::CStyle::StyleDpiChange(QString &strStyle)
         //对像素值进行DPI转换
         int newPixel = DPI(pixel);
         //判断是否为QRadioButton的border-radius
-        //这里用于解决QRadioButton的border-radius在经过DPI放大后可能会超过其大小导教border-redius属性失效的问题
+        //这里用于解决QRadioButton的border-radius在经过DPI放大后可能会超过其大小导致border-radius属性失效的问题
         if (StringHelper::IsStringContainsForword(strStyle, "border-radius", '\n', index) && StringHelper::IsStringContainsForword(strStyle, "QRadioButton", '}', index))
         {
             int radioBtnSize = DPI(12);         //QRadioButton的大小固定为12
@@ -119,12 +123,7 @@ CStyleManager *CStyleManager::Instance()
     return m_instance;
 }
 
-void CStyleManager::ApplyStyleSheet(const QString &styleName)
-{
-    ApplyStyleSheet(nullptr, styleName);
-}
-
-void CStyleManager::ApplyStyleSheet(QWidget *pWidget, const QString &styleName)
+void CStyleManager::ApplyStyleSheet(const QString &styleName, QWidget *pWidget)
 {
     for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
     {
