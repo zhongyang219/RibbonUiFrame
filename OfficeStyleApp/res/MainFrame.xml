@@ -19,8 +19,8 @@
 
     <QuickAccessBar>
         <Action name="保存" id="FileSave" icon="://res/Image/save32x32.png" shortcut="Ctrl+S"/>
-        <Action name="撤销" id="undo" icon="://res/Image/undo16x16.png"/>
-        <Action name="重复" id="redo" icon="://res/Image/redo16x16.png"/>
+        <Action name="撤销" id="undo" icon="://res/Image/undo16x16.png" enabled="false"/>
+        <Action name="重复" id="redo" icon="://res/Image/redo16x16.png" enabled="false"/>
         <Action name="打印" id="FilePrint" icon="://res/Image/print16x16.png"/>
     </QuickAccessBar>
 
@@ -30,8 +30,8 @@
                 <Action name="粘贴" icon="://res/Image/clipboard32x32.png" id="Paste"/>
                 <Action name="选择性粘贴" id="PasteSpecal"/>
             </Menu>
-            <Action name="剪切" id="Cut" icon="://res/Image/cut16x16.png" smallIcon="true"/>
-            <Action name="复制" id="Copy" icon="://res/Image/smallcopy.png" smallIcon="true"/>
+            <Action name="剪切" id="Cut" icon="://res/Image/cut16x16.png" smallIcon="true" enabled="false"/>
+            <Action name="复制" id="Copy" icon="://res/Image/smallcopy.png" smallIcon="true" enabled="false"/>
         </ActionGroup>
         <ActionGroup name="字体" id="GroupFont" optionBtn="true">
             <WidgetGroup smallIcon="true">
@@ -61,12 +61,12 @@
                 </ToolBar>
             </WidgetGroup>
             <ToolBar optionBtn="true" smallIcon="true">
-                <Action name="粗体" id="Bold" icon="://res/Image/smalltextbold.png" smallIcon="true"/>
-                <Action name="斜体" id="Italic" icon="://res/Image/smalltextitalic.png" smallIcon="true"/>
-                <Action name="下划线" id="UnderLine" icon="://res/Image/smalltextunder.png" smallIcon="true"/>
-                <Action name="删除线" id="Strickout" icon="://res/Image/smallstrikethrough.png" smallIcon="true"/>
+                <Action name="粗体" id="Bold" icon="://res/Image/smalltextbold.png" smallIcon="true" checkable="true"/>
+                <Action name="斜体" id="Italic" icon="://res/Image/smalltextitalic.png" smallIcon="true" checkable="true"/>
+                <Action name="下划线" id="UnderLine" icon="://res/Image/smalltextunder.png" smallIcon="true" checkable="true"/>
+                <Action name="删除线" id="Strickout" icon="://res/Image/smallstrikethrough.png" smallIcon="true" checkable="true"/>
                 <Separator/>
-                <Action name="上标" id="superscript" icon="://res/Image/smallsuperscript.png" smallIcon="true"/>
+                <Action name="上标" id="superscript" icon="://res/Image/smallsuperscript.png" smallIcon="true" />
                 <Action name="下标" id="subscript" icon="://res/Image/smallsubscript.png" smallIcon="true"/>
                 <Action name="大小写转换" id="changecase" icon="://res/Image/smallchangecase.png" smallIcon="true"/>
                 <Separator/>

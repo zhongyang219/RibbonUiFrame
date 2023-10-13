@@ -847,6 +847,8 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     pAction->setProperty("id", strCmdId);       //将命令的ID作为用户数据保存到QAction对象中
     pAction->setCheckable(bCheckable);
     pAction->setChecked(checked);
+    if (actionNodeInfo.hasAttribute("enabled"))
+        pAction->setEnabled(GetAttributeBool(actionNodeInfo,"enabled"));
     pAction->setToolTip(strTip);
     pAction->setShortcut(QKeySequence(strShortcut));
 
