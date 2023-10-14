@@ -51,7 +51,8 @@ private:
 
     QAction* LoadUiAction(const QDomElement& element);    //从一个xml节点加载Action
     QWidget* LoadUiWidget(const QDomElement& element, QWidget* pParent, bool& smallIcon); //从一个xml节点加载Widget
-    QMenu* LoadUiMenu(const QDomElement& element);      //从一个xml节点加载菜单
+    QMenu* LoadUiMenu(const QDomElement& element, bool enableWidget = true);      //从一个xml节点加载菜单
+    void LoadMenuItemFromXml(const QDomElement& element, QMenu* pMenu, bool enableWidget);
 
     /**
      * @brief       向界面添加一个控件

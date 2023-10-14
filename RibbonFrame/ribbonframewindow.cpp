@@ -170,6 +170,7 @@ public:
     QMap<QString, IModule*> m_moduleNameMap;    //保存模块的名称和IModuleInterface对象的对应关系
     QMap<QString, IModule*> m_modulePathMap;    //保存已加载模块的路径和模块对象
     QMap<int, QString> m_moduleIndexPath;       //保存标签索引和模块路径的对应关系
+    QMap<int, QMenu*> m_pageMenuMap;
 
     QMap<QString, QAction*> m_actionMap;    //保存命令Id和Action的对应关系
     QMap<QString, QWidget*> m_widgetMap;    //保存命令Id和Widget的对应关系
@@ -351,14 +352,29 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
 
 void RibbonFrameWindow::OnTabBarClicked(int index)
 {
-    if (d->m_ribbonOptionData.ribbonHideEnable && d->m_ribbonOptionData.showRibbonWhenTabClicked)
+    if (d->m_ribbonOptionData.ribbonHideEnable)
     {
-        d->tabbarClicked = true;
-        QTimer::singleShot(500, [this](){ d->tabbarClicked = false; });
-        Q_UNUSED(index)
-        if (!d->m_ribbonOptionData.ribbonPin)
+        if (d->m_ribbonOptionData.showWhenTabClicked == SettingsDialog::Data::Ribbon)
         {
-            ShowHideRibbon(true);
+            d->tabbarClicked = true;
+            QTimer::singleShot(500, [this](){ d->tabbarClicked = false; });
+            Q_UNUSED(index)
+            if (!d->m_ribbonOptionData.ribbonPin)
+            {
+                ShowHideRibbon(true);
+            }
+        }
+        else if (d->m_ribbonOptionData.showWhenTabClicked == SettingsDialog::Data::Menu)
+        {
+            if (!d->m_ribbonOptionData.ribbonPin)
+            {
+                QMenu* pMenu = d->m_pageMenuMap[index];
+                if (pMenu != nullptr)
+                {
+                    pMenu->move(d->m_pTabWidget->tabBar()->mapToGlobal(d->m_pTabWidget->tabBar()->tabRect(index).bottomLeft()));
+                    pMenu->show();
+                }
+            }
         }
     }
 }
@@ -461,7 +477,7 @@ void RibbonFrameWindow::FocusChanged(QWidget *old, QWidget *now)
 {
     Q_UNUSED(old)
     Q_UNUSED(now)
-    if (d->m_ribbonOptionData.ribbonHideEnable && d->m_ribbonOptionData.showRibbonWhenTabClicked)
+    if (d->m_ribbonOptionData.ribbonHideEnable && d->m_ribbonOptionData.showWhenTabClicked == SettingsDialog::Data::Ribbon)
     {
         if(!d->m_ribbonOptionData.ribbonPin && d->ribbonShow && !d->tabbarClicked)
         {
@@ -602,6 +618,10 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
 
             //加载命令组
             LoadUiElement(nodeInfo, pToolbar);
+
+            //将Page中所有控件加载到菜单
+            QMenu* pPageMenu = LoadUiMenu(nodeInfo, false);
+            d->m_pageMenuMap[index] = pPageMenu;
         }
 
         //加载主菜单
@@ -1099,7 +1119,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
     return pUiWidget;
 }
 
-QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
+QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element, bool enableWidget)
 {
     //创建菜单
     QString strCmdName = element.attribute("name");
@@ -1112,6 +1132,12 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
 #if (QT_VERSION >= QT_VERSION_CHECK(5,1,0))
     pMenu->setToolTipsVisible(true);
 #endif
+    LoadMenuItemFromXml(element, pMenu, enableWidget);
+    return pMenu;
+}
+
+void RibbonFrameWindow::LoadMenuItemFromXml(const QDomElement &element, QMenu *pMenu, bool enableWidget)
+{
     //为菜单添加Action
     QDomNodeList menuList = element.childNodes();
     for (int k = 0; k < menuList.count(); k++)
@@ -1145,20 +1171,40 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element)
             pWidgetAction->setDefaultWidget(pToolbar);
             pMenu->addAction(pWidgetAction);
         }
+        else if (strTagName == "ActionGroup"  || strTagName == "WidgetGroup")
+        {
+            auto actions = pMenu->actions();
+            if (!actions.isEmpty() && !actions.back()->isSeparator())
+                pMenu->addSeparator();
+
+            QString strId = GetElementId(menuNodeInfo);
+            QString strName = menuNodeInfo.attribute("name");
+            if (!strId.isEmpty())
+            {
+                QAction* pGroupAction = LoadUiAction(menuNodeInfo);
+                pMenu->addAction(pGroupAction);
+            }
+            else if (!strName.isEmpty())
+            {
+                QWidgetAction* pWidgetAction = new QWidgetAction(pMenu);
+                pWidgetAction->setDefaultWidget(new QLabel(strName));
+                pMenu->addAction(pWidgetAction);
+            }
+            LoadMenuItemFromXml(menuNodeInfo, pMenu, enableWidget);
+        }
         //其他控件
-        else
+        else if (enableWidget)
         {
             bool smallIcon;
-            QWidget* pUiWidget = LoadUiWidget(menuNodeInfo, nullptr, smallIcon);
+            QWidget* pUiWidget = LoadUiWidget(menuNodeInfo, pMenu, smallIcon);
             if (pUiWidget != nullptr)
             {
-                QWidgetAction* pWidgetAction = new QWidgetAction(this);
+                QWidgetAction* pWidgetAction = new QWidgetAction(pMenu);
                 pWidgetAction->setDefaultWidget(pUiWidget);
                 pMenu->addAction(pWidgetAction);
             }
         }
     }
-    return pMenu;
 }
 
 void RibbonFrameWindow::InitMenuButton(QToolButton *pMenuBtn, const QDomElement &element)

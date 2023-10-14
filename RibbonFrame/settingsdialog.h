@@ -17,7 +17,15 @@ public:
         bool ribbonHideEnable{};            //是否允许隐藏功能区
         bool ribbonPin{ true };             //是否固定功能区
         bool ribbonDoubleClickEnable{};     //是否允许通过双击Ribbon标签显示/隐藏功能区
-        bool showRibbonWhenTabClicked{};    //功能区隐藏时，在点击Ribbon标签时是否显示功能区
+
+        //功能区隐藏时，在点击Ribbon标签时显示什么
+        enum ShowWhenTabClicked
+        {
+            None,       //无
+            Ribbon,     //显示功能区
+            Menu        //显示菜单
+        };
+        ShowWhenTabClicked showWhenTabClicked{};
 
         void Save() const;
         void Load();
