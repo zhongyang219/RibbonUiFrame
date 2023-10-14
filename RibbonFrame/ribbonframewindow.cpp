@@ -637,6 +637,35 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             LoadSimpleToolbar(nodeInfo, pQuickAccessbar);
         }
 
+        //加载状态栏
+        else if (tagName == "StatusBar")
+        {
+            QStatusBar* pStatusbar = statusBar();
+            if (pStatusbar == nullptr)
+            {
+                pStatusbar = new QStatusBar(this);
+                setStatusBar(pStatusbar);
+            }
+            pStatusbar->setStyleSheet("margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px;");
+            //加载状态栏左侧控件
+            QToolBar* pLeftBar = new QToolBar(pStatusbar);
+            pStatusbar->addWidget(pLeftBar);
+            LoadSimpleToolbar(nodeInfo, pLeftBar);
+
+            //加载状态栏右侧控件
+            QToolBar* pRightBar = new QToolBar(pStatusbar);
+            pStatusbar->addPermanentWidget(pRightBar);
+            QDomNodeList statusbarElements = nodeInfo.childNodes();
+            for(int i = 0; i < statusbarElements.count(); i++)
+            {
+                QDomElement statusbarElement = statusbarElements.at(i).toElement();
+                if (statusbarElement.tagName() == "PermanentWidget")
+                {
+                    LoadSimpleToolbar(statusbarElement, pRightBar);
+                }
+            }
+        }
+
         //找到MainWindow节点时递归调用此函数
         else if (tagName == "MainWindow")
         {
@@ -756,7 +785,6 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
         else if (IsToolBarTag(strTagName))
         {
             QToolBar* pSubToolbar = new QToolBar;
-            pSubToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
             LoadSimpleToolbar(childElement, pSubToolbar);
             AddUiWidget(pSubToolbar, IsSmallIcon(childElement), pToolbar, previousLayout);
         }
@@ -783,6 +811,8 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
 void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *pToolbar)
 {
     pToolbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
+    pToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    pToolbar->layout()->setSpacing(20);
     QDomNodeList groupList = element.childNodes();
     for (int i = 0; i < groupList.count(); i++)
     {
@@ -818,6 +848,13 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
             pToolButton->setMenu(pMenu);
             QString strId = GetElementId(childElement);
             d->m_widgetMap[strId] = pToolButton;
+        }
+        else
+        {
+            bool smallIcon = true;
+            QWidget* pWidget = LoadUiWidget(childElement, pToolbar, smallIcon);
+            if (pWidget != nullptr)
+                pToolbar->addWidget(pWidget);
         }
     }
 }
@@ -1032,7 +1069,6 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             if (IsToolBarTag(childTagName))
             {
                 QToolBar* pChildToolbar = new QToolBar(pUiWidget);
-                pChildToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
                 LoadSimpleToolbar(childElement, pChildToolbar);
                 pLayout->addWidget(pChildToolbar);
             }

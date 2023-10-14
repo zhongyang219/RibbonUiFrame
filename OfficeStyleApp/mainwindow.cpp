@@ -59,55 +59,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_edit, SIGNAL(redoAvailable(bool)), this, SLOT(OnRedoAvailable(bool)));
 
     UpdateWindowTitle();
-    InitStatusBar();
 }
 
 MainWindow::~MainWindow()
 {
-}
-
-void MainWindow::InitStatusBar()
-{
-    QStatusBar* pStatusbar = statusBar();
-    if (pStatusbar == nullptr)
-    {
-        pStatusbar = new QStatusBar(this);
-        setStatusBar(pStatusbar);
-    }
-    pStatusbar->setFixedHeight(DPI(22));
-    QToolBar* pLeftBar = new QToolBar(pStatusbar);
-    pStatusbar->addWidget(pLeftBar);
-    pLeftBar->addAction(QSTR("页面：1/1"));
-    pLeftBar->addSeparator();
-    pLeftBar->addAction(QSTR("字数：0"));
-    pLeftBar->addSeparator();
-    pLeftBar->addAction(QSTR("中文 (中国)"));
-    pLeftBar->addSeparator();
-    pLeftBar->addAction(QSTR("插入"));
-
-    QToolBar* pRightBar = new QToolBar(pStatusbar);
-    pRightBar->setIconSize(QSize(DPI(16), DPI(16)));
-    pRightBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-    pStatusbar->addPermanentWidget(pRightBar);
-    QActionGroup* pActionGroup = new QActionGroup(pRightBar);
-    auto addRightAction = [&](const QString& iconPath, const QString& text){
-        QAction* pAction = pRightBar->addAction(CreateIcon(iconPath, DPI(16)), text);
-        pAction->setCheckable(true);
-        pActionGroup->addAction(pAction);
-    };
-    addRightAction("://res/Image/printlayout16x16.png", QSTR("页面视图"));
-    addRightAction("://res/Image/smallfullscreen.png", QSTR("阅读版式视图"));
-    addRightAction("://res/Image/smallweblayout.png", QSTR("Web 版式视图"));
-    addRightAction("://res/Image/smalloutline.png", QSTR("大纲视图"));
-    addRightAction("://res/Image/smalldraft.png", QSTR("草稿"));
-
-    pRightBar->addAction("100%");
-    pRightBar->addAction("-");
-    QSlider* pZoomSlider = new QSlider(pRightBar);
-    pZoomSlider->setOrientation(Qt::Horizontal);
-    pZoomSlider->setFixedWidth(DPI(100));
-    pRightBar->addWidget(pZoomSlider);
-    pRightBar->addAction("+");
 }
 
 void MainWindow::ApplyFont()
@@ -375,7 +330,13 @@ QWidget *MainWindow::CreateUserWidget(const QString &strId, QWidget *pParent)
         pSpin->setSingleStep(0.5);
         pSpin->setDecimals(1);
         return pSpin;
-
+    }
+    else if (strId == "statusbar_zoom_slider")
+    {
+        QSlider* pZoomSlider = new QSlider(pParent);
+        pZoomSlider->setOrientation(Qt::Horizontal);
+        pZoomSlider->setFixedWidth(DPI(100));
+        return pZoomSlider;
     }
     return nullptr;
 }

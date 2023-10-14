@@ -13,8 +13,6 @@ public:
     ~MainWindow();
 
 private:
-    void InitStatusBar();
-
     enum class DocFormat
     {
         Text,

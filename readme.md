@@ -108,9 +108,13 @@
 
 # 界面xml文件说明
 
-界面框架使用xml文件配置界面，xml文件的路径通过`RibbonFrameWindow`的构造函数传递，如果该路径为空，则默认读取应用程序所在目录下名为`Mainframe.xml`的文件。。
+界面框架使用xml文件配置界面，xml文件的路径通过`RibbonFrameWindow`的构造函数传递，如果该路径为空，则默认读取应用程序所在目录下名为`Mainframe.xml`的文件。
 
-## root节点
+xml文件节点可分为功能节点、容器节点和控件节点。
+
+## 容器节点
+
+### root节点
 
 xml文件唯一的根节点。
 
@@ -120,9 +124,13 @@ xml文件唯一的根节点。
 * font：字体名称。
 * fontSize：字体的大小。
 
-## MainWindow节点
+### MainWindow节点
 
 MainWindow节点下包含所有主窗口元素，例如Page、SystemMenu、QuickAccessBar、Action。这些节点可以放在MainWindow节点下，也可以直接放在root节点（根节点）下。
+
+MainWindow节点必须放在根节点下。
+
+MainWindow节点或根节点下的控件节点将被添加到窗口的右上角。
 
 **属性说明**
 
@@ -130,12 +138,11 @@ MainWindow节点下包含所有主窗口元素，例如Page、SystemMenu、Quick
 
   如果有此属性，则用此属性的值作为窗口标题，否则使用root节点下appName属性的值作为窗口标题。
 
-## Page节点
+### Page节点
 
 Page节点为主界面中的一个标签页，对应一个模块。
 
 在主界面中切换到一个标签页时，会显示对应模块的主窗口。
-
 
 **属性说明**
 
@@ -145,7 +152,55 @@ Page节点为主界面中的一个标签页，对应一个模块。
 
 你也可以在多个Page节点中指定相同的modulePath属性，此时多个标签将对应同一个模块，切换到这些标签时，显示的都该模块的主窗口。
 
-## Action节点
+### ActionGroup节点
+
+将若干个Action和其他控件添加到一个组中。
+
+**属性说明**
+
+* name：组的名称。
+* optionBtn：是否在命令组的右下角显示选项按钮。
+* id：当optionBtn属性为true时点击选项按钮，OnCommand函数会传递此ID。
+
+Page节点下的Action节点可以放到ActionGroup节点下，也可以直接放到Page节点下。
+
+### QuickAccessBar节点
+
+显示在界面左上角的快速启动栏，子节点可以是所有控件节点。
+
+QuickAccessBar节点必须位于根节点或MainWindow节点下。
+
+### SystemMenu节点
+
+显示在界面左上角按钮，点击后会弹出系统菜单。
+
+SystemMenu节点必须位于根节点或MainWindow节点下。
+
+### WidgetGroup节点
+
+将若干个Widget组合到一起。子节点可以是除了Action、Separator、Menu以外的所有控件节点，也可以是ToolBar节点。
+
+**属性说明**
+
+* horizontalArrange：如果为true，则WidgetGroup中的项目为水平排列。未设置时为true。
+
+ ### ToolBar节点
+
+一个工具栏，子节点可以是所有控件节点。子控件水平排列。图标大小固定为16x16。
+
+### StatusBar节点
+
+状态栏。子节点可以是所有控件节点。控件将被添加到状态栏的左侧。如果将控件放在PermanentWidget节点下面，则将显示在状态栏的右侧。
+
+StatusBar节点必须位于根节点或MainWindow节点下。
+
+### PermanentWidget节点
+
+仅作为StatusBar节点的子节点，子节点可以是所有控件节点。控件将被添加到状态栏的右侧。
+
+## 控件节点
+
+### Action节点
 
 Action节点用于设置模块标签页下工具栏中的命令、菜单下的命令，以及标签栏右上角的命令。
 
@@ -163,26 +218,14 @@ Action节点用于设置模块标签页下工具栏中的命令、菜单下的�
 * btnStyle：命令的风格，可以为以下值之一：
 
   * compact：紧凑按钮，文本显示在图标旁边，效果同smallIcon为true。
-* textOnly：仅文本，即使指定了icon属性也不显示图标。
+  * textOnly：仅文本，即使指定了icon属性也不显示图标。
   * iconOnly：仅图标，不显示文本。
 
-## ActionGroup节点
-
-将若干个Action和其他控件添加到一个组中。
-
-**属性说明**
-
-* name：组的名称。
-* optionBtn：是否在命令组的右下角显示选项按钮。
-* id：当optionBtn属性为true时点击选项按钮，OnCommand函数会传递此ID。
-
-Page节点下的Action节点可以放到ActionGroup节点下，也可以直接放到Page节点下。
-
-## Separator节点
+### Separator节点
 
 显示在工具栏中的分隔符。
 
-## Menu节点
+### Menu节点
 
 在工具栏中显示一个有下拉菜单的按钮
 
@@ -200,11 +243,7 @@ Page节点下的Action节点可以放到ActionGroup节点下，也可以直接�
 
 * btnStyle：同Action节点
 
-Menu节点下面可以包含Action节点、Separator节点和其他控件节点，也可以嵌套Menu节点。
-
-## SystemMenu节点
-
-显示在界面左上角按钮，点击后会弹出系统菜单
+Menu节点下面可以包含Action节点、Separator节点ToolBar节点和其他控件节点，也可以嵌套Menu节点。
 
 **属性说明**
 
@@ -213,15 +252,11 @@ Menu节点下面可以包含Action节点、Separator节点和其他控件节点�
 
 SystemMenu节点下面可以包含Action节点、Separator节点和其他控件节点，也可以嵌套Menu节点。
 
-## QuickAccessBar节点
-
-显示在界面左上角的快速启动栏，子节点可以是Action节点、Separator节点和Menu节点。
-
-## Label节点
+### Label节点
 
 添加一个QLabel对象。
 
-## LineEdit节点
+### LineEdit节点
 
 添加一个QLineEdit对象。
 
@@ -229,7 +264,7 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 * editable：是否可以编辑。未指定时为true
 
-## TextEdit/Edit节点
+### TextEdit/Edit节点
 
 添加一个QTextEdit对象。
 
@@ -237,7 +272,7 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 * editable：是否可以编辑。未指定时为true
 
-## ComboBox节点
+### ComboBox节点
 
 添加一个QComboBox对象。
 
@@ -245,11 +280,11 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 * editable：是否可以编辑。未指定时为false
 
-## CheckBox节点
+### CheckBox节点
 
 添加一个QCheckBox对象。
 
-## RadioButton节点
+### RadioButton节点
 
 添加一个QRadioButton对象。
 
@@ -257,7 +292,7 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 * radioGroup：设置QRadioButton所在组，具有相同radioGroup值的RadioButton为同一组。
 
-## ListWidget节点
+### ListWidget节点
 
 添加一个QListWidget对象。
 
@@ -265,29 +300,13 @@ SystemMenu节点下面可以包含Action节点、Separator节点和其他控件�
 
 * horizontalArrange：如果为true，则ListWidget中的项目为水平排列。
 
-## UserWidget节点
+### UserWidget节点
 
 添加一个用户自定义控件。
 
 当框架需要创建此控件时，会调用对应`IModule`接口中的`CreateRibbonWidget`函数，模块需要在此函数中根据id创建自定义控件，并返回控件的指针。
 
-## WidgetGroup节点
-
-将若干个Widget组合到一起。
-
-**属性说明**
-
-* horizontalArrange：如果为true，则WidgetGroup中的项目为水平排列。未设置时为true。
-
-## Plugins节点
-
-Plugins节点用于配置需要加载的无界面模块。类似于Page节点，但是在这里配置的模块将不会显示主窗口。
-
-Plugins节点必须位于根节点下。
-
-每个模块在子节点Plugin中配置，path属性为插件的路径，同Page节点的modulePath属性。
-
-## 通用属性
+### 通用属性
 
 id：控件的id
 
@@ -296,6 +315,16 @@ name：控件的名称
 width：控件的宽度度
 
 height：控件的高度
+
+## 功能节点
+
+### Plugins节点
+
+Plugins节点用于配置需要加载的无界面模块。类似于Page节点，但是在这里配置的模块将不会显示主窗口。
+
+Plugins节点必须位于根节点下。
+
+每个模块在子节点Plugin中配置，path属性为插件的路径，同Page节点的modulePath属性。
 
 # 更换主题
 

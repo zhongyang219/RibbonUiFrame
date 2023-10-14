@@ -314,6 +314,28 @@
         </ActionGroup>
     </Page>
 
+    <StatusBar>
+        <Action name="页面：1/1" id="statusbar_page"/>
+        <Separator/>
+        <Action name="字数：0" id="tatusbar_wordCount"/>
+        <Separator/>
+        <Action name="中文 (中国)" id="tatusbar_language"/>
+        <Separator/>
+        <Action name="插入" id="tatusbar_insert"/>
+
+        <PermanentWidget>
+            <Action name="页面视图" icon="://res/Image/printlayout16x16.png" id="statusbar_printlayout" radioGroup="3"/>
+            <Action name="阅读版式视图" icon="://res/Image/smallfullscreen.png" id="statusbar_fullscreen" radioGroup="3"/>
+            <Action name="Web版式视图" icon="://res/Image/smallweblayout.png" id="statusbar_weblayout" radioGroup="3"/>
+            <Action name="大纲视图" icon="://res/Image/smalloutline.png" id="statusbar_outline" radioGroup="3"/>
+            <Action name="草稿" icon="://res/Image/smalldraft.png" id="statusbar_draft" radioGroup="3"/>
+            <Action name="100%" id="statusbar_zoom"/>
+            <Action name="-" id="statusbar_zoomout"/>
+            <UserWidget id="statusbar_zoom_slider"/>
+            <Action name="+" id="statusbar_zoomin"/>
+        </PermanentWidget>
+    </StatusBar>
+
 	<Plugins>
 		<Plugin path="StylePlugin"/>
 	</Plugins>
