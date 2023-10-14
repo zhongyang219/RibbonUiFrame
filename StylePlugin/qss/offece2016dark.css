@@ -49,6 +49,8 @@ QTabWidget#MainFrameTab {
 
 QTabWidget#MainFrameTab:pane {
     border: none;
+    border-bottom: 1px solid #434343;
+    top: 0px;
 }
 
 .QGroupBox{

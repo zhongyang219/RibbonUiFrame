@@ -748,6 +748,11 @@ QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,Q
 background:#191919;
 }
 
+QStatusBar {
+    background: #2c2c2c;
+    border-top: 1px solid #535353;
+}
+
 *:disabled{
 color:#969696;
 background:#191919;

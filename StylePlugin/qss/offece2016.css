@@ -169,18 +169,7 @@ QToolBar#MainFrameToolbar QToolButton:hover {
 }
 
 QToolBar#MainFrameToolbar QToolButton:pressed {
-    background: #b1b1b1;
-}
-
-QToolBar#MainFrameToolbar QToolButton[popupMode="1"]:pressed {
     border: 1px solid #808080;
-    padding: 1px;
-    background: #c6c6c6;
-}
-
-QToolBar#MainFrameToolbar QToolButton[popupMode="2"]:pressed {
-    border: 1px solid #808080;
-    padding: 1px;
     background: #c6c6c6;
 }
 
