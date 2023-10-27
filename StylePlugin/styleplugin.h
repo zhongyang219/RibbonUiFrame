@@ -5,12 +5,14 @@
 #include "moduleinterface.h"
 #include <QAction>
 #include <QPalette>
+#include "themecolor.h"
 
 class IMainFrame;
 
 class STYLEPLUGIN_EXPORT StylePlugin
         : public QObject, public IModule
 {
+    Q_OBJECT
 public:
     StylePlugin();
 
@@ -28,15 +30,21 @@ public:
 private:
     QAction* AddThemeAction(const QString& name, QMenu* pMenu);
     void SetStyle(const QString& styleName);
+    void SetThemeColor(const QColor& color);
 
 private slots:
     void OnStyleActionTriggered(bool);
+    void OnThemeColorBlue();
+    void OnThemeColorGreen();
+    void OnThemeColorRed();
+    void OnCustomThemeColor();
 
 private:
     QList<QAction*> m_themeActionList;
     IMainFrame* m_pMainFrame{};
     QString m_curStyle;
     QPalette m_defaultPalette;
+    ThemeColor m_themeColor;
 };
 
 #ifdef __cplusplus

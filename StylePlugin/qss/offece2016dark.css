@@ -504,14 +504,14 @@ QCheckBox::indicator:unchecked:hover, QGroupBox::indicator:unchecked:hover, QTre
 
 QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked, QRadioButton::indicator:checked,
 QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QRadioButton::indicator:indeterminate {
-    background: #2a5397;
-    border: 1px solid #4675ad;
+    background: @themeColorDarker1;
+    border: 1px solid @themeColor0;
 }
 
 QCheckBox::indicator:checked:hover, QGroupBox::indicator:checked:hover, QTreeView::indicator:checked:hover, QListView::indicator:checked:hover, QRadioButton::indicator:checked:hover,
 QCheckBox::indicator:indeterminate:hover, QGroupBox::indicator:indeterminate:hover, QTreeView::indicator:indeterminate:hover, QListView::indicator:indeterminate:hover, QRadioButton::indicator:indeterminate:hover {
-    background: #124078;
-    border: 1px solid #7da3c6;
+    background: @themeColorDarker2;
+    border: 1px solid @themeColorLighter1;
 }
 
 QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeView::indicator:checked,QListView::indicator:checked{

@@ -178,6 +178,7 @@
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="stylemanager.cpp" />
     <ClCompile Include="styleplugin.cpp" />
+    <ClCompile Include="themecolor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="StylePlugin_global.h" />
     <ClInclude Include="stylemanager.h" />
     <ClInclude Include="styleplugin.h" />
+    <ClInclude Include="themecolor.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

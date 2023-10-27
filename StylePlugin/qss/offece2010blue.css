@@ -292,15 +292,10 @@ background:#AABFDF
 QTabBar::tab{
 border:none;
 background:transparent;
-min-height:24px;
-padding:0px 6px;
-border-top-left-radius:2px;
-border-top-right-radius:2px;
 }
 
 QTabBar::tab:selected{
 border:1px solid #C6C6C6;
-border-bottom:0px;
 border-color:#C6C6C6;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #f5faff,stop:1 #f3f8ff);
 }
@@ -314,7 +309,58 @@ QTabBar::tab:hover:selected{
 color:#204173;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fcdd82,stop:1 #f2eed7);
 border:1px solid #df9f02;
+}
+
+/*选项卡在上方*/
+QTabBar::tab:top{
+min-height:24px;
+padding:0px 6px;
+border-top-left-radius:2px;
+border-top-right-radius:2px;
 border-bottom-width:0px;
+}
+
+QTabBar::tab:top:hover{
+border-bottom-width:0px;
+}
+
+/*选项卡在下方*/
+QTabBar::tab:bottom{
+min-height:24px;
+padding:0px 6px;
+border-bottom-left-radius:2px;
+border-bottom-right-radius:2px;
+border-top-width:0px;
+}
+
+QTabBar::tab:bottom:hover{
+border-top-width:0px;
+}
+
+/*选项卡在左侧*/
+QTabBar::tab:left{
+min-width:24px;
+padding:6px 0px;
+border-top-left-radius:2px;
+border-bottom-left-radius:2px;
+border-right-width:0px;
+}
+
+QTabBar::tab:left:hover{
+border-right-width:0px;
+}
+
+/*选项卡在右侧*/
+QTabBar::tab:right{
+min-width:24px;
+padding:6px 0px;
+border-top-right-radius:2px;
+border-bottom-right-radius:2px;
+border-left-width:0px;
+}
+
+QTabBar::tab:right:hover{
+border-left-width:0px;
 }
 
 QTabWidget:pane{

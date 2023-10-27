@@ -24,20 +24,20 @@ QToolBar#MainFrameCornerBar QToolButton {
 }
 
 QToolBar#MainFrameCornerBar QToolButton:hover {
-    background: #124078;
+    background: @themeColorDarker2;
 }
 
 QToolBar#MainFrameCornerBar QToolButton:pressed {
-    background: #002050;
+    background: @themeColorDarker3;
 }
 
 QToolBar#MainFrameCornerBar QToolButton:checked {
-    background: #AABFDF;
+    background: @themeColorLighter2;
     color: #262626
 }
 
 QTabWidget#MainFrameTab {
-    background: #2b579a;
+    background: @themeColorOri;
 }
 
 QTabWidget#MainFrameTab:pane {
@@ -62,7 +62,7 @@ QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,Q
 border:1px solid #ABABAB;
 padding:2px;
 background:none;
-selection-background-color:#D7E2F3;
+selection-background-color:@themeColorLighter3;
 selection-color:#000000;
 }
 
@@ -71,11 +71,11 @@ height: 22px;
 }
 
 QLineEdit:focus,QTextEdit:focus,QPlainTextEdit:focus,QSpinBox:focus,QDoubleSpinBox:focus,QComboBox:focus,QDateEdit:focus,QTimeEdit:focus,QDateTimeEdit:focus,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QSpinBox:hover,QDoubleSpinBox:hover,QComboBox:hover,QDateEdit:hover,QTimeEdit:hover,QDateTimeEdit:hover{
-border:1px solid #4a78b0;
+border:1px solid @themeColorDarker1;
 }
 
 QLineEdit:hover, QSpinBox:hover, QDoubleSpinBox:hover, QDateEdit:hover, QTimeEdit:hover, QDateTimeEdit:hover{
-    background: #e3ecfa;
+    background: @themeColorLighter4;
 }
 
 QPushButton {
@@ -89,11 +89,11 @@ QPushButton {
 }
 
 QPushButton:hover {
-background: #D7E2F3;
+background: @themeColorLighter4;
 }
 
 QPushButton:pressed {
-background: #AABFDF;
+background: @themeColorLighter3;
 }
 
 QPushButton:disabled {
@@ -109,16 +109,16 @@ QPushButton#MainFrameBtn{
 padding:2px;
 border:none;
 min-height:24px;
-background:#2B579A;
+background:@themeColorOri;
 color:#ffffff;
 }
 
 QPushButton#MainFrameBtn::hover{
-background:#124078;
+background:@themeColorDarker2;
 }
 
 QPushButton#MainFrameBtn::pressed{
-background:#002050;
+background:@themeColorDarker3;
 }
 
 QPushButton#MainFrameBtn::menu-indicator{
@@ -133,7 +133,7 @@ padding:2px;
 }
 
 QToolButton:hover {
-background: #D7E2F3;
+background: @themeColorLighter4;
 }
 
 QToolButton:disabled {
@@ -142,7 +142,7 @@ QToolButton:disabled {
 }
 
 QToolButton:pressed {
-    background: #AABFDF;
+    background: @themeColorLighter2;
 }
 
 /*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
@@ -161,7 +161,7 @@ subcontrol-origin: margin;
 }
 
 QToolButton:checked{
-    background: #AABFDF;
+    background: @themeColorLighter2;
 }
 
 QToolBar#MainFrameToolbar QToolButton:hover {
@@ -263,11 +263,11 @@ QTimeEdit::down-button, QDateEdit::down-button, QDateTimeEdit::down-button, QDou
 
 
 QTimeEdit::up-button:hover,QDateEdit::up-button:hover,QDateTimeEdit::up-button:hover,QDoubleSpinBox::up-button:hover,QSpinBox::up-button:hover,QTimeEdit::down-button:hover,QDateEdit::down-button:hover,QDateTimeEdit::down-button:hover,QDoubleSpinBox::down-button:hover,QSpinBox::down-button:hover,QSpinBox::down-button:hover{
-background:#D7E2F3;
+background:@themeColorLighter3;
 }
 
 QTimeEdit::up-button:pressed,QDateEdit::up-button:pressed,QDateTimeEdit::up-button:pressed,QDoubleSpinBox::up-button:pressed,QSpinBox::up-button:pressed,QTimeEdit::down-button:pressed,QDateEdit::down-button:pressed,QDateTimeEdit::down-button:pressed,QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
-background:#AABFDF;
+background:@themeColorLighter2;
 }
 
 QComboBox {
@@ -290,17 +290,17 @@ QComboBox[editable="false"]::drop-down:hover {
 }
 
 QComboBox[editable="false"]:hover {
-    background: #D7E2F3;
+    background: @themeColorLighter4;
 }
 
 QComboBox::drop-down:hover, QDateEdit::drop-down:hover, QDateTimeEdit::drop-down:hover {
-    background: #D7E2F3;
-    border-left: 1px solid #4a78b0;
+    background: @themeColorLighter4;
+    border-left: 1px solid @themeColor0;
 }
 
 QComboBox::drop-down:pressed, QDateEdit::drop-down:pressed, QDateTimeEdit::drop-down:pressed {
-    background: #AABFDF;
-    border-left: 1px solid #4a78b0;
+    background: @themeColorLighter2;
+    border-left: 1px solid @themeColor0;
 }
 
 QComboBox[editable="false"]::drop-down:pressed {
@@ -309,8 +309,8 @@ QComboBox[editable="false"]::drop-down:pressed {
 }
 
 QComboBox[editable="false"]:on {
-    background: #a5b9d1;
-    border: 1px solid #3c65a4;
+    background: @themeColorLighter2;
+    border: 1px solid @themeColorDarker1;
 }
 
 QComboBox::down-arrow, QDateEdit[calendarPopup="true"]::down-arrow, QTimeEdit[calendarPopup="true"]::down-arrow, QDateTimeEdit[calendarPopup="true"]::down-arrow {
@@ -331,12 +331,12 @@ border-left-color:#B6B6B6;
 }
 
 QComboBox QAbstractItemView{
-selection-background-color:#D7E2F3;
+selection-background-color:@themeColorLighter4;
 selection-color:#000000;
 }
 
 /*QTableView::item:selected {
-    background: #D7E2F3;
+    background: @themeColorLighter4;
     color: #000000;
 }
 */
@@ -361,7 +361,7 @@ QTreeView QHeaderView::section:horizontal, QListView QHeaderView::section:horizo
 }
 
 QHeaderView::section:pressed {
-    background: #AABFDF
+    background: @themeColorLighter2
 }
 
 QTabBar::tab {
@@ -372,41 +372,44 @@ QTabBar::tab {
 QTabBar::tab:top, QTabBar::tab:bottom {
     border-bottom: 4px solid transparent;
     min-height: 24px;
-    margin: 0px 12px;
+    margin: 0px 10px;
+    padding: 0px 2px;
 }
 
 QTabBar::tab:left {
     border-right: 4px solid transparent;
     min-width: 24px;
-    margin: 12px 0px;
+    margin: 10px 0px;
+    padding: 2px 0px
 }
 
 QTabBar::tab:right {
     border-left: 4px solid transparent;
     min-width: 24px;
-    margin: 12px 0px;
+    margin: 10px 0px;
+    padding: 2px 0px
 }
 
 QTabBar::tab:selected{
-    color:#2b579a;
+    color:@themeColorOri;
     font: bold;
-    border-bottom-color: #2b579a;
+    border-bottom-color: @themeColorOri;
 }
 
 QTabBar::tab:top:selected, QTabBar::tab:bottom:selected {
-    border-bottom-color: #2b579a;
+    border-bottom-color: @themeColorOri;
 }
 
 QTabBar::tab:left:selected {
-    border-right-color: #2b579a;
+    border-right-color: @themeColorOri;
 }
 
 QTabBar::tab:right:selected {
-    border-left-color: #2b579a;
+    border-left-color: @themeColorOri;
 }
 
 QTabBar::tab:hover:!selected{
-    color:#2b579a;
+    color:@themeColorOri;
 }
 
 QTabWidget:pane{
@@ -416,7 +419,7 @@ border: none;
 
 QTabBar#MainFrameTabBar::tab {
     color: #ffffff;
-    background: #2b579a;
+    background: @themeColorOri;
     padding: 0px 12px;
     margin: 0px;
     min-height: 30px;
@@ -426,14 +429,14 @@ QTabBar#MainFrameTabBar::tab {
 QTabBar#MainFrameTabBar::tab:selected {
     border: none;
     border-bottom: 0px;
-    color: #2b579a;
+    color: @themeColorOri;
     background: #f3f3f3;
     font: normal;
 }
 
 QTabBar#MainFrameTabBar::tab:hover:!selected {
     color: #ffffff;
-    background: #124078;
+    background: @themeColorDarker2;
 }
 
 QListView, QTreeView, QTableView {
@@ -491,20 +494,20 @@ QCheckBox::indicator:unchecked, QGroupBox::indicator:unchecked, QTreeView::indic
 }
 
 QCheckBox::indicator:unchecked:hover, QGroupBox::indicator:unchecked:hover, QTreeView::indicator:unchecked:hover, QListView::indicator:unchecked:hover, QRadioButton::indicator::unchecked:hover {
-    background: #e3ecfa;
-    border: 1px solid #4a78b0;
+    background: @themeColorLighter4;
+    border: 1px solid @themeColor0;
 }
 
 QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked, QRadioButton::indicator:checked,
 QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QRadioButton::indicator:indeterminate {
-    background: #2b579a;
-    border: 1px solid #124078;
+    background: @themeColorOri;
+    border: 1px solid @themeColorDarker2;
 }
 
 QCheckBox::indicator:checked:hover, QGroupBox::indicator:checked:hover, QTreeView::indicator:checked:hover, QListView::indicator:checked:hover, QRadioButton::indicator:checked:hover,
 QCheckBox::indicator:indeterminate:hover, QGroupBox::indicator:indeterminate:hover, QTreeView::indicator:indeterminate:hover, QListView::indicator:indeterminate:hover, QRadioButton::indicator:indeterminate:hover {
-    background: #124078;
-    border: 1px solid #2b579a;
+    background: @themeColorDarker2;
+    border: 1px solid @themeColorOri;
 }
 
 QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeView::indicator:checked,QListView::indicator:checked{

@@ -19,13 +19,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     StringHelper.cpp \
     stylemanager.cpp \
-    styleplugin.cpp
+    styleplugin.cpp \
+    themecolor.cpp
 
 HEADERS += \
     StringHelper.h \
     StylePlugin_global.h \
     stylemanager.h \
-    styleplugin.h
+    styleplugin.h \
+    themecolor.h
 
 INCLUDEPATH += $$PWD/../include
 

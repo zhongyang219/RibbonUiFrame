@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QActionGroup>
 #include <QStyleFactory>
+#include <QColorDialog>
 #include "ribbonuipredefine.h"
 
 #ifdef Q_OS_WIN
@@ -15,6 +16,17 @@
 #else
 #define DEFAULT_STYLE_KEY "Fusion"
 #endif
+
+#define DEFAULT_THEME_COLOR_BLUE "#2b579a"
+#define DEFAULT_THEME_COLOR_GREEN "#2a7e2b"
+#define DEFAULT_THEME_COLOR_RED "#e45031"
+
+static QIcon CreateSingleColorIcon(const QColor& color)
+{
+    QPixmap pixmap(DPI(16), DPI(16));
+    pixmap.fill(color);
+    return QIcon(pixmap);
+}
 
 StylePlugin::StylePlugin()
 {
@@ -26,6 +38,8 @@ void StylePlugin::InitInstance()
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     m_curStyle = settings.value("style").toString();
+    QString strThemeColor = settings.value("themeColor", DEFAULT_THEME_COLOR_BLUE).toString();
+    m_themeColor.SetColor(QColor(strThemeColor));
 }
 
 void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
@@ -67,6 +81,14 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
 
                     pGroup->addAction(pAction);
                 }
+
+                //主题颜色
+                pMenu->addSeparator();
+                QMenu* pThemeColorMenu = pMenu->addMenu(QSTR("主题颜色"));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_BLUE)), QSTR("蓝色"), this, SLOT(OnThemeColorBlue()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_GREEN)), QSTR("绿色"), this, SLOT(OnThemeColorGreen()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_RED)), QSTR("红色"), this, SLOT(OnThemeColorRed()));
+                pThemeColorMenu->addAction(QSTR("自定义主题色..."), this, SLOT(OnCustomThemeColor()));
             }
         }
     }
@@ -86,7 +108,7 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
         if (QStyleFactory::keys().contains(m_curStyle))
             qApp->setStyle(QStyleFactory::create(m_curStyle));
         else
-            CStyleManager::Instance()->ApplyStyleSheet(m_curStyle);
+            CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
         Q_FOREACH(QAction* pAction, m_themeActionList)
         {
             if (pAction != nullptr && pAction->text() == m_curStyle)
@@ -100,6 +122,7 @@ void StylePlugin::UnInitInstance()
     //保存设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     settings.setValue("style", m_curStyle);
+    settings.setValue("themeColor", m_themeColor.OriginalColor().name());
 }
 
 IModule::eMainWindowType StylePlugin::GetMainWindowType() const
@@ -128,24 +151,28 @@ void StylePlugin::OnCommand(const char* strCmd, bool checked)
 
 void *StylePlugin::OnMessage(const char *msgType, void *para1, void *para2)
 {
-    Q_UNUSED(para1)
     QString strMsgType = msgType;
-    if (strMsgType == "GetStyleType")
+    if (strMsgType == MODULE_MSG_GetStyleType)
     {
         CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
         if (pStyle != nullptr)
             return (void*)pStyle->m_type;
     }
-    else if (strMsgType == "GetStyleName")
+    else if (strMsgType == MODULE_MSG_GetStyleName)
     {
         static QByteArray styleName;
         styleName = m_curStyle.toUtf8();
         return (void*)styleName.constData();
     }
-    else if (strMsgType == "IsDarkTheme")
+    else if (strMsgType == MODULE_MSG_IsDarkTheme)
     {
         CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
         return (void*)((pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark) || m_curStyle == u8"Office2016深色");
+    }
+    else if (strMsgType == MODULE_MSG_SetThemeColor)
+    {
+        QColor themeColor((const char*)para1);
+        SetThemeColor(themeColor);
     }
     return nullptr;
 }
@@ -178,12 +205,18 @@ void StylePlugin::SetStyle(const QString &styleName)
         else
         {
             qApp->setStyle(QStyleFactory::create(DEFAULT_STYLE_KEY));
-            CStyleManager::Instance()->ApplyStyleSheet(styleName);
+            CStyleManager::Instance()->ApplyStyleSheet(styleName, nullptr, &m_themeColor);
         }
         m_curStyle = styleName;
         QByteArray curStyleData = m_curStyle.toUtf8();
         m_pMainFrame->SendModuleMessage(nullptr, MODULE_MSG_StyleChanged, (void*)curStyleData.constData());
     }
+}
+
+void StylePlugin::SetThemeColor(const QColor &color)
+{
+    m_themeColor.SetColor(color);
+    CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
 }
 
 void StylePlugin::OnStyleActionTriggered(bool)
@@ -192,6 +225,30 @@ void StylePlugin::OnStyleActionTriggered(bool)
     if (pAction != nullptr)
     {
         SetStyle(pAction->text());
+    }
+}
+
+void StylePlugin::OnThemeColorBlue()
+{
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_BLUE));
+}
+
+void StylePlugin::OnThemeColorGreen()
+{
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_GREEN));
+}
+
+void StylePlugin::OnThemeColorRed()
+{
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_RED));
+}
+
+void StylePlugin::OnCustomThemeColor()
+{
+    QColorDialog colorDlg(m_themeColor.OriginalColor(), dynamic_cast<QWidget*>(m_pMainFrame));
+    if (colorDlg.exec() == QDialog::Accepted)
+    {
+        SetThemeColor(colorDlg.currentColor());
     }
 }
 

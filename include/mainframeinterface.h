@@ -110,6 +110,11 @@ public:
      */
     virtual void* GetMenu(const char* strId) = 0;
 
+    /**
+     * @brief       设置状态栏文本
+     * @param[in]	text 要设置的文本
+     * @param[in]	timeOut 文本显示的时长，单位为毫秒，0表示一直显示
+     */
     virtual void SetStatusBarText(const char* text, int timeOut) = 0;
 };
 

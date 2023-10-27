@@ -32,23 +32,30 @@ CStyleManager::CStyle::CStyle(const QString &strPath, const QString name, StyleT
     }
 }
 
-void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget) const
+void CStyleManager::CStyle::ApplyStyleSheet(QWidget *pWidget, ThemeColor *pThemeColor) const
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    QString strQss = m_strQss;
+    if (pThemeColor != nullptr)
+    {
+        pThemeColor->ApplyThemeColor(strQss);
+//        qDebug() << "theme color:" << pThemeColor->OriginalColor().name();
+    }
+
     if (pWidget != nullptr)
     {
         //设置样式表
         if (m_bParsePaletteColor)
             pWidget->setPalette(m_palette);
         pWidget->setStyleSheet("");
-        pWidget->setStyleSheet(m_strQss);
+        pWidget->setStyleSheet(strQss);
     }
     else
     {
         if (m_bParsePaletteColor)
             qApp->setPalette(m_palette);
         qApp->setStyleSheet("");
-        qApp->setStyleSheet(m_strQss);
+        qApp->setStyleSheet(strQss);
     }
     QApplication::restoreOverrideCursor();
 }
@@ -123,13 +130,13 @@ CStyleManager *CStyleManager::Instance()
     return m_instance;
 }
 
-void CStyleManager::ApplyStyleSheet(const QString &styleName, QWidget *pWidget)
+void CStyleManager::ApplyStyleSheet(const QString &styleName, QWidget *pWidget, ThemeColor* pThemeColor)
 {
     for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
     {
         if (iter->m_strName == styleName)
         {
-            iter->ApplyStyleSheet(pWidget);
+            iter->ApplyStyleSheet(pWidget, pThemeColor);
             break;
         }
     }

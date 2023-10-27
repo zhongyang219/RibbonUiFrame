@@ -5,6 +5,7 @@
 #include <QList>
 #include <QWidget>
 #include <QComboBox>
+#include "themecolor.h"
 
 class CStyleManager
 {
@@ -27,7 +28,7 @@ public:
          * 输入参数:
          *   pWidget: 窗口的指针
          */
-        void ApplyStyleSheet(QWidget* pWidget = nullptr) const;
+        void ApplyStyleSheet(QWidget* pWidget = nullptr, ThemeColor* pThemeColor = nullptr) const;
 
         /**
             @brief 对一个样式表中所有像素值根据系统DPI设定进行放大
@@ -45,7 +46,7 @@ public:
         bool m_bParsePaletteColor;
     };
 
-    void ApplyStyleSheet(const QString& styleName, QWidget* pWidget = nullptr);
+    void ApplyStyleSheet(const QString& styleName, QWidget* pWidget = nullptr, ThemeColor* pThemeColor = nullptr);
     const QList<CStyle>& GetAllStyles() const;
     CStyle* GetStyle(const QString& styleName);
 
