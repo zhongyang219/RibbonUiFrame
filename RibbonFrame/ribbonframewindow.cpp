@@ -60,6 +60,8 @@
 #endif
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //获取xml节点中一个属性的bool值
 static bool GetAttributeBool(const QDomElement& element, const QString& attr, bool defaultVal = false)
@@ -131,6 +133,16 @@ static QString GetElementId(const QDomElement& element)
     if (strId.isEmpty())
         strId = element.attribute("commandID");
     return strId;
+}
+
+//获取一个xml元素是否可用
+static bool GetElementEnabled(const QDomElement& element, bool defaultVal = true)
+{
+    if (element.hasAttribute("enabled"))
+        return GetAttributeBool(element,"enabled", defaultVal);
+    else if (element.hasAttribute("enable"))
+        return GetAttributeBool(element,"enable", defaultVal);
+    return defaultVal;
 }
 
 //从路径创建一个指定大小的图标
@@ -206,6 +218,44 @@ public:
         m_pModuleLoadFailedLabel->setAlignment(Qt::AlignCenter);
     }
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 左侧有图标的Label
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class ImageLabel : public QWidget
+{
+public:
+    ImageLabel(QWidget* pParent, const QString& iconPath, const QString& text = QString())
+        : QWidget(pParent)
+    {
+        QHBoxLayout* pLayout = new QHBoxLayout;
+        pLayout->setContentsMargins(0, 0, 0, 0);
+        setLayout(pLayout);
+        pImageLabel = new QLabel(this);
+        QPixmap iconPixmap(iconPath);
+        pImageLabel->setPixmap(iconPixmap.scaled(ICON_SIZE_S, ICON_SIZE_S, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        pLayout->addWidget(pImageLabel);
+        pTextLabel = new QLabel(this);
+        pTextLabel->setText(text);
+        pLayout->addWidget(pTextLabel, 1);
+    }
+
+    void setIcon(const QIcon& icon)
+    {
+        pImageLabel->setPixmap(icon.pixmap(ICON_SIZE_S, ICON_SIZE_S));
+    }
+
+    QLabel* TextLabel() const
+    {
+        return pTextLabel;
+    }
+
+private:
+    QLabel* pImageLabel;
+    QLabel* pTextLabel;
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -832,7 +882,6 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
 {
     pToolbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
     pToolbar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-    pToolbar->layout()->setSpacing(20);
     QDomNodeList groupList = element.childNodes();
     for (int i = 0; i < groupList.count(); i++)
     {
@@ -904,8 +953,7 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     pAction->setProperty("id", strCmdId);       //将命令的ID作为用户数据保存到QAction对象中
     pAction->setCheckable(bCheckable);
     pAction->setChecked(checked);
-    if (actionNodeInfo.hasAttribute("enabled"))
-        pAction->setEnabled(GetAttributeBool(actionNodeInfo,"enabled"));
+    pAction->setEnabled(GetElementEnabled(actionNodeInfo));
     pAction->setToolTip(strTip);
     pAction->setShortcut(QKeySequence(strShortcut));
 
@@ -937,22 +985,10 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             pLabel->setText(strName);
             pUiWidget = pLabel;
         }
-        //有图标，需要一个水平布局
+        //有图标，使用ImageLabel
         else
         {
-            QWidget* pWidget = new QWidget(pParent);
-            QHBoxLayout* pLayout = new QHBoxLayout;
-            pLayout->setContentsMargins(0, 0, 0, 0);
-            pWidget->setLayout(pLayout);
-            QLabel* pImageLabel = new QLabel(pWidget);
-            QPixmap iconPixmap(strIcon);
-            pImageLabel->setPixmap(iconPixmap.scaled(ICON_SIZE_S, ICON_SIZE_S, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-            pLayout->addWidget(pImageLabel);
-            QLabel* pLabel = new QLabel(pWidget);
-            pLabel->setText(strName);
-            pLayout->addWidget(pLabel);
-            pLayout->addStretch();
-            pUiWidget = pWidget;
+            pUiWidget = new ImageLabel(pParent, strIcon, strName);
         }
     }
     else if (strTagName == "LineEdit")
@@ -1115,6 +1151,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             pUiWidget->setFixedWidth(DPI(width));
         if (height > 0)
             pUiWidget->setFixedHeight(DPI(height));
+        pUiWidget->setEnabled(GetElementEnabled(element));
     }
     return pUiWidget;
 }
@@ -1425,11 +1462,13 @@ void RibbonFrameWindow::SetItemIcon(const QString& strId, const QIcon& icon)
     }
     else
     {
-        QAbstractButton* pBtn = qobject_cast<QAbstractButton*>(_GetWidget(strId));
+        QWidget* pWidget = _GetWidget(strId);
+        QAbstractButton* pBtn = qobject_cast<QAbstractButton*>(pWidget);
+        ImageLabel* pLabel = dynamic_cast<ImageLabel*>(pWidget);
         if (pBtn != nullptr)
-        {
             pBtn->setIcon(icon);
-        }
+        if (pLabel != nullptr)
+            pLabel->setIcon(icon);
     }
 }
 
@@ -1580,6 +1619,9 @@ const char* RibbonFrameWindow::GetItemText(const char* strId)
         QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
         if (pComboBox != nullptr)
             itemText = pComboBox->currentText().toUtf8();
+        ImageLabel* pImageLabel = dynamic_cast<ImageLabel*>(pWidget);
+        if (pImageLabel != nullptr)
+            itemText = pImageLabel->TextLabel()->text().toUtf8();
     }
     return itemText.constData();
 }
@@ -1611,6 +1653,9 @@ void RibbonFrameWindow::SetItemText(const char* strId, const char* text)
             QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
             if (pComboBox != nullptr)
                 pComboBox->setCurrentText(QString::fromUtf8(text));
+            ImageLabel* pImageLabel = dynamic_cast<ImageLabel*>(pWidget);
+            if (pImageLabel != nullptr)
+                pImageLabel->TextLabel()->setText(QString::fromUtf8(text));
         }
     }
 }

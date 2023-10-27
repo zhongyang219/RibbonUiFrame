@@ -28,6 +28,8 @@ public:
     RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString(), bool initUiManual = false);
     virtual ~RibbonFrameWindow();
 
+    //UI初始化函数，包含了xml文件的解析、模块的加载等操作。
+    //默认情况下会在构造函数中被调用，如果构造函数的参数initUiManual为true，则需要手动调用此函数。
     void InitUi();
 
 signals:
@@ -44,7 +46,7 @@ private slots:
 
 private:
     void LoadUIFromXml(QString xmlPath);           //从xml文件加载界面
-    IModule* LoadPlugin(const QString &strModulePath);
+    IModule* LoadPlugin(const QString &strModulePath);  //加载一个模块
     void LoadMainFrameUi(const QDomElement& element);   //从一个xml节点加载界面
     void LoadUiElement(const QDomElement& element, QToolBar* pToolbar);     //加载一组UI元素（用于Ribbin的Page）
     void LoadSimpleToolbar(const QDomElement& element, QToolBar* pToolbar);   //加载一组Action元素，图标全部为小图标（用于快速启动栏）
@@ -75,7 +77,7 @@ private:
     QAction* AddRibbonContextAction(const QString& strId, const QString& strName);
 
 protected:
-
+    //获取当前模块
     IModule* CurrentModule() const;
 
     /**
