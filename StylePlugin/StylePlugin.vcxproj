@@ -185,7 +185,7 @@
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="StylePlugin_global.h" />
     <ClInclude Include="stylemanager.h" />
-    <ClInclude Include="styleplugin.h" />
+    <QtMoc Include="styleplugin.h" />
     <ClInclude Include="themecolor.h" />
   </ItemGroup>
   <ItemGroup>

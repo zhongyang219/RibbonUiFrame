@@ -63,9 +63,6 @@
     <ClInclude Include="stylemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="styleplugin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -1003,5 +1000,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="StylePlugin.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="styleplugin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>
