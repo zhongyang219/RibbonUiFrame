@@ -17,9 +17,10 @@
 #define DEFAULT_STYLE_KEY "Fusion"
 #endif
 
-#define DEFAULT_THEME_COLOR_BLUE "#2b579a"
-#define DEFAULT_THEME_COLOR_GREEN "#2a7e2b"
-#define DEFAULT_THEME_COLOR_RED "#e45031"
+#define DEFAULT_THEME_COLOR_MS_WORD "#2b579a"
+#define DEFAULT_THEME_COLOR_MS_EXCEL "#217346"
+#define DEFAULT_THEME_COLOR_POWERPOINT "#b7472a"
+#define DEFAULT_THEME_COLOR_ONENOTE "#80397b"
 
 static QIcon CreateSingleColorIcon(const QColor& color)
 {
@@ -38,7 +39,7 @@ void StylePlugin::InitInstance()
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     m_curStyle = settings.value("style").toString();
-    QString strThemeColor = settings.value("themeColor", DEFAULT_THEME_COLOR_BLUE).toString();
+    QString strThemeColor = settings.value("themeColor", DEFAULT_THEME_COLOR_MS_WORD).toString();
     m_themeColor.SetColor(QColor(strThemeColor));
 }
 
@@ -85,9 +86,10 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
                 //主题颜色
                 pMenu->addSeparator();
                 QMenu* pThemeColorMenu = pMenu->addMenu(QSTR("主题颜色"));
-                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_BLUE)), QSTR("蓝色"), this, SLOT(OnThemeColorBlue()));
-                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_GREEN)), QSTR("绿色"), this, SLOT(OnThemeColorGreen()));
-                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_RED)), QSTR("红色"), this, SLOT(OnThemeColorRed()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_MS_WORD)), QSTR("Microsoft Word"), this, SLOT(OnThemeColorWord()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_MS_EXCEL)), QSTR("Microsoft Excel"), this, SLOT(OnThemeColorExcel()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_POWERPOINT)), QSTR("Microsoft PowerPoint"), this, SLOT(OnThemeColorPowerPoint()));
+                pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_ONENOTE)), QSTR("Microsoft OneNote"), this, SLOT(OnThemeColorOneNote()));
                 pThemeColorMenu->addAction(QSTR("自定义主题色..."), this, SLOT(OnCustomThemeColor()));
             }
         }
@@ -228,19 +230,24 @@ void StylePlugin::OnStyleActionTriggered(bool)
     }
 }
 
-void StylePlugin::OnThemeColorBlue()
+void StylePlugin::OnThemeColorWord()
 {
-    SetThemeColor(QColor(DEFAULT_THEME_COLOR_BLUE));
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_MS_WORD));
 }
 
-void StylePlugin::OnThemeColorGreen()
+void StylePlugin::OnThemeColorExcel()
 {
-    SetThemeColor(QColor(DEFAULT_THEME_COLOR_GREEN));
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_MS_EXCEL));
 }
 
-void StylePlugin::OnThemeColorRed()
+void StylePlugin::OnThemeColorPowerPoint()
 {
-    SetThemeColor(QColor(DEFAULT_THEME_COLOR_RED));
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_POWERPOINT));
+}
+
+void StylePlugin::OnThemeColorOneNote()
+{
+    SetThemeColor(QColor(DEFAULT_THEME_COLOR_ONENOTE));
 }
 
 void StylePlugin::OnCustomThemeColor()

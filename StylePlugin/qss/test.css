@@ -32,7 +32,7 @@ QWidget[nav="top"] QAbstractButton:hover,QWidget[nav="top"] QAbstractButton:pres
 border-style:solid;
 border-width:0px 0px 2px 0px;
 padding:4px 4px 2px 4px;
-border-color:#8C4E78;
+border-color:@themeColorOri;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #3F3D66,stop:1 #343457);
 }
 
@@ -45,7 +45,7 @@ border-style:none;
 
 QWidget[nav="left"] QAbstractButton:hover{
 color:#FFFFFF;
-background-color:#8C4E78;
+background-color:@themeColorOri;
 }
 
 QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
@@ -53,7 +53,7 @@ color:#CAC9E3;
 border-style:solid;
 border-width:0px 0px 0px 2px;
 padding:4px 4px 4px 2px;
-border-color:#8C4E78;
+border-color:@themeColorOri;
 background-color:#24243E;
 }
 
@@ -64,7 +64,7 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #454371,stop:1 
 }
 
 QLabel[video="true"]:hover{
-border:1px solid #8C4E78;
+border:1px solid @themeColorOri;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #3F3D66,stop:1 #343457);
 }
 
@@ -536,7 +536,7 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #3F3D66,stop:1 
 
 QTabBar::tab:selected,QTabBar::tab:hover{
 border-style:solid;
-border-color:#8C4E78;
+border-color:@themeColorOri;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #454371,stop:1 #39395F);
 }
 
@@ -724,4 +724,4 @@ border-color:#454371;
 /*NormalColorEnd:#39395F*/
 /*DarkColorStart:#3F3D66*/
 /*DarkColorEnd:#343457*/
-/*HighColor:#8C4E78*/
+/*HighColor:@themeColorOri*/

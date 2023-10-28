@@ -34,9 +34,10 @@ private:
 
 private slots:
     void OnStyleActionTriggered(bool);
-    void OnThemeColorBlue();
-    void OnThemeColorGreen();
-    void OnThemeColorRed();
+    void OnThemeColorWord();
+    void OnThemeColorExcel();
+    void OnThemeColorPowerPoint();
+    void OnThemeColorOneNote();
     void OnCustomThemeColor();
 
 private:

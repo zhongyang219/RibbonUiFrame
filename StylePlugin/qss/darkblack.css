@@ -32,8 +32,8 @@ QWidget[nav="top"] QAbstractButton:hover,QWidget[nav="top"] QAbstractButton:pres
 border-style:solid;
 border-width:0px 0px 2px 0px;
 padding:4px 4px 2px 4px;
-border-color:#00BB9E;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+border-color:@themeColorOri;
+background:@themeColorDarker1;
 }
 
 QWidget[nav="left"] QAbstractButton{
@@ -45,7 +45,7 @@ border-style:none;
 
 QWidget[nav="left"] QAbstractButton:hover{
 color:#FFFFFF;
-background-color:#00BB9E;
+background-color:@themeColorOri;
 }
 
 QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
@@ -53,7 +53,7 @@ color:#D7E2E9;
 border-style:solid;
 border-width:0px 0px 0px 2px;
 padding:4px 4px 4px 2px;
-border-color:#00BB9E;
+border-color:@themeColorOri;
 background-color:#1F2026;
 }
 
@@ -64,8 +64,8 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #242629,stop:1 
 }
 
 QLabel[video="true"]:hover{
-border:1px solid #00BB9E;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+border:1px solid @themeColorOri;
+background:@themeColorDarker1;
 }
 
 QTabWidget#MainFrameTab:pane{
@@ -78,7 +78,7 @@ border:1px solid #363742;
 border-radius:3px;
 padding:2px;
 background:none;
-selection-background-color:#242629;
+selection-background-color:@themeColorDarker3;
 selection-color:#D7E2E9;
 }
 
@@ -128,15 +128,15 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #242629,stop:1 
 }
 
 .QPushButton:hover,.QToolButton:hover{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+background:@themeColorDarker1;
 }
 
 .QPushButton:pressed,.QToolButton:pressed{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #0074BF,stop:1 #006db7);
+background:@themeColorDarker2;
 }
 
 QPushButton:checked, QToolButton:checked {
-    background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #006db7,stop:1 #0066b1);
+    background: @themeColorDarker2;
 }
 
 /*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
@@ -322,7 +322,7 @@ height:13px;
 QMenu::item:selected,QMenuBar::item:selected{
 color:#D7E2E9;
 border:0px solid #363742;
-background:#007DC4;
+background:@themeColorDarker1;
 }
 
 QMenu::separator{
@@ -403,7 +403,7 @@ max-height:12px;
 }
 
 QScrollBar::handle:horizontal{
-background:#0074BF;
+background:@themeColorDarker2;
 min-width:50px;
 border-radius:6px;
 }
@@ -440,7 +440,7 @@ max-width:12px;
 }
 
 QScrollBar::handle:vertical{
-background:#0074BF;
+background:@themeColorDarker2;
 min-height:50px;
 border-radius:6px;
 }
@@ -475,9 +475,9 @@ border:0px;
 
 QTreeView,QListView,QTableView,QTabWidget::pane{
 border:1px solid #363742;
-selection-background-color:#007DC4;
+selection-background-color:@themeColorDarker1;
 selection-color:#D7E2E9;
-alternate-background-color:#0074BF;
+alternate-background-color:@themeColorDarker2;
 gridline-color:#363742;
 }
 
@@ -502,7 +502,7 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #242629,stop:1 
 
 QTableView::item:hover,QListView::item:hover,QTreeView::item:hover{
 color:#D7E2E9;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+background:@themeColorDarker1;
 }
 
 QTableView::item,QListView::item,QTreeView::item{
@@ -523,7 +523,7 @@ border-left-width:0px;
 border-right-width:1px;
 border-top-width:0px;
 border-bottom-width:1px;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+background:@themeColorDarker1;
 }
 
 QTabBar::tab{
@@ -536,8 +536,8 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #242629,stop:1 
 
 QTabBar::tab:selected,QTabBar::tab:hover{
 border-style:solid;
-border-color:#00BB9E;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+border-color:@themeColorOri;
+background:@themeColorDarker1;
 }
 
 QTabBar::tab:top,QTabBar::tab:bottom{
@@ -626,7 +626,7 @@ background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #242629,stop:1 
 }
 
 QToolBox::tab:selected{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #007DC4,stop:1 #0074BF);
+background:@themeColorDarker1;
 }
 
 QPrintPreviewDialog QToolButton{
@@ -718,6 +718,6 @@ border-color:#242629;
 /*BorderColor:#363742*/
 /*NormalColorStart:#242629*/
 /*NormalColorEnd:#141518*/
-/*DarkColorStart:#007DC4*/
-/*DarkColorEnd:#0074BF*/
-/*HighColor:#00BB9E*/
+/*DarkColorStart:@themeColorDarker1*/
+/*DarkColorEnd:@themeColorDarker2*/
+/*HighColor:@themeColorOri*/
