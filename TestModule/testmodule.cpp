@@ -9,10 +9,23 @@
 #include <QListWidget>
 #include <QDateEdit>
 #include <QAction>
+#include <QStatusBar>
 #include "ribbonuipredefine.h"
 
+static TestModule* pIns = nullptr;
 TestModule::TestModule()
 {
+}
+
+TestModule *TestModule::Instance()
+{
+    return pIns;
+}
+
+void TestModule::SetStatusBarText(const QString &text, int timeOut)
+{
+    if (m_pMainFrame != nullptr)
+        m_pMainFrame->SetStatusBarText(text.toUtf8().constData(),  timeOut);
 }
 
 
@@ -50,7 +63,8 @@ void TestModule::OnCommand(const char* strCmd, bool checked)
 
 IModule* CreateInstance()
 {
-    return new TestModule();
+    pIns = new TestModule();
+    return pIns;
 }
 
 void* TestModule::CreateUserWidget(const char* strId, void* pParent)

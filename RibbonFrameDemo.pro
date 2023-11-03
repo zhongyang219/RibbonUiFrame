@@ -7,6 +7,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += RibbonFrame \
+    RibbonUiTools \
     StylePlugin \
     TestModule \
     MainApp \

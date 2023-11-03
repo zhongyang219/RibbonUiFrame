@@ -166,6 +166,7 @@ void CStyleManager::ApplyQComboboxItemStyle(QComboBox *pCombobox)
 }
 
 CStyleManager::CStyleManager()
+    : m_defaultStyle(":/qss/default_style.qss", CMD_DefaultStyle, CStyle::Light, false)
 {
     m_styleList.push_back(CStyle(":/qss/silvery.css", QSTR("银色"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/blue.css", QSTR("蓝色"), CStyle::Light));

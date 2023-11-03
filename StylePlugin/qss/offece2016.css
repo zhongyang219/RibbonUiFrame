@@ -15,6 +15,12 @@ QToolBar#MainFrameToolbar::separator {
     width: 1px;
 }
 
+QToolBar#MainFrameToolbar QToolBar::separator {
+    background: #666666;
+    margin: 4px;
+    width: 1px;
+}
+
 QToolBar#MainFrameCornerBar {
     min-height: 30px;
 }
@@ -535,6 +541,45 @@ QCheckBox::indicator:unchecked:disabled, QGroupBox::indicator:unchecked:disabled
 QStatusBar {
     background: #f3f3f3;
     border-top: 1px solid #c6c6c6;
+}
+
+QCalendarWidget QWidget#qt_calendar_navigationbar{
+background:#f1f1f1;
+}
+
+QCalendarWidget QAbstractItemView:enabled{
+selection-background-color:@themeColorLighter4;
+selection-color:@themeColorDarker4;
+}
+
+QLabel[video="true"]{
+border:1px solid #C6C6C6;
+background:#f3f3f3;
+}
+
+QLabel[video="true"]:hover{
+border:1px solid @themeColorOri;
+background:#f3f3f3;
+}
+
+QWidget[nav="left"]{
+background:@themeColorOri;
+}
+
+QWidget[nav="left"] QAbstractButton{
+border:none;
+background:none;
+color:white;
+min-height: 26px;
+min-width: 80px;
+}
+
+QWidget[nav="left"] QAbstractButton:hover{
+background-color:@themeColorDarker2;
+}
+
+QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
+background:@themeColorDarker3;
 }
 
 *:disabled {

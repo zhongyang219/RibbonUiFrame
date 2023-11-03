@@ -27,15 +27,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         mainwidget.cpp \
         testmodule.cpp \
-        Common.cpp
+        Common.cpp \
+        widgets/navigatewidget.cpp
 
 HEADERS += \
         mainwidget.h \
         testmodule.h \
         testmodule_global.h \
-        Common.h
+        Common.h \
+        widgets/navigatewidget.h
 
-INCLUDEPATH += $$PWD/../include
+INCLUDEPATH += $$PWD/../include \
+        $$PWD/widgets
 
 CONFIG(release, debug|release): {
     DESTDIR = $$PWD/../bin/release

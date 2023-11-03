@@ -247,19 +247,19 @@
         </ActionGroup>
         <ActionGroup name="段落">
             <WidgetGroup smallIcon="true">
-                <Label name="左：" icon="://res/Image/smallleft.png"/>
+                <Label id="IndentLeftLabel" name="左：" icon="://res/Image/smallleft.png"/>
                 <UserWidget id="IndentLeftSpin"/>
             </WidgetGroup>
             <WidgetGroup smallIcon="true">
-                <Label name="右：" icon="://res/Image/smallright.png"/>
+                <Label id="IndentRightLabel" name="右：" icon="://res/Image/smallright.png"/>
                 <UserWidget id="IndentRightSpin"/>
             </WidgetGroup>
             <WidgetGroup smallIcon="true">
-                <Label name="段前：" icon="://res/Image/smallbefore.png"/>
+                <Label id="IndentBeforeLabel" name="段前：" icon="://res/Image/smallbefore.png"/>
                 <UserWidget id="SpacingBeforeSpin"/>
             </WidgetGroup>
             <WidgetGroup smallIcon="true">
-                <Label name="段后：" icon="://res/Image/smallafter.png"/>
+                <Label id="IndentAfterLabel" name="段后：" icon="://res/Image/smallafter.png"/>
                 <UserWidget id="SpacingAfterSpin"/>
             </WidgetGroup>
         </ActionGroup>
@@ -330,9 +330,9 @@
             <Action name="大纲视图" icon="://res/Image/smalloutline.png" id="statusbar_outline" radioGroup="3"/>
             <Action name="草稿" icon="://res/Image/smalldraft.png" id="statusbar_draft" radioGroup="3"/>
             <Action name="100%" id="statusbar_zoom"/>
-            <Action name="-" id="statusbar_zoomout"/>
+            <Action name="-" id="statusbar_zoomout" tip="缩小"/>
             <UserWidget id="statusbar_zoom_slider"/>
-            <Action name="+" id="statusbar_zoomin"/>
+            <Action name="+" id="statusbar_zoomin" tip="放大"/>
         </PermanentWidget>
     </StatusBar>
 

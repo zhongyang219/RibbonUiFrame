@@ -58,6 +58,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_edit, SIGNAL(undoAvailable(bool)), this, SLOT(OnUndoAvailable(bool)));
     connect(&m_edit, SIGNAL(redoAvailable(bool)), this, SLOT(OnRedoAvailable(bool)));
 
+    QWidget* pZoomInBtn = _GetWidget("statusbar_zoomin");
+    QWidget* pZoomOutBtn = _GetWidget("statusbar_zoomout");
+    if (pZoomInBtn != nullptr)
+        pZoomInBtn->setObjectName("zoomInBtn");
+    if (pZoomOutBtn != nullptr)
+        pZoomOutBtn->setObjectName("zoomOutBtn");
+
+    QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget("statusbar_zoom_slider"));
+    if (pZoomSlider != nullptr)
+    {
+        pZoomSlider->setRange(0, 200);
+        pZoomSlider->setSingleStep(10);
+        pZoomSlider->setSliderPosition(100);
+        connect(pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(zoomSliderScroll(int)));
+    }
+
     UpdateWindowTitle();
 }
 
@@ -208,6 +224,12 @@ void MainWindow::OnRedoAvailable(bool available)
     SetItemEnable(CMD_EditRedo, available);
 }
 
+void MainWindow::zoomSliderScroll(int value)
+{
+    QString str;
+    str += QString("%1%").arg(value);
+    SetItemText("statusbar_zoom", str.toUtf8().constData());
+}
 
 bool MainWindow::OnCommand(const QString &strCmd, bool checked)
 {
@@ -292,6 +314,22 @@ bool MainWindow::OnCommand(const QString &strCmd, bool checked)
     else if (strCmd == "GroupPageSetup")
     {
         QMessageBox::information(this, QString(), QSTR("页面设置对话框。"));
+    }
+    else if (strCmd == "statusbar_zoomin")
+    {
+        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget("statusbar_zoom_slider"));
+        if (pZoomSlider != nullptr)
+        {
+            pZoomSlider->setValue((pZoomSlider->value() + 10) / 10 * 10);
+        }
+    }
+    else if (strCmd == "statusbar_zoomout")
+    {
+        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget("statusbar_zoom_slider"));
+        if (pZoomSlider != nullptr)
+        {
+            pZoomSlider->setValue((pZoomSlider->value() - 10) / 10 * 10);
+        }
     }
 
     return RibbonFrameWindow::OnCommand(strCmd, checked);

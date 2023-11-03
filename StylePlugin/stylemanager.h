@@ -54,6 +54,7 @@ public:
 
 public:
     QList<CStyle> m_styleList;
+    CStyle m_defaultStyle;
 
 private:
     CStyleManager();

@@ -33,6 +33,8 @@ private slots:
 
     void OnIconBtnClicked(bool);
 
+    void OnNavChanged(const QString& text);
+
 private:
     Ui::CMainWidget *ui;
 };

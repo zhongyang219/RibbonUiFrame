@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCModule", "MFCModule\MFCM
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OfficeStyleApp", "OfficeStyleApp\OfficeStyleApp.vcxproj", "{BD1003C7-31C1-3A7B-9E19-BFB2BF54AB82}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RibbonUiTools", "RibbonUiTools\RibbonUiTools.vcxproj", "{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -47,12 +49,16 @@ Global
 		{BD1003C7-31C1-3A7B-9E19-BFB2BF54AB82}.Debug|x64.Build.0 = Debug|x64
 		{BD1003C7-31C1-3A7B-9E19-BFB2BF54AB82}.Release|x64.ActiveCfg = Release|x64
 		{BD1003C7-31C1-3A7B-9E19-BFB2BF54AB82}.Release|x64.Build.0 = Release|x64
+		{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}.Debug|x64.ActiveCfg = Debug|x64
+		{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}.Debug|x64.Build.0 = Debug|x64
+		{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}.Release|x64.ActiveCfg = Release|x64
+		{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {014E547D-F1C7-4F8D-8D41-32F48D0A5B9E}
 		Qt5Version = 5.15.2_msvc2019_64
+		SolutionGuid = {014E547D-F1C7-4F8D-8D41-32F48D0A5B9E}
 	EndGlobalSection
 EndGlobal

@@ -34,6 +34,7 @@ private slots:
     void OnCopyAvailable(bool yes);
     void OnUndoAvailable(bool available);
     void OnRedoAvailable(bool available);
+    void zoomSliderScroll(int value);
 
 private:
     QTextEdit m_edit;

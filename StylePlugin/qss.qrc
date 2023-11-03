@@ -324,5 +324,16 @@
         <file>qss/office2016/leftArrow.png</file>
         <file>qss/office2016/rightArrow.png</file>
         <file>qss/office2016/upArrow.png</file>
+        <file>qss/default_style.qss</file>
+        <file>qss/office2010/arrow_down.png</file>
+        <file>qss/office2010/arrow_left.png</file>
+        <file>qss/office2010/arrow_right.png</file>
+        <file>qss/office2010/arrow_up.png</file>
+        <file>qss/office2010/zoomin.png</file>
+        <file>qss/office2010/zoomout.png</file>
+        <file>qss/office2010/zoomin_hover.png</file>
+        <file>qss/office2010/zoomin_pressed.png</file>
+        <file>qss/office2010/zoomout_hover.png</file>
+        <file>qss/office2010/zoomout_pressed.png</file>
     </qresource>
 </RCC>

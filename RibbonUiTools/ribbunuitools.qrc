@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/MainFrame.xml</file>
+        <file>res/color.png</file>
+    </qresource>
+</RCC>

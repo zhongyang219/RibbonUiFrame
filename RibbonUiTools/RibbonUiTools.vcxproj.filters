@@ -47,30 +47,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mainwidget.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="testmodule.cpp">
+    <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="widgets\navigatewidget.cpp">
+    <ClCompile Include="GenerateResourceIdDefines\widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="mainwidget.h">
+    <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="testmodule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="testmodule_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <QtMoc Include="widgets\navigatewidget.h">
+    <QtMoc Include="GenerateResourceIdDefines\widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -83,21 +74,19 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="mainwidget.ui">
+    <QtUic Include="GenerateResourceIdDefines\widget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Template.png">
+    <None Include="res\MainFrame.xml">
       <Filter>Resource Files</Filter>
     </None>
-    <QtRcc Include="resource.qrc">
+    <None Include="res\color.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="ribbunuitools.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

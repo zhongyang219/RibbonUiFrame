@@ -9,8 +9,8 @@ QToolBar#MainFrameToolbar {
     padding:2px;
 }
 
-QToolBar#MainFrameToolbar::separator {
-    background: #505050;
+QToolBar#MainFrameToolbar::separator, QToolBar#MainFrameToolbar QToolBar::separator {
+    background: #808080;
     margin: 4px;
     width: 1px;
 }
@@ -605,6 +605,44 @@ QToolTip {
     background: #ebebeb;
     color: #262626;
     border: 1px solid #484644;
+}
+
+QCalendarWidget QWidget#qt_calendar_navigationbar{
+background:#0c0c0c;
+}
+
+QCalendarWidget QAbstractItemView:enabled{
+selection-background-color:@themeColorDarker2;
+selection-color:#ffffff;
+}
+
+QLabel[video="true"]{
+border: 1px solid #808080;
+background: #363636;
+}
+
+QLabel[video="true"]:hover{
+border: 1px solid #949494;
+}
+
+QWidget[nav="left"]{
+background:#363636;
+}
+
+QWidget[nav="left"] QAbstractButton{
+border:none;
+background:none;
+color:white;
+min-height: 26px;
+min-width: 80px;
+}
+
+QWidget[nav="left"] QAbstractButton:hover{
+background-color:@themeColorDarker2;
+}
+
+QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
+background:@themeColorDarker1;
 }
 
 *:disabled {

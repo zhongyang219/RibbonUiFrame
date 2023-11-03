@@ -1,0 +1,12 @@
+﻿<root appName="RibbonUi工具">
+    <Menu name="主题" icon="://res/color.png" id="Theme">
+        <Action name="默认主题" id="DefaultStyle" checkable="true"/>
+    </Menu>
+
+    <Page name="资源ID定义生成器">
+    </Page>
+
+    <Plugins>
+        <Plugin path="StylePlugin"/>
+    </Plugins>
+</root>

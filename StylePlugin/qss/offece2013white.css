@@ -10,7 +10,7 @@ background:#FFFFFF;
 
 QToolBar#MainFrameToolbar::separator{
 background:#C6C6C6;
-margin: 4px;
+margin:0px 4px;
 width: 1px;
 }
 
@@ -374,6 +374,63 @@ QStatusBar QToolButton {
 
 QStatusBar QToolButton:hover, QStatusBar QToolButton:pressed{
     color: #000000;
+}
+
+QDockWidget::title{
+background:#ffffff;
+text-align: left;
+}
+
+QDockWidget::close-button, QDockWidget::float-button {
+border: none;
+}
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+background: @themeColorLighter4;
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+background: @themeColorLighter3;
+}
+
+QCalendarWidget QWidget#qt_calendar_navigationbar{
+background:#ffffff;
+}
+
+QCalendarWidget QAbstractItemView:enabled{
+selection-background-color:@themeColorLighter4;
+selection-color:@themeColorDarker4;
+}
+
+QLabel[video="true"]{
+color:@themeColorDarker2;
+border:1px solid #ABABAB;
+background:#ffffff;
+}
+
+QLabel[video="true"]:hover{
+border:1px solid @themeColorDarker1;
+background:#ffffff;
+}
+
+QWidget[nav="left"]{
+background:@themeColorOri;
+}
+
+QWidget[nav="left"] QAbstractButton{
+border:none;
+background:none;
+color:white;
+min-height: 26px;
+min-width: 80px;
+}
+
+QWidget[nav="left"] QAbstractButton:hover{
+background-color:@themeColorDarker2;
+}
+
+QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
+background:@themeColorDarker3;
 }
 
 *:disabled {

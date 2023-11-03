@@ -6,6 +6,7 @@
 #include <QFontDialog>
 #include <QColorDialog>
 #include "Common.h"
+#include "testmodule.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,8 +20,18 @@ CMainWidget::CMainWidget(QWidget *parent) :
 
     ui->tableWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
-    //设置“导航界面”样式
-    ui->widgetLeft->setProperty("nav", "left");
+    //初始化“导航界面”
+    ui->widgetLeft->AddItem(u8"项目一", QIcon(":/res/Template.png"));
+    ui->widgetLeft->AddItem(u8"项目二");
+    ui->widgetLeft->AddItem(u8"项目三");
+    ui->widgetLeft->AddSpacing();
+    connect(ui->widgetLeft, SIGNAL(curItemChanged(const QString&)), this, SLOT(OnNavChanged(const QString&)));
+
+    ui->widgetTop->AddItem(u8"界面一");
+    ui->widgetTop->AddItem(u8"界面二");
+    ui->widgetTop->AddItem(u8"界面三");
+    connect(ui->widgetTop, SIGNAL(curItemChanged(const QString&)), this, SLOT(OnNavChanged(const QString&)));
+
     ui->widgetBottom->setProperty("form", "bottom");
     ui->widgetTop->setProperty("nav", "top");
 
@@ -97,4 +108,11 @@ void CMainWidget::OnIconBtnClicked(bool)
 {
     int iconIndex = QObject::sender()->property("iconIndex").toInt();
     ui->iconDescEdit->setText(CCommon::GetStandardIconDescription(iconIndex).replace("\r\n", "\t"));
+}
+
+//点击了“导航界面”页中的按钮
+void CMainWidget::OnNavChanged(const QString& text)
+{
+    QString strMsg = QString(u8"点击了导航栏 %1").arg(text);
+    TestModule::Instance()->SetStatusBarText(strMsg, 10000);
 }

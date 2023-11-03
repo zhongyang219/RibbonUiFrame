@@ -816,6 +816,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
             else
             {
                 QWidget* pActionGroupWidget = new QWidget();
+                pActionGroupWidget->setObjectName("MainFrameActionGroup");
                 pToolbar->addWidget(pActionGroupWidget);
                 QVBoxLayout* pActionGroupLayout = new QVBoxLayout;
                 pActionGroupWidget->setLayout(pActionGroupLayout);

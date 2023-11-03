@@ -13,6 +13,9 @@ class TESTMODULESHARED_EXPORT TestModule
 {
 public:
     TestModule();
+    static TestModule* Instance();
+
+    void SetStatusBarText(const QString& text, int timeOut);
 
 private:
     CMainWidget m_mainWidget;

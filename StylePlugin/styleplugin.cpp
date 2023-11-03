@@ -18,7 +18,7 @@
 #endif
 
 #define DEFAULT_THEME_COLOR_MS_WORD "#2b579a"
-#define DEFAULT_THEME_COLOR_MS_EXCEL "#217346"
+#define DEFAULT_THEME_COLOR_MS_EXCEL "#2a724b"
 #define DEFAULT_THEME_COLOR_POWERPOINT "#b7472a"
 #define DEFAULT_THEME_COLOR_ONENOTE "#80397b"
 
@@ -104,6 +104,9 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
     if (m_curStyle.isEmpty())
     {
         pMainFrame->SetItemChecked(CMD_DefaultStyle, true);
+#ifdef Q_OS_WIN
+            CStyleManager::Instance()->m_defaultStyle.ApplyStyleSheet();
+#endif
     }
     else
     {
@@ -195,7 +198,11 @@ void StylePlugin::SetStyle(const QString &styleName)
         if (styleName.isEmpty())
         {
             qApp->setPalette(m_defaultPalette);
+#ifdef Q_OS_WIN
+            CStyleManager::Instance()->m_defaultStyle.ApplyStyleSheet();
+#else
             qApp->setStyleSheet("");
+#endif
             qApp->setStyle(QStyleFactory::create(DEFAULT_STYLE_KEY));
         }
         else if (QStyleFactory::keys().contains(styleName))
