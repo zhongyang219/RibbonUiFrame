@@ -21,7 +21,7 @@ public:
     virtual void InitInstance() override;
     virtual void UiInitComplete(IMainFrame *pMainFrame) override;
     virtual void UnInitInstance() override;
-    eMainWindowType GetMainWindowType() const;
+    eMainWindowType GetMainWindowType() const override ;
     virtual void* GetMainWindow() override;
     virtual const char* GetModuleName() override;
     virtual void OnCommand(const char* strCmd, bool checked) override;
