@@ -9,6 +9,8 @@
 #include <functional>
 #include <QSettings>
 #include "ribbonuipredefine.h"
+#include <QClipboard>
+#include "../mainwindow.h"
 
 namespace GenerateResourceIdDefines {
 
@@ -29,6 +31,13 @@ void Widget::LoadConfig()
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     ui->prefixEdit->setText(settings.value("prefix", "CMD_").toString());
+    int format = settings.value("format").toInt();
+    if (format == 1)
+        ui->qstringRadioBtn->setChecked(true);
+    else if (format == 2)
+        ui->structRadioBtn->setChecked(true);
+    else
+        ui->defineRadioBtn->setChecked(true);
 }
 
 void Widget::SaveConfig() const
@@ -36,6 +45,12 @@ void Widget::SaveConfig() const
     //保存设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     settings.setValue("prefix", ui->prefixEdit->text());
+    int format = 0;
+    if (ui->qstringRadioBtn->isChecked())
+        format = 1;
+    else if (ui->structRadioBtn->isChecked())
+        format = 2;
+    settings.setValue("format", format);
 }
 
 
@@ -58,6 +73,16 @@ static void IterateXmlElement(QDomElement& root, Func func)
     }
 }
 
+struct IdItem
+{
+    QString name;
+    QString id;
+    bool operator==(const IdItem& item) const
+    {
+        return id == item.id;
+    }
+};
+
 void Widget::on_generateBtn_clicked()
 {
     if (ui->pathEdit->text().isEmpty())
@@ -65,7 +90,6 @@ void Widget::on_generateBtn_clicked()
         QMessageBox::warning(this, QString(), QSTR("请先打开 xml 文件！"));
         return;
     }
-    QString contents;
     QFile file(ui->pathEdit->text());
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {
@@ -86,15 +110,71 @@ void Widget::on_generateBtn_clicked()
         return;
     }
 
+    //保存所有的id
+    QList<IdItem> idList;
     IterateXmlElement(root, [&](const QDomElement& element){
         QString strId = element.attribute("id");
         if (!strId.isEmpty())
         {
-            QString defLine = QString("#define %1%2 \"%3\"\r\n").arg(ui->prefixEdit->text()).arg(strId).arg(strId);
-            contents += defLine;
+            IdItem item;
+            item.name = QString("%1%2").arg(ui->prefixEdit->text()).arg(strId);
+            item.id = strId;
+            if (!idList.contains(item))
+                idList.push_back(item);
         }
     });
+
+    QString contents;
+    //宏定义格式
+    if (ui->defineRadioBtn->isChecked())
+    {
+        Q_FOREACH(const auto& idItem, idList)
+        {
+            QString line = QString("#define %1 \"%3\"\r\n").arg(idItem.name).arg(idItem.id);
+            contents += line;
+
+        }
+    }
+
+    //const char*格式
+    else if (ui->qstringRadioBtn->isChecked())
+    {
+        Q_FOREACH(const auto& idItem, idList)
+        {
+            QString line = QString("static const char* %1 = \"%3\";\r\n").arg(idItem.name).arg(idItem.id);
+            contents += line;
+        }
+    }
+
+    //结构体格式
+    else if (ui->structRadioBtn->isChecked())
+    {
+        contents += "static struct _id\r\n{\r\n";
+        contents += "    _id() :\r\n";
+        Q_FOREACH(const auto& idItem, idList)
+        {
+            QString line = QString("        %1(\"%2\"),\r\n").arg(idItem.name).arg(idItem.id);
+            contents += line;
+        }
+        //去掉最后一个逗号
+        contents.chop(3);
+        contents += "\r\n    {}\r\n";
+
+        Q_FOREACH(const auto& idItem, idList)
+        {
+            QString line = QString("    const char* %1;\r\n").arg(idItem.name);
+            contents += line;
+        }
+        contents += "}id;\r\n";
+    }
+
     ui->plainTextEdit->setPlainText(contents);
+}
+
+void Widget::on_copyBtn_clicked()
+{
+    QApplication::clipboard()->setText(ui->plainTextEdit->toPlainText());
+    MainWindow::Instance()->SetStatusBarText(QSTR("代码已复制到剪贴板").toUtf8().constData(), 10000);
 }
 
 }

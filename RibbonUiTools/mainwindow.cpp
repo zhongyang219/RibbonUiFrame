@@ -3,16 +3,21 @@
 #include <QTimer>
 #include "ribbonuipredefine.h"
 
+static MainWindow* pIns;
+
+////////////////////////////////////////////////////////////////////////////
 MainWindow::MainWindow(QWidget *parent)
     : RibbonFrameWindow(parent, "://res/MainFrame.xml", true)
 {
+    pIns = this;
     InitUi();
     SetDefaultWidget(&m_generateResIdDeninesWidget);
+    resize(DPI(600), DPI(500));
 
     //获取TabWidget
     m_pTabWidget = findChild<QTabWidget*>("MainFrameTab");
 
-    QTimer::singleShot(100, this, SLOT(HideTabArea()));
+    QTimer::singleShot(50, this, SLOT(HideTabArea()));
 
     m_generateResIdDeninesWidget.LoadConfig();
 }
@@ -20,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     m_generateResIdDeninesWidget.SaveConfig();
+}
+
+MainWindow *MainWindow::Instance()
+{
+    return pIns;
 }
 
 void MainWindow::HideTabArea()
@@ -32,10 +42,11 @@ void MainWindow::HideTabArea()
 
 void *MainWindow::SendModuleMessage(const char *moduleName, const char *msgType, void *para1, void *para2)
 {
-    if (QString ::fromUtf8(msgType) == MODULE_MSG_StyleChanged)
+    Q_UNUSED(para2)
+    if (QString(msgType) == MODULE_MSG_StyleChanged)
     {
         //主题更改时重新设置TabWidget的高度
         HideTabArea();
     }
-    return RibbonFrameWindow::SendModuleMessage(moduleName, msgType, para1,  para2);
+    return RibbonFrameWindow::SendModuleMessage(moduleName, msgType, para1);
 }

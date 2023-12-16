@@ -190,7 +190,7 @@
         <ActionGroup name="文本">
             <Menu name="文本框" id="textbox" icon="://res/Image/textbox32x32.png" menuBtn="false">
             </Menu>
-            <Menu name="方框部件" id="quickparts" icon="://res/Image/quickparts32x32.png" menuBtn="false">
+            <Menu name="文档部件" id="quickparts" icon="://res/Image/quickparts32x32.png" menuBtn="false">
             </Menu>
             <Menu name="艺术字" id="wordart" icon="://res/Image/wordart32x32.png" menuBtn="false">
             </Menu>

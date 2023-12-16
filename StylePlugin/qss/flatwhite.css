@@ -535,12 +535,12 @@ gridline-color:#B6B6B6;
 
 QTreeView::branch:closed:has-children{
 margin:4px;
-border-image:url(:/qss/flatwhite/branch_open.png);
+image:url(:/qss/flatwhite/branch_open.png);
 }
 
 QTreeView::branch:open:has-children{
 margin:4px;
-border-image:url(:/qss/flatwhite/branch_close.png);
+image:url(:/qss/flatwhite/branch_close.png);
 }
 
 QTreeView,QListView,QTableView,QSplitter::handle,QTreeView::branch{
@@ -557,9 +557,8 @@ color:#1E1E1E;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #F6F6F6,stop:1 #F6F6F6);
 }
 
-QTableView::item,QListView::item,QTreeView::item{
-padding:1px;
-margin:0px;
+QListView::item,QTreeView::item{
+min-height:22px;
 }
 
 QHeaderView {
@@ -584,7 +583,14 @@ border-bottom:0px;
 color:#1E1E1E;
 margin:0px;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #F6F6F6,stop:1 #F6F6F6);
+}
+
+QTabBar::tab:top,QTabBar::tab:bottom{
 min-height:24px;
+}
+
+QTabBar::tab:left,QTabBar::tab:right{
+min-width:24px;
 }
 
 QTabBar::tab:selected,QTabBar::tab:hover{
@@ -606,7 +612,7 @@ border-width:2px 0px 0px 0px;
 }
 
 QTabBar::tab:right:selected,QTabBar::tab:right:hover{
-border-width:0px 0px 0px 2px;
+border-width:0px 2px 0px 0px;
 }
 
 QTabBar::tab:bottom:selected,QTabBar::tab:bottom:hover{
@@ -614,7 +620,7 @@ border-width:0px 0px 2px 0px;
 }
 
 QTabBar::tab:left:selected,QTabBar::tab:left:hover{
-border-width:0px 2px 0px 0px;
+border-width:0px 0px 0px 2px;
 }
 
 /*QTabBar::tab:first:top:selected,QTabBar::tab:first:top:hover,QTabBar::tab:first:bottom:selected,QTabBar::tab:first:bottom:hover{

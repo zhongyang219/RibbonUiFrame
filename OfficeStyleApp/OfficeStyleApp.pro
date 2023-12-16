@@ -22,7 +22,8 @@ SOURCES += \
 
 HEADERS += \
     dialog/ParagraphDialog.h \
-    mainwindow.h
+    mainwindow.h \
+    resId.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

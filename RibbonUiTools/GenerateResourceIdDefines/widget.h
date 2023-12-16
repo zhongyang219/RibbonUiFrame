@@ -23,6 +23,8 @@ private slots:
 
     void on_generateBtn_clicked();
 
+    void on_copyBtn_clicked();
+
 private:
     Ui::Widget *ui;
 };

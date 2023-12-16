@@ -53,7 +53,13 @@
 
 要在你的项目中使用此界面框架，请遵循以下步骤：
 
-* 将RibbonFrame的依赖添加到你的主工程中，并修改main.cpp中的代码：
+* 将RibbonFrame的依赖添加到你的主工程中。
+
+  ```
+LIBS +=-lRibbonFrame
+  ```
+
+* 并修改main.cpp中的代码：
 
   * 添加`include/ribbonframewindow.h`头文件包含，使用`RibbonFrameWindow`类作为程序的主窗口。
 
@@ -184,7 +190,7 @@ MainWindow节点或根节点下的控件节点将被添加到窗口的右上角�
 
   如果有此属性，则用此属性的值作为窗口标题，否则使用root节点下appName属性的值作为窗口标题。
 
-MainWindow节点不是必须的，所有放在MainWindow下的子节点都可以直接放在root节点下面。
+MainWindow节点不是必须的，所有放在MainWindow下的子节点都可以直接放在root节点（根节点）下面。
 
 ### Page节点
 

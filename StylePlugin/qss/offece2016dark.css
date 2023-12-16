@@ -4,6 +4,11 @@ QMessageBox {
     background: #262626;
 }
 
+QToolBar {
+    background: transparent;
+    border: none;
+}
+
 QToolBar#MainFrameToolbar {
     background: #363636;
     padding:2px;
@@ -41,6 +46,13 @@ QToolBar#MainFrameCornerBar QToolButton:hover:checked {
     color: #363636;
     border: 1px solid #808080;
     padding: 1px;
+}
+
+/*快速启动栏分隔线*/
+QToolBar#MainFrameCornerBar::separator{
+margin:6px 4px;
+width: 1px;
+background:#808080;
 }
 
 QTabWidget#MainFrameTab {
@@ -233,6 +245,23 @@ QMenu::separator {
     height: 1px;
     background: #4e4e4e;
     margin: 4px 6px;
+}
+
+QMenuBar{
+padding:2px;
+background:#0a0a0a;
+}
+
+QMenuBar::item{
+padding:3px 8px;
+}
+
+QMenuBar::item:selected {
+    background: #363636;
+}
+
+QMenuBar::item:pressed {
+    background: #737373;
 }
 
 
@@ -442,6 +471,10 @@ QListView, QTreeView, QTableView {
     background: #363636;
 }
 
+QListView::item,QTreeView::item{
+min-height:22px;
+}
+
 QListView::item:hover, QTreeView::item:hover, QTableView::item:hover {
     background: #505050;
 }
@@ -450,6 +483,14 @@ QListView::item:selected, QTreeView::item:selected{
     border: 1px solid #808080;
     color: #ffffff;
     background: #505050;
+    padding: -1px;
+}
+
+QComboBox QListView::item::selected {
+    background:#666666;
+    color:#ffffff;
+    border: none;
+    padding: 0px;
 }
 
 QTableView::item:selected {
@@ -472,6 +513,27 @@ QTreeView:item:last:selected {
 
 QTreeView:item:only-one:selected {
     border-width: 1px;
+}
+
+QTreeView::branch{
+background:#363636;
+padding:4px;
+}
+
+QTreeView::branch:closed:has-children{
+image:url(://qss/office2013/branch_close.png);
+}
+
+QTreeView::branch:open:has-children{
+image:url(://qss/office2016/branch_open_white.png);
+}
+
+QTreeView::branch:closed:hover:has-children{
+image:url(://qss/office2013/branch_close_hover.png);
+}
+
+QTreeView::branch:open:hover:has-children{
+image:url(://qss/office2013/branch_open_hover.png);
 }
 
 QTableView {
@@ -536,6 +598,63 @@ QStatusBar {
     border-top: 1px solid #434343;
 }
 
+QDockWidget::title{
+background:#232323;
+text-align: left;
+}
+
+QDockWidget::close-button, QDockWidget::float-button {
+border: none;
+}
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+background: #505050;
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+background: #737373;
+}
+
+/*滑动条*/
+QSlider::groove{
+background:#404040;
+}
+
+QSlider::groove::horizontal{
+height: 1px;
+}
+
+QSlider::groove::vertical{
+width: 1px;
+}
+
+QSlider::handle{
+background: #363636;
+border: 1px solid #666666;
+}
+
+QSlider::handle:horizontal{
+width:6px;
+margin-top:-6px;
+margin-bottom:-6px;
+}
+
+QSlider::handle:vertical{
+height:6px;
+margin-left:-6px;
+margin-right:-6px;
+}
+
+QSlider::handle:hover{
+background: #505050;
+border: 1px solid #808080;
+}
+
+QSlider::handle:pressed{
+background: #505050;
+border: 1px solid #808080;
+}
+
 /*滚动条*/
 QScrollBar {
     background: #0a0a0a;
@@ -571,8 +690,10 @@ QScrollBar::add-page, QScrollBar::sub-page {
 
 /*滚动条两端的按钮*/
 QScrollBar::add-line, QScrollBar::sub-line {
-    background: #363636;
-    border: 1px solid #666666;
+/*    background: #363636;
+    border: 1px solid #666666;*/
+    background: none;
+    border: none;
 }
 
 QScrollBar::add-line:hover, QScrollBar::sub-line:hover {
@@ -614,6 +735,10 @@ background:#0c0c0c;
 QCalendarWidget QAbstractItemView:enabled{
 selection-background-color:@themeColorDarker2;
 selection-color:#ffffff;
+}
+
+QScrollArea {
+border:1px solid #686868;
 }
 
 QLabel[video="true"]{

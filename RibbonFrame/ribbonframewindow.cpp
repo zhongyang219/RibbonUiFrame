@@ -1019,6 +1019,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
     else if (strTagName == "ComboBox")
     {
         QComboBox* pComboBox = new QComboBox(pParent);
+        pComboBox->setView(new QListView);
         smallIcon = true;
         bool editable = GetAttributeBool(element, "editable");
         pComboBox->setEditable(editable);
@@ -1373,11 +1374,14 @@ QWidget *RibbonFrameWindow::GetModuleMainWindow(IModule *pModule)
     if (windowType == IModule::MT_HWND)
     {
         WId wid = (WId)(pModule->GetMainWindow());
-        pWidget = d->m_mfcWindowMap[wid];
-        if (pWidget == nullptr)
+        if (wid != 0)
         {
-            pWidget = QWidget::createWindowContainer(QWindow::fromWinId(wid));
-            d->m_mfcWindowMap[wid] = pWidget;
+            pWidget = d->m_mfcWindowMap[wid];
+            if (pWidget == nullptr)
+            {
+                pWidget = QWidget::createWindowContainer(QWindow::fromWinId(wid));
+                d->m_mfcWindowMap[wid] = pWidget;
+            }
         }
     }
     else
@@ -1653,7 +1657,11 @@ void RibbonFrameWindow::SetItemText(const char* strId, const char* text)
                 pTextEdit->setPlainText(QString::fromUtf8(text));
             QComboBox* pComboBox = qobject_cast<QComboBox*>(pWidget);
             if (pComboBox != nullptr)
+#if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
                 pComboBox->setCurrentText(QString::fromUtf8(text));
+#else
+                pComboBox->setEditText(QString::fromUtf8(text));
+#endif
             ImageLabel* pImageLabel = dynamic_cast<ImageLabel*>(pWidget);
             if (pImageLabel != nullptr)
                 pImageLabel->TextLabel()->setText(QString::fromUtf8(text));

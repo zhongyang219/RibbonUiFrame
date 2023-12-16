@@ -505,9 +505,8 @@ color:#000000;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #F2F3F4,stop:1 #E7E9EB);
 }
 
-QTableView::item,QListView::item,QTreeView::item{
-padding:1px;
-margin:0px;
+QListView::item,QTreeView::item{
+min-height:22px;
 }
 
 QHeaderView {
@@ -553,7 +552,7 @@ border-width:2px 0px 0px 0px;
 }
 
 QTabBar::tab:right:selected,QTabBar::tab:right:hover{
-border-width:0px 0px 0px 2px;
+border-width:0px 2px 0px 0px;
 }
 
 QTabBar::tab:bottom:selected,QTabBar::tab:bottom:hover{
@@ -561,7 +560,7 @@ border-width:0px 0px 2px 0px;
 }
 
 QTabBar::tab:left:selected,QTabBar::tab:left:hover{
-border-width:0px 2px 0px 0px;
+border-width:0px 0px 0px 2px;
 }
 
 QTabBar::tab:first:top:selected,QTabBar::tab:first:top:hover{

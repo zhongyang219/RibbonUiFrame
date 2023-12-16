@@ -12,38 +12,10 @@
 #include <QStatusBar>
 #include <QToolBar>
 #include <QSlider>
+#include <QListView>
 #include "dialog/ParagraphDialog.h"
 #include "ribbonuipredefine.h"
-
-#define CMD_FileOpen "FileOpen"
-#define CMD_FileSaveAs "FileSaveAs"
-#define CMD_FileSave "FileSave"
-#define CMD_EditPaste "Paste"
-#define CMD_EditCut "Cut"
-#define CMD_EditCopy "Copy"
-#define CMD_EditUndo "undo"
-#define CMD_EditRedo "redo"
-#define CMD_FontComboBox "FontCombobox"
-#define CMD_FontPointSizeComboBox "FontSizeCombobox"
-#define CMD_Bold "Bold"
-#define CMD_Italic "Italic"
-#define CMD_UnderLine "UnderLine"
-#define CMD_Strickout "Strickout"
-#define CMD_FontGroup "GroupFont"
-
-
-
-//从路径创建一个指定大小的图标
-static QIcon CreateIcon(QString strPath, int size)
-{
-    if (!strPath.isEmpty())
-    {
-        QPixmap pixmap(strPath);
-        if (!pixmap.isNull())
-            return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    }
-    return QIcon();
-}
+#include "resId.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : RibbonFrameWindow(parent, ":/res/MainFrame.xml", true)
@@ -51,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     InitUi();
     m_edit.setStyleSheet(".QTextEdit{border:none;}");
     SetDefaultWidget(&m_edit);
-    SetItemText(CMD_FontPointSizeComboBox, "9");
+    SetItemText(ID_FontSizeCombobox, "9");
 
     connect(&m_edit, SIGNAL(cursorPositionChanged()), this, SLOT(OnCursorPositionChanged()));
     connect(&m_edit, SIGNAL(copyAvailable(bool)), this, SLOT(OnCopyAvailable(bool)));
@@ -86,17 +58,17 @@ void MainWindow::ApplyFont()
     if (m_fontUiApplEnable)
     {
         QFont font = m_edit.currentFont();
-        QFontComboBox* pFontCombo = qobject_cast<QFontComboBox*>(_GetWidget(CMD_FontComboBox));
+        QFontComboBox* pFontCombo = qobject_cast<QFontComboBox*>(_GetWidget(ID_FontCombobox));
         if (pFontCombo != nullptr)
             font.setFamily(pFontCombo->currentFont().family());
-        int pointSize = QString(GetItemText(CMD_FontPointSizeComboBox)).toInt();
+        int pointSize = QString(GetItemText(ID_FontSizeCombobox)).toInt();
         QTextCharFormat format;
         format.setFontPointSize(pointSize);
         m_edit.setCurrentCharFormat(format);
-        font.setBold(IsItemChecked(CMD_Bold));
-        font.setItalic(IsItemChecked(CMD_Italic));
-        font.setUnderline(IsItemChecked(CMD_UnderLine));
-        font.setStrikeOut(IsItemChecked(CMD_Strickout));
+        font.setBold(IsItemChecked(ID_Bold));
+        font.setItalic(IsItemChecked(ID_Italic));
+        font.setUnderline(IsItemChecked(ID_UnderLine));
+        font.setStrikeOut(IsItemChecked(ID_Strickout));
         m_edit.setCurrentFont(font);
     }
 }
@@ -105,14 +77,14 @@ void MainWindow::UpdateFontUi()
 {
     m_fontUiApplEnable = false;
     QFont font = m_edit.currentFont();
-    QFontComboBox* pFontCombo = qobject_cast<QFontComboBox*>(_GetWidget(CMD_FontComboBox));
+    QFontComboBox* pFontCombo = qobject_cast<QFontComboBox*>(_GetWidget(ID_FontCombobox));
     if (pFontCombo != nullptr)
         pFontCombo->setCurrentFont(font);
-    SetItemText(CMD_FontPointSizeComboBox, QString::number(font.pointSize()).toUtf8().constData());
-    SetItemChecked(CMD_Bold, font.bold());
-    SetItemChecked(CMD_Italic, font.italic());
-    SetItemChecked(CMD_UnderLine, font.underline());
-    SetItemChecked(CMD_Strickout, font.strikeOut());
+    SetItemText(ID_FontSizeCombobox, QString::number(font.pointSize()).toUtf8().constData());
+    SetItemChecked(ID_Bold, font.bold());
+    SetItemChecked(ID_Italic, font.italic());
+    SetItemChecked(ID_UnderLine, font.underline());
+    SetItemChecked(ID_Strickout, font.strikeOut());
     m_fontUiApplEnable = true;
 }
 
@@ -210,18 +182,18 @@ void MainWindow::OnCursorPositionChanged()
 
 void MainWindow::OnCopyAvailable(bool yes)
 {
-    SetItemEnable(CMD_EditCopy, yes);
-    SetItemEnable(CMD_EditCut, yes);
+    SetItemEnable(ID_Copy, yes);
+    SetItemEnable(ID_Cut, yes);
 }
 
 void MainWindow::OnUndoAvailable(bool available)
 {
-    SetItemEnable(CMD_EditUndo, available);
+    SetItemEnable(ID_undo, available);
 }
 
 void MainWindow::OnRedoAvailable(bool available)
 {
-    SetItemEnable(CMD_EditRedo, available);
+    SetItemEnable(ID_redo, available);
 }
 
 void MainWindow::zoomSliderScroll(int value)
@@ -234,7 +206,7 @@ void MainWindow::zoomSliderScroll(int value)
 bool MainWindow::OnCommand(const QString &strCmd, bool checked)
 {
     Q_UNUSED(checked)
-    if (strCmd == CMD_FileOpen)
+    if (strCmd == ID_FileOpen)
     {
         QString fileName = QFileDialog::getOpenFileName(this, QString(), QString(), u8"所有支持的文件 (*.txt *.md *.html *.htm);;HTML文件 (*.html *.htm);;Markdown文件 (*.md);;文件文件 (*.txt)");
         if (!fileName.isEmpty())
@@ -245,14 +217,14 @@ bool MainWindow::OnCommand(const QString &strCmd, bool checked)
             }
         }
     }
-    else if (strCmd == CMD_FileSave)
+    else if (strCmd == ID_FileSave)
     {
         if (!SaveFile(m_filePath))
         {
             QMessageBox::warning(this, QString(), u8"文件保存失败！");
         }
     }
-    else if (strCmd == CMD_FileSaveAs)
+    else if (strCmd == ID_FileSaveAs)
     {
         QString fileName = QFileDialog::getSaveFileName(this, QString(), m_filePath, u8"HTML文件 (*.html);;Markdown文件 (*.md);;文件文件 (*.txt)");
         if (!fileName.isEmpty())
@@ -263,73 +235,79 @@ bool MainWindow::OnCommand(const QString &strCmd, bool checked)
             }
         }
     }
-    else if (strCmd == CMD_EditUndo)
+    else if (strCmd == ID_undo)
     {
         m_edit.undo();
     }
-    else if (strCmd == CMD_EditRedo)
+    else if (strCmd == ID_redo)
     {
         m_edit.redo();
     }
-    else if (strCmd == CMD_EditCopy)
+    else if (strCmd == ID_Copy)
     {
         m_edit.copy();
     }
-    else if (strCmd == CMD_EditCut)
+    else if (strCmd == ID_Cut)
     {
         m_edit.cut();
     }
-    else if (strCmd == CMD_EditPaste)
+    else if (strCmd == ID_Paste)
     {
         m_edit.paste();
     }
-    else if (strCmd == CMD_Bold || strCmd == CMD_Italic || strCmd == CMD_UnderLine || strCmd == CMD_Strickout)
+    else if (strCmd == ID_Bold || strCmd == ID_Italic || strCmd == ID_UnderLine || strCmd == ID_Strickout)
     {
         ApplyFont();
     }
-    else if (strCmd == CMD_FontGroup)
+    else if (strCmd == ID_GroupFont)
     {
         QFontDialog dlg(m_edit.currentFont(), this);
         if (dlg.exec() == QDialog::Accepted)
             m_edit.setCurrentFont(dlg.font());
     }
-    else if (strCmd == "AppAbout")
+    else if (strCmd == ID_AppAbout)
     {
         QMessageBox::about(this, QSTR("关于 %1").arg(qApp->applicationName()), QSTR("%1 %2\r\n这是一个Office风格的示例程序。").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
     }
-    else if (strCmd == "GroupClipBoard")
+    else if (strCmd == ID_GroupClipBoard)
     {
         QMessageBox::information(this, QString(), QSTR("剪贴板对话框。"));
     }
-    else if (strCmd == "colorOther")
+    else if (strCmd == ID_colorOther)
     {
         QColorDialog dlg(this);
         dlg.exec();
     }
-    else if (strCmd == "GroupParagraph")
+    else if (strCmd == ID_GroupParagraph)
     {
         ParagraphDialog dlg(this);
         dlg.exec();
     }
-    else if (strCmd == "GroupPageSetup")
+    else if (strCmd == ID_GroupPageSetup)
     {
         QMessageBox::information(this, QString(), QSTR("页面设置对话框。"));
     }
-    else if (strCmd == "statusbar_zoomin")
+    else if (strCmd == ID_statusbar_zoomin)
     {
-        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget("statusbar_zoom_slider"));
+        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget(ID_statusbar_zoom_slider));
         if (pZoomSlider != nullptr)
         {
             pZoomSlider->setValue((pZoomSlider->value() + 10) / 10 * 10);
         }
     }
-    else if (strCmd == "statusbar_zoomout")
+    else if (strCmd == ID_statusbar_zoomout)
     {
-        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget("statusbar_zoom_slider"));
+        QSlider* pZoomSlider = qobject_cast<QSlider*>(_GetWidget(ID_statusbar_zoom_slider));
         if (pZoomSlider != nullptr)
         {
             pZoomSlider->setValue((pZoomSlider->value() - 10) / 10 * 10);
         }
+    }
+    else if (strCmd == ID_chekcboxStatusbar)
+    {
+        QStatusBar* pStatusbar = statusBar();
+        if (pStatusbar != nullptr)
+            pStatusbar->setVisible(checked);
     }
 
     return RibbonFrameWindow::OnCommand(strCmd, checked);
@@ -337,7 +315,7 @@ bool MainWindow::OnCommand(const QString &strCmd, bool checked)
 
 void MainWindow::OnItemChanged(const QString &strId, int index, const QString &text)
 {
-    if (strId == CMD_FontPointSizeComboBox)
+    if (strId == ID_FontSizeCombobox)
     {
         ApplyFont();
     }
@@ -346,13 +324,13 @@ void MainWindow::OnItemChanged(const QString &strId, int index, const QString &t
 
 QWidget *MainWindow::CreateUserWidget(const QString &strId, QWidget *pParent)
 {
-    if (strId == CMD_FontComboBox)
+    if (strId == ID_FontCombobox)
     {
         QFontComboBox* pFontCombo = new QFontComboBox(pParent);
         pFontCombo->setEditable(false);
         return pFontCombo;
     }
-    else if (strId == "IndentLeftSpin" || strId == "IndentRightSpin")
+    else if (strId == ID_IndentLeftSpin || strId == ID_IndentRightSpin)
     {
         QDoubleSpinBox* pSpin = new QDoubleSpinBox(pParent);
         pSpin->setSuffix(QSTR(" 字符"));
@@ -361,7 +339,7 @@ QWidget *MainWindow::CreateUserWidget(const QString &strId, QWidget *pParent)
         pSpin->setRange(-99, 99);
         return pSpin;
     }
-    else if (strId == "SpacingBeforeSpin" || strId == "SpacingAfterSpin")
+    else if (strId == ID_SpacingBeforeSpin || strId == ID_SpacingAfterSpin)
     {
         QDoubleSpinBox* pSpin = new QDoubleSpinBox(pParent);
         pSpin->setSuffix(QSTR(" 行"));
@@ -369,7 +347,7 @@ QWidget *MainWindow::CreateUserWidget(const QString &strId, QWidget *pParent)
         pSpin->setDecimals(1);
         return pSpin;
     }
-    else if (strId == "statusbar_zoom_slider")
+    else if (strId == ID_statusbar_zoom_slider)
     {
         QSlider* pZoomSlider = new QSlider(pParent);
         pZoomSlider->setOrientation(Qt::Horizontal);
