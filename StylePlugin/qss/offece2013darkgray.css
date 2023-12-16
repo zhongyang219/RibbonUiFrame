@@ -409,7 +409,7 @@ QTreeView::branch:open:hover:has-children{
 image:url(://qss/office2013/branch_open_hover.png);
 }
 
-QCheckBox::indicator, QGroupBox::indicator, QTreeView::indicator, QListView::indicator, QRadioButton::indicator {
+QCheckBox::indicator, QGroupBox::indicator, QTreeView::indicator, QListView::indicator, QTableView::indicator, QRadioButton::indicator {
     width: 12px;
     height: 12px;
     background: #ffffff;
@@ -420,16 +420,16 @@ QRadioButton::indicator {
     border-radius: 7px;
 }
 
-QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeView::indicator:hover, QListView::indicator:hover, QRadioButton::indicator:hover {
+QCheckBox::indicator:hover, QGroupBox::indicator:hover, QTreeView::indicator:hover, QListView::indicator:hover, QTableView::indicator:hover, QRadioButton::indicator:hover {
     background: @themeColorLighter4;
     border: 1px solid @themeColorLighter3;
 }
 
-QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked {
+QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked, QTableView::indicator:checked {
     image: url(:/qss/office2013/checkbox_black.png);
 }
 
-QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate {
+QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QTableView::indicator:indeterminate {
     image: url(:/qss/office2013/checkbox_parcial_black.png);
 }
 
@@ -437,7 +437,7 @@ QRadioButton::indicator:checked {
     image: url(:/qss/office2013/radiobutton_black.png);
 }
 
-QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeView::indicator:disabled, QListView::indicator:disabled, QRadioButton::indicator:disabled {
+QCheckBox::indicator:disabled, QGroupBox::indicator:disabled, QTreeView::indicator:disabled, QListView::indicator:disabled, QTableView::indicator:disabled, QRadioButton::indicator:disabled {
     background: #ffffff;
     border: 1px solid #eeeeee;
 }

@@ -554,33 +554,33 @@ QRadioButton::indicator {
     border-radius: 7px;
 }
 
-QCheckBox::indicator:unchecked, QGroupBox::indicator:unchecked, QTreeView::indicator:unchecked, QListView::indicator:unchecked, QRadioButton::indicator:unchecked {
+QCheckBox::indicator:unchecked, QGroupBox::indicator:unchecked, QTreeView::indicator:unchecked, QListView::indicator:unchecked, QTableView::indicator:unchecked, QRadioButton::indicator:unchecked {
     background: #363636;
     border: 1px solid #737373;
 }
 
-QCheckBox::indicator:unchecked:hover, QGroupBox::indicator:unchecked:hover, QTreeView::indicator:unchecked:hover, QListView::indicator:unchecked:hover, QRadioButton::indicator:unchecked:hover {
+QCheckBox::indicator:unchecked:hover, QGroupBox::indicator:unchecked:hover, QTreeView::indicator:unchecked:hover, QListView::indicator:unchecked:hover, QTableView::indicator:unchecked:hover, QRadioButton::indicator:unchecked:hover {
     background: #666666;
     border: 1px solid #949494;
 }
 
-QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked, QRadioButton::indicator:checked,
-QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QRadioButton::indicator:indeterminate {
+QCheckBox::indicator:checked, QGroupBox::indicator:checked, QTreeView::indicator:checked, QListView::indicator:checked, QTableView::indicator:checked, QRadioButton::indicator:checked,
+QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QTableView::indicator:indeterminate, QRadioButton::indicator:indeterminate {
     background: @themeColorDarker1;
     border: 1px solid @themeColor0;
 }
 
-QCheckBox::indicator:checked:hover, QGroupBox::indicator:checked:hover, QTreeView::indicator:checked:hover, QListView::indicator:checked:hover, QRadioButton::indicator:checked:hover,
-QCheckBox::indicator:indeterminate:hover, QGroupBox::indicator:indeterminate:hover, QTreeView::indicator:indeterminate:hover, QListView::indicator:indeterminate:hover, QRadioButton::indicator:indeterminate:hover {
+QCheckBox::indicator:checked:hover, QGroupBox::indicator:checked:hover, QTreeView::indicator:checked:hover, QListView::indicator:checked:hover, QTableView::indicator:checked:hover, QRadioButton::indicator:checked:hover,
+QCheckBox::indicator:indeterminate:hover, QGroupBox::indicator:indeterminate:hover, QTreeView::indicator:indeterminate:hover, QListView::indicator:indeterminate:hover, QTableView::indicator:indeterminate:hover, QRadioButton::indicator:indeterminate:hover {
     background: @themeColorDarker2;
     border: 1px solid @themeColorLighter1;
 }
 
-QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeView::indicator:checked,QListView::indicator:checked{
+QCheckBox::indicator:checked,QGroupBox::indicator:checked,QTreeView::indicator:checked,QListView::indicator:checked,QTableView::indicator:checked{
     image:url(:/qss/office2016/checkbox_white.png);
 }
 
-QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate {
+QCheckBox::indicator:indeterminate, QGroupBox::indicator:indeterminate, QTreeView::indicator:indeterminate, QListView::indicator:indeterminate, QTableView::indicator:indeterminate {
     image: url(:/qss/office2016/checkbox_parcial_white.png);
 }
 
