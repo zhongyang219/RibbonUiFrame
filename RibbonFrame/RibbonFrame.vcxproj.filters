@@ -46,6 +46,9 @@
     <ClCompile Include="settingsdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="modulemanagerdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h">
@@ -90,9 +93,15 @@
     <QtUic Include="settingsdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="modulemanagerdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="modulemanagerdlg.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

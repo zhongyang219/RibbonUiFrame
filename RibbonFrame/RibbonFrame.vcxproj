@@ -362,6 +362,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="modulemanagerdlg.cpp" />
     <ClCompile Include="ribbonframewindow.cpp" />
     <ClCompile Include="settingsdialog.cpp" />
   </ItemGroup>
@@ -369,6 +370,7 @@
     <ClInclude Include="..\include\mainframe_global.h" />
     <ClInclude Include="..\include\mainframeinterface.h" />
     <ClInclude Include="..\include\moduleinterface.h" />
+    <QtMoc Include="modulemanagerdlg.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="settingsdialog.h" />
     <QtMoc Include="..\include\ribbonframewindow.h">
@@ -412,6 +414,7 @@
     <ResourceCompile Include="RibbonFrame.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="modulemanagerdlg.ui" />
     <QtUic Include="settingsdialog.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,7 @@
     <qresource prefix="/icon">
         <file>res/ribbonOptionBtn.png</file>
         <file>res/settings.png</file>
+        <file>res/module.png</file>
     </qresource>
     <qresource prefix="/qss"/>
 </RCC>

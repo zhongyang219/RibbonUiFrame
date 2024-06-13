@@ -32,8 +32,11 @@
 #include <QFileInfo>
 #include <QActionGroup>
 #include <QTimer>
+#include <QSet>
 #include "ribbonuipredefine.h"
 #include "settingsdialog.h"
+#include "modulemanagerdlg.h"
+#include <QSettings>
 
 #define ICON_SIZE DPI(24)       //大图标的尺寸
 #define ICON_SIZE_S DPI(16)     //小图标的尺寸（工具栏上的小图标以及菜单图标）
@@ -202,6 +205,7 @@ public:
     QWidget* m_pDefaultWidget{};
     QAction* actionPinRibbon{};
     QAction* actionRibbonOptions{};
+    QAction* actionModuleManage{};
 
     QString m_xmlPath;
     bool m_inited{};
@@ -209,6 +213,9 @@ public:
     bool tabbarClicked{ false };    //点击ribbon标签后的500毫秒内为ture，其他时候为false
 
     SettingsDialog::Data m_ribbonOptionData;
+
+    QList<ModuleManagerDlg::ModuleInfo> moduleInfoList;
+    QSet<QString> m_disabledModulePath;
 
     MainFramePrivate()
     {
@@ -288,6 +295,8 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     d->actionPinRibbon->setCheckable(true);
     d->actionRibbonOptions = AddRibbonContextAction(CMD_RibbonOptions, QSTR("功能区设置..."));
     d->actionRibbonOptions->setIcon(QIcon(":/icon/res/settings.png"));
+    d->actionModuleManage = AddRibbonContextAction(CMD_ModuleManager, QSTR("模块管理..."));
+    d->actionModuleManage->setIcon(QIcon(":/icon/res/module.png"));
 
     //添加状态栏
     setStatusBar(new QStatusBar(this));
@@ -319,6 +328,10 @@ RibbonFrameWindow::~RibbonFrameWindow()
 {
     //保存设置
     d->m_ribbonOptionData.Save();
+
+    //保存禁用插件设置
+    QSettings settings(SCOPE_NAME, qApp->applicationName());
+    settings.setValue("disabledModulePath", QStringList(d->m_disabledModulePath.toList()));
 
     for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
     {
@@ -579,6 +592,10 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
         font.setPointSize(fontSize);
     qApp->setFont(font);
 
+    //载入已禁用模块设置
+    QSettings settings(SCOPE_NAME, qApp->applicationName());
+    d->m_disabledModulePath = settings.value("disabledModulePath").toStringList().toSet();
+
     //载入主框架命令
     LoadMainFrameUi(root);
 
@@ -641,16 +658,28 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QString strTabName = nodeInfo.attribute("name");
             QString strModulePath = nodeInfo.attribute("modulePath");
 
+            ModuleManagerDlg::ModuleInfo moduleInfo;
+            moduleInfo.name = strTabName;
+
             //载入模块
             IModule* pModule = LoadPlugin(strModulePath);
             int index = d->m_pTabWidget->count();
             d->m_moduleIndexMap[index] = pModule;
             d->m_moduleIndexPath[index] = strModulePath;
+            moduleInfo.modulePath = strModulePath;
 
             //添加标签页
-            QToolBar* pToolbar = new QToolBar();
             QString strIcon = nodeInfo.attribute("icon");
-            d->m_pTabWidget->addTab(pToolbar, CreateIcon(strIcon, ICON_SIZE_S), strTabName);
+            QIcon tabIcon = CreateIcon(strIcon, ICON_SIZE_S);
+            moduleInfo.icon = tabIcon;
+            d->moduleInfoList.push_back(moduleInfo);
+
+            //如果模块被禁用，则这里不再加载模块
+            if (d->m_disabledModulePath.contains(strModulePath))
+                continue;
+
+            QToolBar* pToolbar = new QToolBar();
+            d->m_pTabWidget->addTab(pToolbar, tabIcon, strTabName);
             pToolbar->setObjectName("MainFrameToolbar");
             //从模块获取主窗口
             if (pModule != nullptr)
@@ -1334,6 +1363,11 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
             SetItemEnable(CMD_RibbonPin, d->m_ribbonOptionData.ribbonHideEnable);
             ShowHideRibbon(d->m_ribbonOptionData.ribbonPin);
         }
+    }
+    else if (strCmd == CMD_ModuleManager)
+    {
+        ModuleManagerDlg dlg(d->moduleInfoList, d->m_disabledModulePath);
+        dlg.exec();
     }
     return false;
 }
