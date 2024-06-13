@@ -17,6 +17,9 @@ ModuleManagerDlg::ModuleManagerDlg(const QList<ModuleInfo>& moduleInfoList, QSet
     m_disabledModulePath(disabledModulePath)
 {
     ui.setupUi(this);
+    if (layout() != nullptr)
+        layout()->setMargin(DPI(8));
+    resize(DPI(480), DPI(350));
 
     ui.tableWidget->setColumnCount(COL_MAX);
     ui.tableWidget->setHorizontalHeaderLabels(QStringList{ u8"模块名称", u8"模块路径", u8"启用状态"});

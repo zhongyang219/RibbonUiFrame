@@ -32,6 +32,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+    resize(DPI(330), DPI(230));
     ui->showWhenTabClickedComboBox->addItem(u8"无");
     ui->showWhenTabClickedComboBox->addItem(u8"显示功能区");
     ui->showWhenTabClickedComboBox->addItem(u8"显示菜单");
