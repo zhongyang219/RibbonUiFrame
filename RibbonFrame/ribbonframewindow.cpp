@@ -442,15 +442,9 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
 
             ModuleManagerDlg::ModuleInfo moduleInfo;
             moduleInfo.name = strTabName;
-
-            //载入模块
-            IModule* pModule = LoadPlugin(strModulePath);
-            int index = d->m_pTabWidget->count();
-            d->m_moduleIndexMap[index] = pModule;
-            d->m_moduleIndexPath[index] = strModulePath;
             moduleInfo.modulePath = strModulePath;
 
-            //添加标签页
+            //获取图标
             QString strIcon = nodeInfo.attribute("icon");
             QIcon tabIcon = RibbonFrameHelper::CreateIcon(strIcon, ICON_SIZE_S);
             moduleInfo.icon = tabIcon;
@@ -465,6 +459,13 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             if (d->m_disabledModulePath.contains(strModulePath))
                 continue;
 
+            //载入模块
+            IModule* pModule = LoadPlugin(strModulePath);
+            int index = d->m_pTabWidget->count();
+            d->m_moduleIndexMap[index] = pModule;
+            d->m_moduleIndexPath[index] = strModulePath;
+
+            //添加标签页
             QToolBar* pToolbar = new QToolBar();
             d->m_pTabWidget->addTab(pToolbar, tabIcon, strTabName);
             pToolbar->setObjectName("MainFrameToolbar");
