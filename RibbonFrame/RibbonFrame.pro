@@ -17,6 +17,8 @@ DEFINES += RIBBONFRAME_LIBRARY
 
 
 SOURCES += \
+    RibbonFrameHelper.cpp \
+    modulemanagerdlg.cpp \
     ribbonframewindow.cpp \
     settingsdialog.cpp
 
@@ -26,6 +28,8 @@ HEADERS  += \
     ../include/moduleinterface.h \
     ../include/ribbonframewindow.h \
     ../include/ribbonuipredefine.h \
+    RibbonFrameHelper.h \
+    modulemanagerdlg.h \
     settingsdialog.h
 
 CONFIG(release, debug|release): {
@@ -50,4 +54,5 @@ win32-msvc* {
 }
 
 FORMS += \
+    modulemanagerdlg.ui \
     settingsdialog.ui

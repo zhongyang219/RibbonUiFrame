@@ -454,7 +454,8 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QString strIcon = nodeInfo.attribute("icon");
             QIcon tabIcon = RibbonFrameHelper::CreateIcon(strIcon, ICON_SIZE_S);
             moduleInfo.icon = tabIcon;
-            d->moduleInfoList.push_back(moduleInfo);
+            if (!moduleInfo.modulePath.isEmpty())
+                d->moduleInfoList.push_back(moduleInfo);
 
             //如果命令行参数中包含模块管理器，则不加载模块
             if (d->IsModuleManager())

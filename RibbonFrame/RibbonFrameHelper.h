@@ -11,6 +11,7 @@
 #include "settingsdialog.h"
 #include "modulemanagerdlg.h"
 #include <QDomElement>
+class QToolButton;
 
 class RibbonFrameHelper
 {
