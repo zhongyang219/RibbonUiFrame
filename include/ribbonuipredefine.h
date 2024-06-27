@@ -40,4 +40,28 @@ static int DPI(int x)
 }
 
 
+#define ICON_SIZE DPI(24)       //大图标的尺寸
+#define ICON_SIZE_S DPI(16)     //小图标的尺寸（工具栏上的小图标以及菜单图标）
+
+//ActionGroup选项按钮的尺寸
+#ifdef Q_OS_WIN
+#define ACTION_GROUP_OPTION_BTN_SIZE DPI(16)
+#else
+#define ACTION_GROUP_OPTION_BTN_SIZE DPI(18)
+#endif
+
+//ActionGroup选项按钮图标的尺寸
+#ifdef Q_OS_WIN
+#define ACTION_GROUP_OPTION_ICON_SIZE DPI(8)
+#else
+#define ACTION_GROUP_OPTION_ICON_SIZE DPI(10)
+#endif
+
+#define MAX_SMALL_ICON_COLUMN 2     //一列小图标的最大数量
+#ifdef Q_OS_WIN
+#define MAX_WIDGET_HEIGHT DPI(10 + MAX_SMALL_ICON_COLUMN * 18)
+#else
+#define MAX_WIDGET_HEIGHT DPI(16 + MAX_SMALL_ICON_COLUMN * 24)
+#endif
+
 #endif // RIBBONUIPREDEFINE_H

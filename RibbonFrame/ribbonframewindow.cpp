@@ -36,240 +36,15 @@
 #include "ribbonuipredefine.h"
 #include "settingsdialog.h"
 #include "modulemanagerdlg.h"
-#include <QSettings>
-
-#define ICON_SIZE DPI(24)       //大图标的尺寸
-#define ICON_SIZE_S DPI(16)     //小图标的尺寸（工具栏上的小图标以及菜单图标）
-
-//ActionGroup选项按钮的尺寸
-#ifdef Q_OS_WIN
-#define ACTION_GROUP_OPTION_BTN_SIZE DPI(16)
-#else
-#define ACTION_GROUP_OPTION_BTN_SIZE DPI(18)
-#endif
-
-//ActionGroup选项按钮图标的尺寸
-#ifdef Q_OS_WIN
-#define ACTION_GROUP_OPTION_ICON_SIZE DPI(8)
-#else
-#define ACTION_GROUP_OPTION_ICON_SIZE DPI(10)
-#endif
-
-#define MAX_SMALL_ICON_COLUMN 2     //一列小图标的最大数量
-#ifdef Q_OS_WIN
-#define MAX_WIDGET_HEIGHT DPI(10 + MAX_SMALL_ICON_COLUMN * 18)
-#else
-#define MAX_WIDGET_HEIGHT DPI(16 + MAX_SMALL_ICON_COLUMN * 24)
-#endif
+#include "RibbonFrameHelper.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//获取xml节点中一个属性的bool值
-static bool GetAttributeBool(const QDomElement& element, const QString& attr, bool defaultVal = false)
-{
-    QString strAttrValue = element.attribute(attr);
-    if (!strAttrValue.isEmpty())
-        return strAttrValue == "true" || strAttrValue.toInt() != 0;
-    return defaultVal;
-}
-
-//根据一个xml节点判断对应的元素是否要以小图标的样式显示
-static bool IsSmallIcon(const QDomElement& element)
-{
-    if (element.hasAttribute("smallIcon"))
-    {
-        return GetAttributeBool(element, "smallIcon");
-    }
-    else
-    {
-        QString strBtnStyle = element.attribute("btnStyle");
-        return strBtnStyle == "compact" || strBtnStyle == "textOnly" || strBtnStyle == "iconOnly";
-    }
-}
-
-//根据一个xml节点设置QToolButton的样式
-static void SetToolButtonStyle(QToolButton* pToolBtn, const QDomElement& element, Qt::ToolButtonStyle defaultStyle = Qt::ToolButtonTextUnderIcon)
-{
-    if (pToolBtn != nullptr)
-    {
-        QString strBtnStyle = element.attribute("btnStyle");
-        if (strBtnStyle == "compact")
-        {
-            pToolBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        }
-        else if (strBtnStyle == "textOnly")
-        {
-            pToolBtn->setToolButtonStyle(Qt::ToolButtonTextOnly);
-        }
-        else if (strBtnStyle == "iconOnly")
-        {
-            pToolBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
-        }
-        else if (element.hasAttribute("smallIcon"))
-        {
-            bool smallIcon = GetAttributeBool(element, "smallIcon");
-            if (!smallIcon)
-            {
-                pToolBtn->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-            }
-            else
-            {
-                if (defaultStyle == Qt::ToolButtonIconOnly)
-                    pToolBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
-                else
-                    pToolBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-            }
-        }
-        else
-        {
-            pToolBtn->setToolButtonStyle(defaultStyle);
-        }
-    }
-}
-
-//获取一个xml元素的id
-static QString GetElementId(const QDomElement& element)
-{
-    QString strId = element.attribute("id");
-    if (strId.isEmpty())
-        strId = element.attribute("commandID");
-    return strId;
-}
-
-//获取一个xml元素是否可用
-static bool GetElementEnabled(const QDomElement& element, bool defaultVal = true)
-{
-    if (element.hasAttribute("enabled"))
-        return GetAttributeBool(element,"enabled", defaultVal);
-    else if (element.hasAttribute("enable"))
-        return GetAttributeBool(element,"enable", defaultVal);
-    return defaultVal;
-}
-
-//从路径创建一个指定大小的图标
-static QIcon CreateIcon(QString strPath, int size)
-{
-    if (!strPath.isEmpty())
-    {
-        //如果图标路径不是资源路径且文件不存在，则在路径前面加上应用程序目录
-        if (!strPath.startsWith(":/") && !QFileInfo(strPath).isFile())
-            strPath = qApp->applicationDirPath() + '/' + strPath;
-        QPixmap pixmap(strPath);
-        if (!pixmap.isNull())
-            return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-        else
-            qDebug() << QString(u8"加载图标“%1”失败！").arg(strPath);
-    }
-    return QIcon();
-}
-
-static bool IsToolBarTag(const QString& tagName)
-{
-    return tagName == "ToolBar" || tagName == "Toolbar";
-}
-
-static bool IsActionTag(const QString& tagName)
-{
-    return tagName == "Action" || tagName == "SysBarAction";
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// \brief 保存主窗口的私有成员变量
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class MainFramePrivate
-{
-public:
-    QMap<int, IModule*> m_moduleIndexMap;       //保存标签索引和IModuleInterface对象的对应关系
-    QMap<QString, IModule*> m_moduleNameMap;    //保存模块的名称和IModuleInterface对象的对应关系
-    QMap<QString, IModule*> m_modulePathMap;    //保存已加载模块的路径和模块对象
-    QMap<int, QString> m_moduleIndexPath;       //保存标签索引和模块路径的对应关系
-    QMap<int, QMenu*> m_pageMenuMap;
-
-    QMap<QString, QAction*> m_actionMap;    //保存命令Id和Action的对应关系
-    QMap<QString, QWidget*> m_widgetMap;    //保存命令Id和Widget的对应关系
-    QMap<QString, QMenu*> m_menuMap;        //保存命令Id和菜单的对应关系
-    QMap<int, QStringList> m_cmdRadioBtnGroutMap;           //保存RadioButton或命令作为单选按钮的命令组
-
-    QTabWidget* m_pTabWidget{};           //主窗口的TabWidget
-    QStackedWidget* m_pStackedWidget{};   //切换不同模块的主窗口
-    QToolBar* m_pTopRightBar{};           //TabWidget右上角的工具栏
-    QHBoxLayout* m_pTopLeftLayout{};      //TabWidget左上角的布局，包含了系统按钮和快速启动栏
-
-    QLabel* m_pNoMainWindowLabel;
-    QLabel* m_pModuleLoadFailedLabel;
-
-    QString m_windowTitle;
-    QMap<WId, QWidget*> m_mfcWindowMap;  //保存已加载过的MFC窗口
-    QWidget* m_pDefaultWidget{};
-    QAction* actionPinRibbon{};
-    QAction* actionRibbonOptions{};
-    QAction* actionModuleManage{};
-
-    QString m_xmlPath;
-    bool m_inited{};
-    bool ribbonShow{ true };    //功能区是否显示
-    bool tabbarClicked{ false };    //点击ribbon标签后的500毫秒内为ture，其他时候为false
-
-    SettingsDialog::Data m_ribbonOptionData;
-
-    QList<ModuleManagerDlg::ModuleInfo> moduleInfoList;
-    QSet<QString> m_disabledModulePath;
-
-    MainFramePrivate()
-    {
-        m_pNoMainWindowLabel = new QLabel(QSTR("模块未提供主窗口。"));
-        m_pModuleLoadFailedLabel = new QLabel(QSTR("模块加载失败。"));
-        m_pNoMainWindowLabel->setAlignment(Qt::AlignCenter);
-        m_pModuleLoadFailedLabel->setAlignment(Qt::AlignCenter);
-    }
-};
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// 左侧有图标的Label
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class ImageLabel : public QWidget
-{
-public:
-    ImageLabel(QWidget* pParent, const QString& iconPath, const QString& text = QString())
-        : QWidget(pParent)
-    {
-        QHBoxLayout* pLayout = new QHBoxLayout;
-        pLayout->setContentsMargins(0, 0, 0, 0);
-        setLayout(pLayout);
-        pImageLabel = new QLabel(this);
-        QPixmap iconPixmap(iconPath);
-        pImageLabel->setPixmap(iconPixmap.scaled(ICON_SIZE_S, ICON_SIZE_S, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-        pLayout->addWidget(pImageLabel);
-        pTextLabel = new QLabel(this);
-        pTextLabel->setText(text);
-        pLayout->addWidget(pTextLabel, 1);
-    }
-
-    void setIcon(const QIcon& icon)
-    {
-        pImageLabel->setPixmap(icon.pixmap(ICON_SIZE_S, ICON_SIZE_S));
-    }
-
-    QLabel* TextLabel() const
-    {
-        return pTextLabel;
-    }
-
-private:
-    QLabel* pImageLabel;
-    QLabel* pTextLabel;
-};
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bool initUiManual)
+RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bool initUiManual, const QStringList& cmdLine)
     : QMainWindow(parent)
 {
-    d = new MainFramePrivate;
+    d = new RibbonFramePrivate(cmdLine);
     d->m_xmlPath = xmlPath;
 
     //设置主窗口最小大小
@@ -330,8 +105,7 @@ RibbonFrameWindow::~RibbonFrameWindow()
     d->m_ribbonOptionData.Save();
 
     //保存禁用插件设置
-    QSettings settings(SCOPE_NAME, qApp->applicationName());
-    settings.setValue("disabledModulePath", QStringList(d->m_disabledModulePath.toList()));
+    d->SaveConfig();
 
     for (auto iter = d->m_moduleNameMap.begin(); iter != d->m_moduleNameMap.end(); ++iter)
     {
@@ -386,6 +160,15 @@ void RibbonFrameWindow::InitUi()
         QTimer::singleShot(100, [this](){ SetRibbonPin(d->m_ribbonOptionData.ribbonPin); });
 
         d->m_inited = true;
+
+        //如果命令行参数中包含模块管理器，则显示模块管理界面
+        if (d->IsModuleManager())
+        {
+            ModuleManagerDlg dlg(d->moduleInfoList, d->m_disabledModulePath);
+            dlg.exec();
+            //退出程序
+            QTimer::singleShot(0, qApp, &QCoreApplication::quit);
+        }
     }
 }
 
@@ -593,8 +376,7 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
     qApp->setFont(font);
 
     //载入已禁用模块设置
-    QSettings settings(SCOPE_NAME, qApp->applicationName());
-    d->m_disabledModulePath = settings.value("disabledModulePath").toStringList().toSet();
+    d->LoadConfig();
 
     //载入主框架命令
     LoadMainFrameUi(root);
@@ -670,9 +452,13 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
 
             //添加标签页
             QString strIcon = nodeInfo.attribute("icon");
-            QIcon tabIcon = CreateIcon(strIcon, ICON_SIZE_S);
+            QIcon tabIcon = RibbonFrameHelper::CreateIcon(strIcon, ICON_SIZE_S);
             moduleInfo.icon = tabIcon;
             d->moduleInfoList.push_back(moduleInfo);
+
+            //如果命令行参数中包含模块管理器，则不加载模块
+            if (d->IsModuleManager())
+                continue;
 
             //如果模块被禁用，则这里不再加载模块
             if (d->m_disabledModulePath.contains(strModulePath))
@@ -713,14 +499,14 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QPushButton* pMainFrameBtn = new QPushButton(menuName, d->m_pTabWidget);
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
-                pMainFrameBtn->setIcon(CreateIcon(strIcon, ICON_SIZE_S));
+                pMainFrameBtn->setIcon(RibbonFrameHelper::CreateIcon(strIcon, ICON_SIZE_S));
             d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
 
             //为按钮添加菜单
             QMenu* pMainMenu = LoadUiMenu(nodeInfo);
             pMainMenu->setObjectName("MainFrameMenu");
             pMainFrameBtn->setMenu(pMainMenu);
-            QString id = GetElementId(nodeInfo);
+            QString id = RibbonFrameHelper::GetElementId(nodeInfo);
             if (id.isEmpty())
                 id = "SystemMenu";
             d->m_menuMap[id] = pMainMenu;
@@ -798,7 +584,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
         QDomElement childElement = groupList.at(i).toElement();
         QString strTagName = childElement.tagName();
         QString strName = childElement.attribute("name");
-        QString strId = GetElementId(childElement);
+        QString strId = RibbonFrameHelper::GetElementId(childElement);
         //分隔符
         if (strTagName == "Separator")
         {
@@ -809,14 +595,14 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
         else if (strTagName == "Menu")
         {
             //获取菜单名称和图标
-            bool smallIcon = IsSmallIcon(childElement);
+            bool smallIcon = RibbonFrameHelper::IsSmallIcon(childElement);
             //创建工具栏按钮
             QToolButton* pToolButton = new QToolButton(pToolbar);
             AddUiWidget(pToolButton, smallIcon, pToolbar, previousLayout);
-            SetToolButtonStyle(pToolButton, childElement);
+            RibbonFrameHelper::SetToolButtonStyle(pToolButton, childElement);
             InitMenuButton(pToolButton, childElement);
             QString menuIconPath = childElement.attribute("icon");
-            pToolButton->setIcon(CreateIcon(menuIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE));
+            pToolButton->setIcon(RibbonFrameHelper::CreateIcon(menuIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE));
 
             //创建菜单并添加到工具栏按钮中
             QMenu* pMenu = LoadUiMenu(childElement);
@@ -862,16 +648,16 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
                 pGroupNameLabel->setAlignment(Qt::AlignCenter);
                 pLabelLayout->addWidget(pGroupNameLabel);
                 //添加选项按钮
-                bool hasOptionBtn = GetAttributeBool(childElement, "optionBtn");
+                bool hasOptionBtn = RibbonFrameHelper::GetAttributeBool(childElement, "optionBtn");
                 if (hasOptionBtn)
                 {
                     QToolButton* pOptionBtn = new QToolButton(pSubToolbar);
                     pLabelLayout->addWidget(pOptionBtn);
                     pOptionBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
                     pOptionBtn->setFixedSize(ACTION_GROUP_OPTION_BTN_SIZE, ACTION_GROUP_OPTION_BTN_SIZE);
-                    QString strId = GetElementId(childElement);
+                    QString strId = RibbonFrameHelper::GetElementId(childElement);
                     QAction* pOptionAction = LoadUiAction(childElement);
-                    pOptionAction->setIcon(CreateIcon(":/icon/res/ribbonOptionBtn.png", ACTION_GROUP_OPTION_ICON_SIZE));
+                    pOptionAction->setIcon(RibbonFrameHelper::CreateIcon(":/icon/res/ribbonOptionBtn.png", ACTION_GROUP_OPTION_ICON_SIZE));
                     pOptionBtn->setDefaultAction(pOptionAction);
                     d->m_widgetMap[strId] = pOptionBtn;
                 }
@@ -882,25 +668,25 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
             //则添加分隔符
             pToolbar->addSeparator();
         }
-        else if (IsToolBarTag(strTagName))
+        else if (RibbonFrameHelper::IsToolBarTag(strTagName))
         {
             QToolBar* pSubToolbar = new QToolBar;
             LoadSimpleToolbar(childElement, pSubToolbar);
-            AddUiWidget(pSubToolbar, IsSmallIcon(childElement), pToolbar, previousLayout);
+            AddUiWidget(pSubToolbar, RibbonFrameHelper::IsSmallIcon(childElement), pToolbar, previousLayout);
         }
-        else if (IsActionTag(strTagName))
+        else if (RibbonFrameHelper::IsActionTag(strTagName))
         {
-            bool smallItem = IsSmallIcon(childElement);
+            bool smallItem = RibbonFrameHelper::IsSmallIcon(childElement);
             QAction* pAction = LoadUiAction(childElement);
             QToolButton* pToolButton = new QToolButton(pToolbar);
             AddUiWidget(pToolButton, smallItem, pToolbar, previousLayout);
-            SetToolButtonStyle(pToolButton, childElement);
+            RibbonFrameHelper::SetToolButtonStyle(pToolButton, childElement);
             pToolButton->setDefaultAction(pAction);
             d->m_widgetMap[strId] = pToolButton;
         }
         else
         {
-            bool smallIcon = IsSmallIcon(childElement);
+            bool smallIcon = RibbonFrameHelper::IsSmallIcon(childElement);
             QWidget* pUiWidget = LoadUiWidget(childElement, pToolbar, smallIcon);
             if (pUiWidget != nullptr)
                 AddUiWidget(pUiWidget, smallIcon, pToolbar, previousLayout);
@@ -917,14 +703,14 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
     {
         QDomElement childElement = groupList.at(i).toElement();
         QString strTagName = childElement.tagName();
-        if (IsActionTag(strTagName))
+        if (RibbonFrameHelper::IsActionTag(strTagName))
         {
             QAction* pAction = LoadUiAction(childElement);
             QToolButton* pToolButton = new QToolButton(pToolbar);
-            SetToolButtonStyle(pToolButton, childElement, Qt::ToolButtonIconOnly);
+            RibbonFrameHelper::SetToolButtonStyle(pToolButton, childElement, Qt::ToolButtonIconOnly);
             pToolButton->setDefaultAction(pAction);
             pToolbar->addWidget(pToolButton);
-            QString strId = GetElementId(childElement);
+            QString strId = RibbonFrameHelper::GetElementId(childElement);
             d->m_widgetMap[strId] = pToolButton;
         }
         else if (strTagName == "Separator")
@@ -937,15 +723,15 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
             //创建工具栏按钮
             QToolButton* pToolButton = new QToolButton(pToolbar);
             pToolbar->addWidget(pToolButton);
-            SetToolButtonStyle(pToolButton, childElement, Qt::ToolButtonIconOnly);
+            RibbonFrameHelper::SetToolButtonStyle(pToolButton, childElement, Qt::ToolButtonIconOnly);
             InitMenuButton(pToolButton, childElement);
             QString menuIconPath = childElement.attribute("icon");
-            pToolButton->setIcon(CreateIcon(menuIconPath, ICON_SIZE_S));
+            pToolButton->setIcon(RibbonFrameHelper::CreateIcon(menuIconPath, ICON_SIZE_S));
 
             //创建菜单并添加到工具栏按钮中
             QMenu* pMenu = LoadUiMenu(childElement);
             pToolButton->setMenu(pMenu);
-            QString strId = GetElementId(childElement);
+            QString strId = RibbonFrameHelper::GetElementId(childElement);
             d->m_widgetMap[strId] = pToolButton;
         }
         else
@@ -960,18 +746,18 @@ void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *
 
 QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
 {
-    QString strCmdId = GetElementId(actionNodeInfo);
+    QString strCmdId = RibbonFrameHelper::GetElementId(actionNodeInfo);
     if (d->m_actionMap.contains(strCmdId))
     {
         return d->m_actionMap.value(strCmdId);
     }
     QString strCmdName = actionNodeInfo.attribute("name");
     QString strIconPath = actionNodeInfo.attribute("icon");
-    bool bCheckable = GetAttributeBool(actionNodeInfo,"checkable");
-    bool checked = GetAttributeBool(actionNodeInfo,"checked");
+    bool bCheckable = RibbonFrameHelper::GetAttributeBool(actionNodeInfo,"checkable");
+    bool checked = RibbonFrameHelper::GetAttributeBool(actionNodeInfo,"checked");
     QString strRadioGroup = actionNodeInfo.attribute("radioGroup");
     QString strShortcut = actionNodeInfo.attribute("shortcut");
-    bool smallIcon = IsSmallIcon(actionNodeInfo);
+    bool smallIcon = RibbonFrameHelper::IsSmallIcon(actionNodeInfo);
     if (!strRadioGroup.isEmpty())
     {
         bCheckable = true;
@@ -979,11 +765,11 @@ QAction *RibbonFrameWindow::LoadUiAction(const QDomElement &actionNodeInfo)
     }
     QString strTip = actionNodeInfo.attribute("tip");
 
-    QAction* pAction = new QAction(CreateIcon(strIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE), strCmdName, this);
+    QAction* pAction = new QAction(RibbonFrameHelper::CreateIcon(strIconPath, smallIcon ? ICON_SIZE_S : ICON_SIZE), strCmdName, this);
     pAction->setProperty("id", strCmdId);       //将命令的ID作为用户数据保存到QAction对象中
     pAction->setCheckable(bCheckable);
     pAction->setChecked(checked);
-    pAction->setEnabled(GetElementEnabled(actionNodeInfo));
+    pAction->setEnabled(RibbonFrameHelper::GetElementEnabled(actionNodeInfo));
     pAction->setToolTip(strTip);
     pAction->setShortcut(QKeySequence(strShortcut));
 
@@ -997,7 +783,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
 {
     QString strTagName = element.tagName();
     QString strName = element.attribute("name");
-    QString strId = GetElementId(element);
+    QString strId = RibbonFrameHelper::GetElementId(element);
     QWidget* pUiWidget = nullptr;
     if (!strId.isEmpty() && d->m_widgetMap.contains(strId))
     {
@@ -1028,7 +814,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         pLineEdit->setText(strName);
         pLineEdit->setMaximumWidth(DPI(120));
         pLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        bool editable = GetAttributeBool(element, "editable", true);
+        bool editable = RibbonFrameHelper::GetAttributeBool(element, "editable", true);
         pLineEdit->setReadOnly(!editable);
         connect(pLineEdit, SIGNAL(textEdited(const QString&)), this, SLOT(OnEditTextChanged(const QString&)));
         pUiWidget = pLineEdit;
@@ -1040,7 +826,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         pTextEdit->setPlainText(strName);
         pTextEdit->setMaximumWidth(DPI(120));
         pTextEdit->setMaximumHeight(MAX_WIDGET_HEIGHT);
-        bool editable = GetAttributeBool(element, "editable", true);
+        bool editable = RibbonFrameHelper::GetAttributeBool(element, "editable", true);
         pTextEdit->setReadOnly(!editable);
         connect(pTextEdit, SIGNAL(textChanged()), this, SLOT(OnEditTextChanged()));
         pUiWidget = pTextEdit;
@@ -1050,7 +836,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         QComboBox* pComboBox = new QComboBox(pParent);
         pComboBox->setView(new QListView);
         smallIcon = true;
-        bool editable = GetAttributeBool(element, "editable");
+        bool editable = RibbonFrameHelper::GetAttributeBool(element, "editable");
         pComboBox->setEditable(editable);
         pComboBox->setEditText(strName);
         pUiWidget = pComboBox;
@@ -1061,7 +847,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             QDomElement itemElement = itemElements.at(i).toElement();
             QString itemText = itemElement.attribute("name");
             QString iconPath = itemElement.attribute("icon");
-            pComboBox->addItem(CreateIcon(iconPath, ICON_SIZE_S), itemText);
+            pComboBox->addItem(RibbonFrameHelper::CreateIcon(iconPath, ICON_SIZE_S), itemText);
         }
         connect(pComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnItemIndexChanged(int)));
         connect(pComboBox, SIGNAL(editTextChanged(const QString&)), this, SLOT(OnEditTextChanged(const QString&)));
@@ -1072,7 +858,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         smallIcon = true;
         pCheckBox->setText(strName);
         pCheckBox->setProperty("id", strId);
-        bool checked = GetAttributeBool(element,"checked");
+        bool checked = RibbonFrameHelper::GetAttributeBool(element,"checked");
         pCheckBox->setChecked(checked);
         connect(pCheckBox, SIGNAL(clicked(bool)), this, SLOT(OnActionTriggerd(bool)));
         pUiWidget = pCheckBox;
@@ -1088,7 +874,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             d->m_cmdRadioBtnGroutMap[strRadioGroup.toInt()].push_back(strId);
         }
         pRadioButton->setProperty("id", strId);
-        bool checked = GetAttributeBool(element,"checked");
+        bool checked = RibbonFrameHelper::GetAttributeBool(element,"checked");
         pRadioButton->setChecked(checked);
         connect(pRadioButton, SIGNAL(clicked(bool)), this, SLOT(OnActionTriggerd(bool)));
         pUiWidget = pRadioButton;
@@ -1097,7 +883,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
     {
         QListWidget* pListWidget = new QListWidget(pParent);
         smallIcon = false;
-        bool horizontalArrange = GetAttributeBool(element, "horizontalArrange");
+        bool horizontalArrange = RibbonFrameHelper::GetAttributeBool(element, "horizontalArrange");
         if (horizontalArrange)
             pListWidget->setFlow(QListView::LeftToRight);
         pListWidget->setViewMode(QListView::ListMode);
@@ -1111,7 +897,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             QDomElement itemElement = itemElements.at(i).toElement();
             QString itemText = itemElement.attribute("name");
             QString iconPath = itemElement.attribute("icon");
-            pListWidget->addItem(new QListWidgetItem(CreateIcon(iconPath, ICON_SIZE_S), itemText));
+            pListWidget->addItem(new QListWidgetItem(RibbonFrameHelper::CreateIcon(iconPath, ICON_SIZE_S), itemText));
         }
         connect(pListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(OnItemIndexChanged(int)));
     }
@@ -1132,12 +918,12 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
         if (pUserWidget == nullptr)
             pUserWidget = new QLabel(strName.isEmpty() ? "UserWidget" : strName);
         pUserWidget->setMaximumHeight(MAX_WIDGET_HEIGHT);
-        smallIcon = IsSmallIcon(element);
+        smallIcon = RibbonFrameHelper::IsSmallIcon(element);
         pUiWidget = pUserWidget;
     }
     else if (strTagName == "WidgetGroup")
     {
-        bool horizontal = GetAttributeBool(element, "horizontalArrange", true);
+        bool horizontal = RibbonFrameHelper::GetAttributeBool(element, "horizontalArrange", true);
         QLayout* pLayout = nullptr;
         if (horizontal)
             pLayout = new QHBoxLayout();
@@ -1153,7 +939,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             QDomElement childElement = childNodeList.at(i).toElement();
             QString childTagName = childElement.tagName();
             bool childSmallIcon;
-            if (IsToolBarTag(childTagName))
+            if (RibbonFrameHelper::IsToolBarTag(childTagName))
             {
                 QToolBar* pChildToolbar = new QToolBar(pUiWidget);
                 LoadSimpleToolbar(childElement, pChildToolbar);
@@ -1166,7 +952,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
                     pLayout->addWidget(pChildWidget);
             }
         }
-        smallIcon = IsSmallIcon(element);
+        smallIcon = RibbonFrameHelper::IsSmallIcon(element);
 }
     if (!strId.isEmpty())
         d->m_widgetMap[strId] = pUiWidget;
@@ -1182,7 +968,7 @@ QWidget *RibbonFrameWindow::LoadUiWidget(const QDomElement &element, QWidget *pP
             pUiWidget->setFixedWidth(DPI(width));
         if (height > 0)
             pUiWidget->setFixedHeight(DPI(height));
-        pUiWidget->setEnabled(GetElementEnabled(element));
+        pUiWidget->setEnabled(RibbonFrameHelper::GetElementEnabled(element));
     }
     return pUiWidget;
 }
@@ -1193,10 +979,10 @@ QMenu *RibbonFrameWindow::LoadUiMenu(const QDomElement &element, bool enableWidg
     QString strCmdName = element.attribute("name");
     QString strIconPath = element.attribute("icon");
     QMenu* pMenu = new QMenu(strCmdName);
-    QString strId = GetElementId(element);
+    QString strId = RibbonFrameHelper::GetElementId(element);
     if (!strId.isEmpty())
         d->m_menuMap[strId] = pMenu;
-    pMenu->setIcon(CreateIcon(strIconPath, ICON_SIZE_S));
+    pMenu->setIcon(RibbonFrameHelper::CreateIcon(strIconPath, ICON_SIZE_S));
 #if (QT_VERSION >= QT_VERSION_CHECK(5,1,0))
     pMenu->setToolTipsVisible(true);
 #endif
@@ -1213,7 +999,7 @@ void RibbonFrameWindow::LoadMenuItemFromXml(const QDomElement &element, QMenu *p
         QDomElement menuNodeInfo = menuList.at(k).toElement();
         QString strTagName = menuNodeInfo.tagName();
         //命令
-        if (IsActionTag(strTagName))
+        if (RibbonFrameHelper::IsActionTag(strTagName))
         {
             QAction* pAction = LoadUiAction(menuNodeInfo);
             pMenu->addAction(pAction);
@@ -1230,7 +1016,7 @@ void RibbonFrameWindow::LoadMenuItemFromXml(const QDomElement &element, QMenu *p
             pMenu->addMenu(pSubMenu);
         }
         //工具栏
-        else if (IsToolBarTag(strTagName))
+        else if (RibbonFrameHelper::IsToolBarTag(strTagName))
         {
             QToolBar* pToolbar = new QToolBar(pMenu);
             pToolbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
@@ -1245,7 +1031,7 @@ void RibbonFrameWindow::LoadMenuItemFromXml(const QDomElement &element, QMenu *p
             if (!actions.isEmpty() && !actions.back()->isSeparator())
                 pMenu->addSeparator();
 
-            QString strId = GetElementId(menuNodeInfo);
+            QString strId = RibbonFrameHelper::GetElementId(menuNodeInfo);
             QString strName = menuNodeInfo.attribute("name");
             if (!strId.isEmpty())
             {
@@ -1278,7 +1064,7 @@ void RibbonFrameWindow::LoadMenuItemFromXml(const QDomElement &element, QMenu *p
 void RibbonFrameWindow::InitMenuButton(QToolButton *pMenuBtn, const QDomElement &element)
 {
     //添加Action
-    bool menuBtn = GetAttributeBool(element, "menuBtn");
+    bool menuBtn = RibbonFrameHelper::GetAttributeBool(element, "menuBtn");
     if (menuBtn)
     {
         QAction* pAction = LoadUiAction(element);
@@ -1705,7 +1491,7 @@ void RibbonFrameWindow::SetItemText(const char* strId, const char* text)
 
 void RibbonFrameWindow::SetItemIcon(const char* strId, const char* iconPath, int iconSize)
 {
-    QIcon icon = CreateIcon(QString::fromUtf8(iconPath), iconSize);
+    QIcon icon = RibbonFrameHelper::CreateIcon(QString::fromUtf8(iconPath), iconSize);
     SetItemIcon(QString::fromUtf8(strId), icon);
 }
 

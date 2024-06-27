@@ -22,32 +22,43 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="对话框">
+      <UniqueIdentifier>{df46e144-dab8-488e-99bf-e78f8b123d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框\SettingsDialog">
+      <UniqueIdentifier>{b15be005-3c6a-4976-a0ab-3d8e249e1e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框\ModuleManagerDialog">
+      <UniqueIdentifier>{7501433e-815d-4420-9622-11ed15633f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RibbonFrameWindow">
+      <UniqueIdentifier>{0cf1f033-c4fc-412c-90bf-b03afd4aa78d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
       <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{d2e4024b-a863-43ae-a8bc-6eddf38b8204}</UniqueIdentifier>
+    <Filter Include="RibbonFrameHelper">
+      <UniqueIdentifier>{a8790df6-c856-4e28-a753-7ca992ccc628}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ribbonframewindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="RibbonFrameHelper.cpp">
+      <Filter>RibbonFrameHelper</Filter>
     </ClCompile>
     <ClCompile Include="settingsdialog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>对话框\SettingsDialog</Filter>
     </ClCompile>
     <ClCompile Include="modulemanagerdlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>对话框\ModuleManagerDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ribbonframewindow.cpp">
+      <Filter>RibbonFrameWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,11 +71,11 @@
     <ClInclude Include="..\include\moduleinterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="..\include\ribbonframewindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="resource.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RibbonFrameHelper.h">
+      <Filter>RibbonFrameHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -77,32 +88,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbonOptionBtn.png">
-      <Filter>Resource Files</Filter>
+      <Filter>资源文件</Filter>
     </None>
     <QtRcc Include="ribbonframe.qrc">
-      <Filter>Resource Files</Filter>
+      <Filter>资源文件</Filter>
     </QtRcc>
     <None Include="res\styleForWindows.css">
-      <Filter>Resource Files</Filter>
+      <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="RibbonFrame.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="settingsdialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="modulemanagerdlg.ui">
-      <Filter>Form Files</Filter>
+      <Filter>对话框\ModuleManagerDialog</Filter>
+    </QtUic>
+    <QtUic Include="settingsdialog.ui">
+      <Filter>对话框\SettingsDialog</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="settingsdialog.h">
-      <Filter>Header Files</Filter>
+      <Filter>对话框\SettingsDialog</Filter>
     </QtMoc>
     <QtMoc Include="modulemanagerdlg.h">
-      <Filter>Header Files</Filter>
+      <Filter>对话框\ModuleManagerDialog</Filter>
     </QtMoc>
+    <QtMoc Include="..\include\ribbonframewindow.h">
+      <Filter>RibbonFrameWindow</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RibbonFrame.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -14,7 +14,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationVersion("1.0.0");
 
-    MainWindow w;
+    QStringList cmdLine;
+    for (int i = 0; i < argc; i++)
+        cmdLine.push_back(argv[i]);
+
+    MainWindow w(nullptr, cmdLine);
     w.show();
 
     return a.exec();

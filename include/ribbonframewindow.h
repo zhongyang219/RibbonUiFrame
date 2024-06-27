@@ -12,7 +12,7 @@ class QDomElement;
 class QToolBar;
 class QToolButton;
 class QVBoxLayout;
-class MainFramePrivate;
+class RibbonFramePrivate;
 
 class RIBBONFRAME_EXPORT RibbonFrameWindow : public QMainWindow, public IMainFrame
 {
@@ -24,8 +24,9 @@ public:
      * @param[in]	parent 父窗口
      * @param[in]	xmlPath xml文件的路径，如果为空，则使用可执行文件相同目录下的“MainFrame.xml”
      * @param[in]	initUiManual 是否手动初始化UI，如果为false中，则在构造函数中完成UI的初始化，否则，构造函数不初始化UI，需要手动调用InitUi函数。
+     * @param[in]   cmdLine 命令行参数
      */
-    RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString(), bool initUiManual = false);
+    RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString(), bool initUiManual = false, const QStringList& cmdLine = QStringList());
     virtual ~RibbonFrameWindow();
 
     //UI初始化函数，包含了xml文件的解析、模块的加载等操作。
@@ -125,7 +126,7 @@ protected:
     virtual QWidget* CreateUserWidget(const QString& strId, QWidget* pParent = nullptr) { return nullptr; }
 
 private:
-    MainFramePrivate* d;        //私有成员变量，定义在cpp文件中
+    RibbonFramePrivate* d;        //私有成员变量
 
     // QWidget interface
 protected:
