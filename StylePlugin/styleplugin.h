@@ -31,6 +31,7 @@ private:
     QAction* AddThemeAction(const QString& name, QMenu* pMenu);
     void SetStyle(const QString& styleName);
     void SetThemeColor(const QColor& color);
+    virtual void timerEvent(QTimerEvent* event) override;
 
 private slots:
     void OnStyleActionTriggered(bool);
@@ -46,6 +47,8 @@ private:
     QString m_curStyle;
     QPalette m_defaultPalette;
     ThemeColor m_themeColor;
+    QAction* m_followSystemColorAction{};
+    int m_timerId{};
 };
 
 #ifdef __cplusplus

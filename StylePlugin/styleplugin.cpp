@@ -10,9 +10,12 @@
 #include <QStyleFactory>
 #include <QColorDialog>
 #include "ribbonuipredefine.h"
+#include <QTimerEvent>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_STYLE_KEY "windowsvista"
+#include <dwmapi.h>
+#pragma comment(lib,"Dwmapi.lib")
 #else
 #define DEFAULT_STYLE_KEY "Fusion"
 #endif
@@ -29,6 +32,31 @@ static QIcon CreateSingleColorIcon(const QColor& color)
     return QIcon(pixmap);
 }
 
+static QColor GetWindowsThemeColor()
+{
+#ifdef Q_OS_WIN
+    DWORD crColorization;
+    BOOL fOpaqueBlend;
+    QColor themeColor;
+    HRESULT result = DwmGetColorizationColor(&crColorization, &fOpaqueBlend);
+    if (result == S_OK)
+    {
+        BYTE r, g, b;
+        r = (crColorization >> 16) % 256;
+        g = (crColorization >> 8) % 256;
+        b = crColorization % 256;
+        themeColor.setRed(r);
+        themeColor.setGreen(g);
+        themeColor.setBlue(b);
+    }
+    return themeColor;
+#else
+    return QColor();
+#endif
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 StylePlugin::StylePlugin()
 {
 }
@@ -36,11 +64,17 @@ StylePlugin::StylePlugin()
 
 void StylePlugin::InitInstance()
 {
+    m_timerId = startTimer(1000);
+
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     m_curStyle = settings.value("style").toString();
     QString strThemeColor = settings.value("themeColor", DEFAULT_THEME_COLOR_MS_WORD).toString();
     m_themeColor.SetColor(QColor(strThemeColor));
+
+    m_followSystemColorAction = new QAction(u8"跟随系统主题颜色");
+    m_followSystemColorAction->setCheckable(true);
+    m_followSystemColorAction->setChecked(settings.value("followSystemThemeColor").toInt());
 }
 
 void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
@@ -91,6 +125,7 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
                 pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_POWERPOINT)), QSTR("Microsoft PowerPoint"), this, SLOT(OnThemeColorPowerPoint()));
                 pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_ONENOTE)), QSTR("Microsoft OneNote"), this, SLOT(OnThemeColorOneNote()));
                 pThemeColorMenu->addAction(QSTR("自定义主题色..."), this, SLOT(OnCustomThemeColor()));
+                pThemeColorMenu->addAction(m_followSystemColorAction);
             }
         }
     }
@@ -128,6 +163,7 @@ void StylePlugin::UnInitInstance()
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     settings.setValue("style", m_curStyle);
     settings.setValue("themeColor", m_themeColor.OriginalColor().name());
+    settings.setValue("followSystemThemeColor", static_cast<int>(m_followSystemColorAction->isChecked()));
 }
 
 IModule::eMainWindowType StylePlugin::GetMainWindowType() const
@@ -224,8 +260,25 @@ void StylePlugin::SetStyle(const QString &styleName)
 
 void StylePlugin::SetThemeColor(const QColor &color)
 {
-    m_themeColor.SetColor(color);
-    CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
+    if (m_themeColor.OriginalColor() != color)
+    {
+        m_themeColor.SetColor(color);
+        CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
+    }
+}
+
+void StylePlugin::timerEvent(QTimerEvent* event)
+{
+    if (event->timerId() == m_timerId)
+    {
+#ifdef Q_OS_WIN
+        if (m_followSystemColorAction->isChecked())
+        {
+            QColor systemThemeColor = GetWindowsThemeColor();
+            SetThemeColor(systemThemeColor);
+        }
+#endif
+    }
 }
 
 void StylePlugin::OnStyleActionTriggered(bool)
@@ -240,21 +293,25 @@ void StylePlugin::OnStyleActionTriggered(bool)
 void StylePlugin::OnThemeColorWord()
 {
     SetThemeColor(QColor(DEFAULT_THEME_COLOR_MS_WORD));
+    m_followSystemColorAction->setChecked(false);
 }
 
 void StylePlugin::OnThemeColorExcel()
 {
     SetThemeColor(QColor(DEFAULT_THEME_COLOR_MS_EXCEL));
+    m_followSystemColorAction->setChecked(false);
 }
 
 void StylePlugin::OnThemeColorPowerPoint()
 {
     SetThemeColor(QColor(DEFAULT_THEME_COLOR_POWERPOINT));
+    m_followSystemColorAction->setChecked(false);
 }
 
 void StylePlugin::OnThemeColorOneNote()
 {
     SetThemeColor(QColor(DEFAULT_THEME_COLOR_ONENOTE));
+    m_followSystemColorAction->setChecked(false);
 }
 
 void StylePlugin::OnCustomThemeColor()
@@ -263,6 +320,7 @@ void StylePlugin::OnCustomThemeColor()
     if (colorDlg.exec() == QDialog::Accepted)
     {
         SetThemeColor(colorDlg.currentColor());
+        m_followSystemColorAction->setChecked(false);
     }
 }
 
