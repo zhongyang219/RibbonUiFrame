@@ -27,6 +27,8 @@ public:
         };
         ShowWhenTabClicked showWhenTabClicked{};
 
+        bool showLeftNaviBar{};             //是否在左侧显示导航栏
+
         void Save() const;
         void Load();
     };

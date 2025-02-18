@@ -11,6 +11,7 @@
 #include "settingsdialog.h"
 #include "modulemanagerdlg.h"
 #include <QDomElement>
+#include "widgets/navigatewidget.h"
 class QToolButton;
 
 class RibbonFrameHelper
@@ -54,6 +55,11 @@ public:
     QToolBar* m_pTopRightBar{};           //TabWidget右上角的工具栏
     QHBoxLayout* m_pTopLeftLayout{};      //TabWidget左上角的布局，包含了系统按钮和快速启动栏
 
+    NavigateWidget* m_pNavigateWidget{};    //显示在左侧的导航栏
+    QStackedWidget* m_pControlsStackedWidget{}; //切换不同模块的功能区（当显示了左侧导航栏时）
+    //QWidget* pRightControlsWidget{};        //功能区的父窗口（当显示了左侧导航栏时）
+    QVBoxLayout* pNavigateLayout{};         //左侧的导航栏的布局
+
     QLabel* m_pNoMainWindowLabel;
     QLabel* m_pModuleLoadFailedLabel;
 
@@ -68,6 +74,7 @@ public:
     bool m_inited{};
     bool ribbonShow{ true };    //功能区是否显示
     bool tabbarClicked{ false };    //点击ribbon标签后的500毫秒内为ture，其他时候为false
+    bool showLeftNaviBar{};
 
     SettingsDialog::Data m_ribbonOptionData;
 

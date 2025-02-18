@@ -366,12 +366,14 @@
     <ClCompile Include="RibbonFrameHelper.cpp" />
     <ClCompile Include="ribbonframewindow.cpp" />
     <ClCompile Include="settingsdialog.cpp" />
+    <ClCompile Include="widgets\navigatewidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h" />
     <ClInclude Include="..\include\mainframeinterface.h" />
     <ClInclude Include="..\include\moduleinterface.h" />
     <ClInclude Include="RibbonFrameHelper.h" />
+    <QtMoc Include="widgets\navigatewidget.h" />
     <QtMoc Include="modulemanagerdlg.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="settingsdialog.h" />
@@ -410,7 +412,6 @@
     <None Include="res\ribbonOptionBtn.png" />
     <QtRcc Include="ribbonframe.qrc">
     </QtRcc>
-    <None Include="res\styleForWindows.css" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RibbonFrame.rc" />

@@ -31,6 +31,7 @@
 #include <QWindow>
 #include <QFileInfo>
 #include <QActionGroup>
+#include <QSplitter>
 #include <QTimer>
 #include <QSet>
 #include "ribbonuipredefine.h"
@@ -50,22 +51,54 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     //设置主窗口最小大小
     setMinimumSize(DPI(400), DPI(300));
 
-    //初始化主窗口
-    QWidget* pCentralWidget = new QWidget(this);
-    QVBoxLayout* pLayout = new QVBoxLayout();
-    pLayout->setContentsMargins(0, 0, 0, 0);
-    pLayout->setSpacing(0);
-    pCentralWidget->setLayout(pLayout);
-    setCentralWidget(pCentralWidget);
-    pLayout->addWidget(d->m_pTabWidget = new QTabWidget());
-    d->m_pTabWidget->setObjectName("MainFrameTab");
-    d->m_pTabWidget->setAttribute(Qt::WA_StyledBackground);
-    d->m_pTabWidget->tabBar()->setObjectName("MainFrameTabBar");
-    d->m_pTabWidget->setStyleSheet(QString("QTabBar::tab{height:%1px}").arg(DPI(26)));     //设置tab标签的高度
-    pLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
+    //载入功能区设置
+    d->m_ribbonOptionData.Load();
+    d->showLeftNaviBar = d->m_ribbonOptionData.showLeftNaviBar;
 
-    //为功能区添加一个右键菜单
-    d->m_pTabWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    //初始化主窗口
+    if (d->showLeftNaviBar)
+    {
+        QSplitter* pSplitter = new QSplitter(this);
+        pSplitter->setChildrenCollapsible(false);
+        QWidget* pNavigateWidget = new QWidget();
+        d->pNavigateLayout = new QVBoxLayout();
+        d->pNavigateLayout->setContentsMargins(0, 0, 0, 0);
+        d->pNavigateLayout->setSpacing(0);
+        pNavigateWidget->setLayout(d->pNavigateLayout);
+        d->pNavigateLayout->addWidget(d->m_pNavigateWidget = new NavigateWidget(Qt::Vertical), 1);
+        pSplitter->addWidget(pNavigateWidget);
+        QWidget* pRightWidget = new QWidget();
+        pSplitter->addWidget(pRightWidget);
+        pSplitter->setStretchFactor(0, 1);
+        pSplitter->setStretchFactor(1, 3);
+        setCentralWidget(pSplitter);
+        QVBoxLayout* pRightLayout = new QVBoxLayout();
+        pRightLayout->setContentsMargins(0, 0, 0, 0);
+        pRightLayout->setSpacing(0);
+        pRightWidget->setLayout(pRightLayout);
+        pRightLayout->addWidget(d->m_pControlsStackedWidget = new QStackedWidget());
+        pRightLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
+        //为功能区添加一个右键菜单
+        d->m_pControlsStackedWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    }
+    else
+    {
+        QWidget* pCentralWidget = new QWidget(this);
+        QVBoxLayout* pLayout = new QVBoxLayout();
+        pLayout->setContentsMargins(0, 0, 0, 0);
+        pLayout->setSpacing(0);
+        pCentralWidget->setLayout(pLayout);
+        setCentralWidget(pCentralWidget);
+        pLayout->addWidget(d->m_pTabWidget = new QTabWidget());
+        d->m_pTabWidget->setObjectName("MainFrameTab");
+        d->m_pTabWidget->setAttribute(Qt::WA_StyledBackground);
+        d->m_pTabWidget->tabBar()->setObjectName("MainFrameTabBar");
+        d->m_pTabWidget->setStyleSheet(QString("QTabBar::tab{height:%1px}").arg(DPI(26)));     //设置tab标签的高度
+        pLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
+        //为功能区添加一个右键菜单
+        d->m_pTabWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    }
+
     d->actionPinRibbon = AddRibbonContextAction(CMD_RibbonPin, QSTR("显示功能区"));
     d->actionPinRibbon->setCheckable(true);
     d->actionRibbonOptions = AddRibbonContextAction(CMD_RibbonOptions, QSTR("功能区设置..."));
@@ -76,24 +109,34 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     //添加状态栏
     setStatusBar(new QStatusBar(this));
 
-    //在TabWidget右上角添加一个工具栏
-    d->m_pTopRightBar = new QToolBar();
-    d->m_pTopRightBar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
-    d->m_pTopRightBar->setObjectName("MainFrameCornerBar");
-    QWidget* pTopRightWidget = new QWidget();
-    QHBoxLayout* pTopRightLayout = new QHBoxLayout();
-    pTopRightLayout->setContentsMargins(0, 0, 0, 0);
-    pTopRightWidget->setLayout(pTopRightLayout);
-    pTopRightLayout->addWidget(d->m_pTopRightBar, 0, Qt::AlignVCenter);
-    d->m_pTabWidget->setCornerWidget(pTopRightWidget);
-
     //添加左上角控件
     QWidget* pTopLeftBar = new QWidget(this);
-    d->m_pTabWidget->setCornerWidget(pTopLeftBar, Qt::TopLeftCorner);
+    if (d->showLeftNaviBar)
+    {
+        d->pNavigateLayout->insertWidget(0, pTopLeftBar);
+    }
+    else
+    {
+        d->m_pTabWidget->setCornerWidget(pTopLeftBar, Qt::TopLeftCorner);
+    }
     d->m_pTopLeftLayout = new QHBoxLayout();
     d->m_pTopLeftLayout->setContentsMargins(0, 0, 0, 0);
     d->m_pTopLeftLayout->setSpacing(DPI(2));
     pTopLeftBar->setLayout(d->m_pTopLeftLayout);
+
+    //在TabWidget右上角添加一个工具栏
+    d->m_pTopRightBar = new QToolBar();
+    d->m_pTopRightBar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
+    d->m_pTopRightBar->setObjectName("MainFrameCornerBar");
+    if (!d->showLeftNaviBar)
+    {
+        QWidget* pTopRightWidget = new QWidget();
+        QHBoxLayout* pTopRightLayout = new QHBoxLayout();
+        pTopRightLayout->setContentsMargins(0, 0, 0, 0);
+        pTopRightWidget->setLayout(pTopRightLayout);
+        pTopRightLayout->addWidget(d->m_pTopRightBar, 0, Qt::AlignVCenter);
+        d->m_pTabWidget->setCornerWidget(pTopRightWidget);
+    }
 
     if (!initUiManual)
         InitUi();
@@ -139,18 +182,22 @@ void RibbonFrameWindow::InitUi()
         setWindowTitle(strTitle);
 
         //响应标签切换消息
-        connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
-        connect(d->m_pTabWidget, SIGNAL(tabBarClicked(int)), this, SLOT(OnTabBarClicked(int)));
-        connect(d->m_pTabWidget, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(OnTabBarDoubleClicked(int)));
+        if (d->showLeftNaviBar)
+        {
+            connect(d->m_pNavigateWidget, SIGNAL(curItemChanged(int)), this, SLOT(OnTabIndexChanged(int)));
+        }
+        else
+        {
+            connect(d->m_pTabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabIndexChanged(int)));
+            connect(d->m_pTabWidget, SIGNAL(tabBarClicked(int)), this, SLOT(OnTabBarClicked(int)));
+            connect(d->m_pTabWidget, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(OnTabBarDoubleClicked(int)));
+        }
 
         QObject::connect(qApp, &QApplication::focusChanged, this, &RibbonFrameWindow::FocusChanged);
 
         //为“关于Qt”命令设置图标
         QIcon qtIcon = QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton);
         SetItemIcon("AppAboutQt", qtIcon);
-
-        //载入功能区设置
-        d->m_ribbonOptionData.Load();
 
         //设置“固定功能区”命令的选中状态
         d->actionPinRibbon->setChecked(d->m_ribbonOptionData.ribbonPin);
@@ -194,11 +241,15 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
     {
         d->m_pStackedWidget->setCurrentWidget(d->m_pDefaultWidget);
     }
+    if (d->showLeftNaviBar)
+    {
+        d->m_pControlsStackedWidget->setCurrentIndex(index);
+    }
 }
 
 void RibbonFrameWindow::OnTabBarClicked(int index)
 {
-    if (d->m_ribbonOptionData.ribbonHideEnable)
+    if (d->m_ribbonOptionData.ribbonHideEnable && !d->showLeftNaviBar)
     {
         if (d->m_ribbonOptionData.showWhenTabClicked == SettingsDialog::Data::Ribbon)
         {
@@ -381,6 +432,12 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
     //载入主框架命令
     LoadMainFrameUi(root);
 
+    if (d->showLeftNaviBar)
+    {
+        d->m_pNavigateWidget->AddSpacing();
+        d->pNavigateLayout->addWidget(d->m_pTopRightBar);
+    }
+
     //通知插件UI加载完成
     Q_FOREACH(IModule* pModule, d->m_moduleNameMap)
     {
@@ -461,13 +518,25 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
 
             //载入模块
             IModule* pModule = LoadPlugin(strModulePath);
-            int index = d->m_pTabWidget->count();
+            int index;
+            if (d->showLeftNaviBar)
+                index = d->m_pNavigateWidget->GetItemCount();
+            else
+                index = d->m_pTabWidget->count();
             d->m_moduleIndexMap[index] = pModule;
             d->m_moduleIndexPath[index] = strModulePath;
 
             //添加标签页
             QToolBar* pToolbar = new QToolBar();
-            d->m_pTabWidget->addTab(pToolbar, tabIcon, strTabName);
+            if (d->showLeftNaviBar)
+            {
+                d->m_pNavigateWidget->AddItem(strTabName, tabIcon);
+                d->m_pControlsStackedWidget->addWidget(pToolbar);
+            }
+            else
+            {
+                d->m_pTabWidget->addTab(pToolbar, tabIcon, strTabName);
+            }
             pToolbar->setObjectName("MainFrameToolbar");
             //从模块获取主窗口
             if (pModule != nullptr)
@@ -498,11 +567,20 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QString strIcon = nodeInfo.attribute("icon");
 
             //添加TabWidget左上角按钮
-            QPushButton* pMainFrameBtn = new QPushButton(menuName, d->m_pTabWidget);
+            QPushButton* pMainFrameBtn;
+            if (d->showLeftNaviBar)
+            {
+                pMainFrameBtn = new QPushButton(menuName, d->m_pNavigateWidget);
+                d->pNavigateLayout->insertWidget(0, pMainFrameBtn);
+            }
+            else
+            {
+                pMainFrameBtn = new QPushButton(menuName, d->m_pTabWidget);
+                d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
+            }
             pMainFrameBtn->setObjectName("MainFrameBtn");
             if (!strIcon.isEmpty())
                 pMainFrameBtn->setIcon(RibbonFrameHelper::CreateIcon(strIcon, ICON_SIZE_S));
-            d->m_pTopLeftLayout->addWidget(pMainFrameBtn, 0, Qt::AlignVCenter);
 
             //为按钮添加菜单
             QMenu* pMainMenu = LoadUiMenu(nodeInfo);
@@ -1116,7 +1194,12 @@ void RibbonFrameWindow::AddUiWidget(QWidget* pUiWidget, bool smallIcon, QToolBar
 
 IModule* RibbonFrameWindow::CurrentModule() const
 {
-    return d->m_moduleIndexMap.value(d->m_pTabWidget->currentIndex());
+    int curIndex;
+    if (d->showLeftNaviBar)
+        curIndex = d->m_pNavigateWidget->GetCurItem();
+    else
+        curIndex = d->m_pTabWidget->currentIndex();
+    return d->m_moduleIndexMap.value(curIndex);
 }
 
 bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
@@ -1224,13 +1307,20 @@ void RibbonFrameWindow::SetRibbonPin(bool pin)
 void RibbonFrameWindow::ShowHideRibbon(bool show)
 {
     d->ribbonShow = show;
-    if (show)
+    if (d->showLeftNaviBar)
     {
-        d->m_pTabWidget->setMaximumHeight(QWIDGETSIZE_MAX);
+        d->m_pControlsStackedWidget->setVisible(show);
     }
     else
     {
-        d->m_pTabWidget->setMaximumHeight(d->m_pTabWidget->tabBar()->height() + DPI(1));
+        if (show)
+        {
+            d->m_pTabWidget->setMaximumHeight(QWIDGETSIZE_MAX);
+        }
+        else
+        {
+            d->m_pTabWidget->setMaximumHeight(d->m_pTabWidget->tabBar()->height() + DPI(1));
+        }
     }
 }
 
@@ -1239,7 +1329,10 @@ QAction *RibbonFrameWindow::AddRibbonContextAction(const QString &strId, const Q
     QAction* pAction = new QAction(strName);
     pAction->setProperty("id", strId);
     connect(pAction, SIGNAL(triggered(bool)), this, SLOT(OnActionTriggerd(bool)));
-    d->m_pTabWidget->addAction(pAction);
+    if (d->showLeftNaviBar)
+        d->m_pControlsStackedWidget->addAction(pAction);
+    else
+        d->m_pTabWidget->addAction(pAction);
     return pAction;
 }
 
@@ -1301,12 +1394,18 @@ void RibbonFrameWindow::SetItemIcon(const QString& strId, const QIcon& icon)
 
 void RibbonFrameWindow::SetTabIndex(int index)
 {
-    d->m_pTabWidget->setCurrentIndex(index);
+    if (d->showLeftNaviBar)
+        d->m_pNavigateWidget->SetCurItem(index);
+    else
+        d->m_pTabWidget->setCurrentIndex(index);
 }
 
 int RibbonFrameWindow::GetTabIndex() const
 {
-    return d->m_pTabWidget->currentIndex();
+    if (d->showLeftNaviBar)
+        return d->m_pNavigateWidget->GetCurItem();
+    else
+        return d->m_pTabWidget->currentIndex();
 }
 
 void RibbonFrameWindow::SetDefaultWidget(QWidget* pWidget)
@@ -1317,7 +1416,7 @@ void RibbonFrameWindow::SetDefaultWidget(QWidget* pWidget)
     //将defaultWidget添加到StackedWidget中
     d->m_pStackedWidget->addWidget(pWidget);
     d->m_pDefaultWidget = pWidget;
-    OnTabIndexChanged(d->m_pTabWidget->currentIndex());
+    OnTabIndexChanged(GetTabIndex());
 }
 
 IModule *RibbonFrameWindow::GetModule(const char *strModuleName) const

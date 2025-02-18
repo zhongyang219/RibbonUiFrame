@@ -121,3 +121,4 @@ Makefile*
 
 /bin
 *.qtvscr
+build

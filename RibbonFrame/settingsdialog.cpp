@@ -12,6 +12,7 @@ void SettingsDialog::Data::Save() const
     settings.setValue("ribbonPin", static_cast<int>(ribbonPin));
     settings.setValue("ribbonDoubleClickEnable", static_cast<int>(ribbonDoubleClickEnable));
     settings.setValue("showWhenTabClicked", static_cast<int>(showWhenTabClicked));
+    settings.setValue("showLeftNaviBar", static_cast<int>(showLeftNaviBar));
 }
 
 void SettingsDialog::Data::Load()
@@ -24,6 +25,10 @@ void SettingsDialog::Data::Load()
         ribbonPin = settings.value("ribbonPin", true).toBool();
     ribbonDoubleClickEnable = settings.value("ribbonDoubleClickEnable", false).toBool();
     showWhenTabClicked = static_cast<ShowWhenTabClicked>(settings.value("showWhenTabClicked", 0).toInt());
+    showLeftNaviBar = settings.value("showLeftNaviBar", false).toBool();
+#ifdef QT_DEBUG
+    showLeftNaviBar = true;
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +54,7 @@ void SettingsDialog::SetData(Data data)
     ui->ribbonPinCheck->setChecked(data.ribbonPin);
     ui->doubleClickShowHideRibbonCheck->setChecked(data.ribbonDoubleClickEnable);
     ui->showWhenTabClickedComboBox->setCurrentIndex(static_cast<int>(data.showWhenTabClicked));
+    ui->showLeftNaviBarCheck->setChecked(data.showLeftNaviBar);
     EnableControl();
 }
 
@@ -61,6 +67,7 @@ SettingsDialog::Data SettingsDialog::GetData() const
     data.showWhenTabClicked = static_cast<Data::ShowWhenTabClicked>(ui->showWhenTabClickedComboBox->currentIndex());
     if (!data.ribbonHideEnable)
         data.ribbonPin = true;
+    data.showLeftNaviBar = ui->showLeftNaviBarCheck->isChecked();
 
     return data;
 }

@@ -20,7 +20,8 @@ SOURCES += \
     RibbonFrameHelper.cpp \
     modulemanagerdlg.cpp \
     ribbonframewindow.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    widgets/navigatewidget.cpp
 
 HEADERS  += \
     ../include/mainframe_global.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     ../include/ribbonuipredefine.h \
     RibbonFrameHelper.h \
     modulemanagerdlg.h \
-    settingsdialog.h
+    settingsdialog.h \
+    widgets/navigatewidget.h
 
 CONFIG(release, debug|release): {
     DESTDIR = $$PWD/../bin/release

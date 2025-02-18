@@ -46,6 +46,9 @@
     <Filter Include="RibbonFrameHelper">
       <UniqueIdentifier>{a8790df6-c856-4e28-a753-7ca992ccc628}</UniqueIdentifier>
     </Filter>
+    <Filter Include="对话框\NavigateWidget">
+      <UniqueIdentifier>{55cdc517-e84e-4de3-92b7-7373a2452072}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RibbonFrameHelper.cpp">
@@ -59,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="ribbonframewindow.cpp">
       <Filter>RibbonFrameWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\navigatewidget.cpp">
+      <Filter>对话框\NavigateWidget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +99,6 @@
     <QtRcc Include="ribbonframe.qrc">
       <Filter>资源文件</Filter>
     </QtRcc>
-    <None Include="res\styleForWindows.css">
-      <Filter>资源文件</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="modulemanagerdlg.ui">
@@ -114,6 +117,9 @@
     </QtMoc>
     <QtMoc Include="..\include\ribbonframewindow.h">
       <Filter>RibbonFrameWindow</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\navigatewidget.h">
+      <Filter>对话框\NavigateWidget</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

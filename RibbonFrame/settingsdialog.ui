@@ -28,8 +28,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>386</width>
-        <height>193</height>
+        <width>392</width>
+        <height>207</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -74,6 +74,13 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showLeftNaviBarCheck">
+         <property name="text">
+          <string>显示左侧导航栏</string>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer">
