@@ -78,7 +78,7 @@
        <item>
         <widget class="QCheckBox" name="showLeftNaviBarCheck">
          <property name="text">
-          <string>显示左侧导航栏</string>
+          <string>显示左侧导航栏（需要重新启动）</string>
          </property>
         </widget>
        </item>

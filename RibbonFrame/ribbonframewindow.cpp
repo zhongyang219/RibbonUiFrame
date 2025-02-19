@@ -58,20 +58,20 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     //初始化主窗口
     if (d->showLeftNaviBar)
     {
-        QSplitter* pSplitter = new QSplitter(this);
-        pSplitter->setChildrenCollapsible(false);
+        d->m_pNaviSplitter = new QSplitter(this);
+        d->m_pNaviSplitter->setChildrenCollapsible(false);
         QWidget* pNavigateWidget = new QWidget();
         d->pNavigateLayout = new QVBoxLayout();
         d->pNavigateLayout->setContentsMargins(0, 0, 0, 0);
         d->pNavigateLayout->setSpacing(0);
         pNavigateWidget->setLayout(d->pNavigateLayout);
         d->pNavigateLayout->addWidget(d->m_pNavigateWidget = new NavigateWidget(Qt::Vertical), 1);
-        pSplitter->addWidget(pNavigateWidget);
+        d->m_pNaviSplitter->addWidget(pNavigateWidget);
         QWidget* pRightWidget = new QWidget();
-        pSplitter->addWidget(pRightWidget);
-        pSplitter->setStretchFactor(0, 1);
-        pSplitter->setStretchFactor(1, 3);
-        setCentralWidget(pSplitter);
+        d->m_pNaviSplitter->addWidget(pRightWidget);
+        d->m_pNaviSplitter->setStretchFactor(0, 1);
+        d->m_pNaviSplitter->setStretchFactor(1, 3);
+        setCentralWidget(d->m_pNaviSplitter);
         QVBoxLayout* pRightLayout = new QVBoxLayout();
         pRightLayout->setContentsMargins(0, 0, 0, 0);
         pRightLayout->setSpacing(0);

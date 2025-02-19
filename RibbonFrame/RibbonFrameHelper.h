@@ -12,6 +12,7 @@
 #include "modulemanagerdlg.h"
 #include <QDomElement>
 #include "widgets/navigatewidget.h"
+#include <QSplitter>
 class QToolButton;
 
 class RibbonFrameHelper
@@ -56,8 +57,8 @@ public:
     QHBoxLayout* m_pTopLeftLayout{};      //TabWidget左上角的布局，包含了系统按钮和快速启动栏
 
     NavigateWidget* m_pNavigateWidget{};    //显示在左侧的导航栏
+    QSplitter* m_pNaviSplitter{};           //导航栏的分隔条
     QStackedWidget* m_pControlsStackedWidget{}; //切换不同模块的功能区（当显示了左侧导航栏时）
-    //QWidget* pRightControlsWidget{};        //功能区的父窗口（当显示了左侧导航栏时）
     QVBoxLayout* pNavigateLayout{};         //左侧的导航栏的布局
 
     QLabel* m_pNoMainWindowLabel;

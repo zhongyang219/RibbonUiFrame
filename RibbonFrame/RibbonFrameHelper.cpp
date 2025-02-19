@@ -126,6 +126,15 @@ void RibbonFramePrivate::LoadConfig()
     //载入已禁用模块设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     m_disabledModulePath = settings.value("disabledModulePath").toStringList().toSet();
+    //恢复导航栏的宽度
+    if (m_pNaviSplitter != nullptr)
+    {
+        QStringList strSizes = settings.value("naviBarWidth", 0).toString().split(',');
+        QList<int> sizes;
+        for (const QString& str : strSizes)
+            sizes.push_back(str.toInt());
+        m_pNaviSplitter->setSizes(sizes);
+    }
 }
 
 void RibbonFramePrivate::SaveConfig() const
@@ -133,6 +142,15 @@ void RibbonFramePrivate::SaveConfig() const
     //保存禁用插件设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
     settings.setValue("disabledModulePath", QStringList(m_disabledModulePath.toList()));
+    //保存导航栏的宽度
+    if (m_pNaviSplitter != nullptr && !m_pNaviSplitter->sizes().isEmpty())
+    {
+        QStringList strSizes;
+        auto sizes = m_pNaviSplitter->sizes();
+        for (const int s : sizes)
+            strSizes.push_back(QString::number(s));
+        settings.setValue("naviBarWidth", strSizes.join(','));
+    }
 }
 
 bool RibbonFramePrivate::IsModuleManager() const
