@@ -441,6 +441,11 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
         d->pNavigateLayout->addWidget(d->m_pTopRightBar);
     }
 
+    //显示隐藏状态栏
+    QStatusBar* pStatusbar = statusBar();
+    if (pStatusbar != nullptr)
+        pStatusbar->setVisible(d->m_ribbonOptionData.showStatusBar);
+
     //通知插件UI加载完成
     Q_FOREACH(IModule* pModule, d->m_moduleNameMap)
     {
@@ -1246,6 +1251,9 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
             SetItemChecked(CMD_RibbonPin, d->m_ribbonOptionData.ribbonPin);
             SetItemEnable(CMD_RibbonPin, d->m_ribbonOptionData.ribbonHideEnable);
             ShowHideRibbon(d->m_ribbonOptionData.ribbonPin);
+            QStatusBar* pStatusbar = statusBar();
+            if (pStatusbar != nullptr)
+                pStatusbar->setVisible(d->m_ribbonOptionData.showStatusBar);
         }
     }
     else if (strCmd == CMD_ModuleManager)

@@ -13,6 +13,7 @@ void SettingsDialog::Data::Save() const
     settings.setValue("ribbonDoubleClickEnable", static_cast<int>(ribbonDoubleClickEnable));
     settings.setValue("showWhenTabClicked", static_cast<int>(showWhenTabClicked));
     settings.setValue("showLeftNaviBar", static_cast<int>(showLeftNaviBar));
+    settings.setValue("showStatusBar", static_cast<int>(showStatusBar));
 }
 
 void SettingsDialog::Data::Load()
@@ -26,9 +27,10 @@ void SettingsDialog::Data::Load()
     ribbonDoubleClickEnable = settings.value("ribbonDoubleClickEnable", false).toBool();
     showWhenTabClicked = static_cast<ShowWhenTabClicked>(settings.value("showWhenTabClicked", 0).toInt());
     showLeftNaviBar = settings.value("showLeftNaviBar", false).toBool();
-#ifdef QT_DEBUG
-    showLeftNaviBar = true;
-#endif
+//#ifdef QT_DEBUG
+//    showLeftNaviBar = true;
+//#endif
+    showStatusBar = settings.value("showStatusBar", true).toBool();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -55,6 +57,7 @@ void SettingsDialog::SetData(Data data)
     ui->doubleClickShowHideRibbonCheck->setChecked(data.ribbonDoubleClickEnable);
     ui->showWhenTabClickedComboBox->setCurrentIndex(static_cast<int>(data.showWhenTabClicked));
     ui->showLeftNaviBarCheck->setChecked(data.showLeftNaviBar);
+    ui->showStatusbarCheck->setChecked(data.showStatusBar);
     EnableControl();
 }
 
@@ -68,6 +71,7 @@ SettingsDialog::Data SettingsDialog::GetData() const
     if (!data.ribbonHideEnable)
         data.ribbonPin = true;
     data.showLeftNaviBar = ui->showLeftNaviBarCheck->isChecked();
+    data.showStatusBar = ui->showStatusbarCheck->isChecked();
 
     return data;
 }

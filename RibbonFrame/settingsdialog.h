@@ -28,6 +28,7 @@ public:
         ShowWhenTabClicked showWhenTabClicked{};
 
         bool showLeftNaviBar{};             //是否在左侧显示导航栏
+        bool showStatusBar{};               //是否显示状态栏
 
         void Save() const;
         void Load();
