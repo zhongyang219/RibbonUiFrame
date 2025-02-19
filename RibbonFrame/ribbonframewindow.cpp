@@ -571,6 +571,9 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             if (d->showLeftNaviBar)
             {
                 pMainFrameBtn = new QPushButton(menuName, d->m_pNavigateWidget);
+                //设置按钮文本左对齐
+                QString style = QString("QPushButton { text-align: left; padding-left: %1px; }").arg(DPI(6));
+                pMainFrameBtn->setStyleSheet(style);
                 d->pNavigateLayout->insertWidget(0, pMainFrameBtn);
             }
             else
