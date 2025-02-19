@@ -45,6 +45,7 @@ public:
     QMap<QString, IModule*> m_modulePathMap;    //保存已加载模块的路径和模块对象
     QMap<int, QString> m_moduleIndexPath;       //保存标签索引和模块路径的对应关系
     QMap<int, QMenu*> m_pageMenuMap;
+    QMap<int, bool> m_ribbonEmpty;              //保存每个标签功能区是否为空
 
     QMap<QString, QAction*> m_actionMap;    //保存命令Id和Action的对应关系
     QMap<QString, QWidget*> m_widgetMap;    //保存命令Id和Widget的对应关系

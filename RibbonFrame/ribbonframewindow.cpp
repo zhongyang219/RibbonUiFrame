@@ -246,6 +246,8 @@ void RibbonFrameWindow::OnTabIndexChanged(int index)
     {
         d->m_pControlsStackedWidget->setCurrentIndex(index);
     }
+
+    ShowHideRibbon(d->m_ribbonOptionData.ribbonPin);
 }
 
 void RibbonFrameWindow::OnTabBarClicked(int index)
@@ -554,7 +556,8 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             }
 
             //加载命令组
-            LoadUiElement(nodeInfo, pToolbar);
+            int elementCount = LoadUiElement(nodeInfo, pToolbar);
+            d->m_ribbonEmpty[index] = (elementCount == 0);
 
             //将Page中所有控件加载到菜单
             QMenu* pPageMenu = LoadUiMenu(nodeInfo, false);
@@ -661,8 +664,9 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
     LoadSimpleToolbar(element, d->m_pTopRightBar);
 }
 
-void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToolbar)
+int RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToolbar)
 {
+    int elementCount = 0;
     QVBoxLayout* previousLayout = nullptr;  //垂直排列小图标的布局，如果为空，则需要重新创建一个新的布局
     QDomNodeList groupList = emelemt.childNodes();
     for (int i = 0; i < groupList.count(); i++)
@@ -671,6 +675,8 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
         QString strTagName = childElement.tagName();
         QString strName = childElement.attribute("name");
         QString strId = RibbonFrameHelper::GetElementId(childElement);
+        if (!strTagName.isEmpty())
+            elementCount++;
         //分隔符
         if (strTagName == "Separator")
         {
@@ -749,7 +755,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
                 }
             }
 
-            LoadUiElement(childElement, pSubToolbar);  //递归调用此函数以加载ActionGroup下的其他界面元素
+            elementCount += LoadUiElement(childElement, pSubToolbar);  //递归调用此函数以加载ActionGroup下的其他界面元素
 
             //则添加分隔符
             pToolbar->addSeparator();
@@ -778,6 +784,7 @@ void RibbonFrameWindow::LoadUiElement(const QDomElement &emelemt, QToolBar* pToo
                 AddUiWidget(pUiWidget, smallIcon, pToolbar, previousLayout);
         }
     }
+    return elementCount;
 }
 
 void RibbonFrameWindow::LoadSimpleToolbar(const QDomElement &element, QToolBar *pToolbar)
@@ -1313,6 +1320,12 @@ void RibbonFrameWindow::SetRibbonPin(bool pin)
 void RibbonFrameWindow::ShowHideRibbon(bool show)
 {
     d->ribbonShow = show;
+    int curIndex = GetTabIndex();
+    bool ribbonEmpty = d->m_ribbonEmpty[curIndex];
+    //如果Ribbon为空，则总是不显示标签
+    if (ribbonEmpty)
+        show = false;
+
     if (d->showLeftNaviBar)
     {
         d->m_pControlsStackedWidget->setVisible(show);
