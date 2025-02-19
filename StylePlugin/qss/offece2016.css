@@ -26,6 +26,10 @@ QToolBar#MainFrameToolbar QToolBar::separator {
     width: 1px;
 }
 
+QWidget#MainFrameNavigationBar {
+    background: @themeColorOri;
+}
+
 QToolBar#MainFrameCornerBar {
     min-height: 30px;
 }

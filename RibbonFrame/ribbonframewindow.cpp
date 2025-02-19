@@ -61,6 +61,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
         d->m_pNaviSplitter = new QSplitter(this);
         d->m_pNaviSplitter->setChildrenCollapsible(false);
         QWidget* pNavigateWidget = new QWidget();
+        pNavigateWidget->setObjectName("MainFrameNavigationBar");
         d->pNavigateLayout = new QVBoxLayout();
         d->pNavigateLayout->setContentsMargins(0, 0, 0, 0);
         d->pNavigateLayout->setSpacing(0);
@@ -603,6 +604,8 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             pQuickAccessbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
             d->m_pTopLeftLayout->addWidget(pQuickAccessbar);
             LoadSimpleToolbar(nodeInfo, pQuickAccessbar);
+            if (d->showLeftNaviBar)
+                d->m_pTopLeftLayout->addStretch();
         }
 
         //加载状态栏
