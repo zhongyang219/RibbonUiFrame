@@ -80,7 +80,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
         pRightLayout->addWidget(d->m_pControlsStackedWidget = new QStackedWidget());
         pRightLayout->addWidget(d->m_pStackedWidget = new QStackedWidget(), 1);
         //为功能区添加一个右键菜单
-        d->m_pControlsStackedWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+        d->m_pNavigateWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
     }
     else
     {
@@ -1357,7 +1357,7 @@ QAction *RibbonFrameWindow::AddRibbonContextAction(const QString &strId, const Q
     pAction->setProperty("id", strId);
     connect(pAction, SIGNAL(triggered(bool)), this, SLOT(OnActionTriggerd(bool)));
     if (d->showLeftNaviBar)
-        d->m_pControlsStackedWidget->addAction(pAction);
+        d->m_pNavigateWidget->addAction(pAction);
     else
         d->m_pTabWidget->addAction(pAction);
     return pAction;
