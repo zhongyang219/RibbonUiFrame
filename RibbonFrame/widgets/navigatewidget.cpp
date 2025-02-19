@@ -78,7 +78,11 @@ void NavigateWidget::SetCurItem(int index)
 {
     QAbstractButton* pBtn = m_itemList.value(index);
     if (pBtn != nullptr)
+    {
         pBtn->setChecked(true);
+        emit curItemChanged(index);
+        emit curItemChanged(pBtn->text());
+    }
 }
 
 int NavigateWidget::GetCurItem() const
