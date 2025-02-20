@@ -132,8 +132,13 @@ void RibbonFramePrivate::LoadConfig()
         QStringList strSizes = settings.value("naviBarWidth", 0).toString().split(',');
         QList<int> sizes;
         for (const QString& str : strSizes)
-            sizes.push_back(str.toInt());
-        m_pNaviSplitter->setSizes(sizes);
+        {
+            int s = str.toInt();
+            if (s > 0)
+                sizes.push_back(s);
+        }
+        if (!sizes.isEmpty())
+            m_pNaviSplitter->setSizes(sizes);
     }
 }
 
