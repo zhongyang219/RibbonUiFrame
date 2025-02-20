@@ -68,7 +68,7 @@ void StylePlugin::InitInstance()
 
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
-    m_curStyle = settings.value("style").toString();
+    m_curStyle = settings.value("style", u8"Office2016彩色").toString();
     QString strThemeColor = settings.value("themeColor", DEFAULT_THEME_COLOR_MS_WORD).toString();
     m_themeColor.SetColor(QColor(strThemeColor));
 
