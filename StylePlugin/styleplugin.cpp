@@ -99,21 +99,10 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
                     pGroup->addAction(AddThemeAction(key, pPlatformSupportedTheme));
                 }
 
-                //更多主题
-                QMenu* pLightThemeMenu = pMenu->addMenu(QIcon(":/res/light_mode.png"), QSTR("浅色主题"));
-                QMenu* pDarkThemeMenu = pMenu->addMenu(QIcon(":/res/dark_mode.png"), QSTR("深色主题"));
-                QMenu* pOfficeThemeMenu = pMenu->addMenu(QIcon(":/res/office.png"), QSTR("Office主题"));
                 //向“主题”菜单中添加Action
                 Q_FOREACH(const auto& style, CStyleManager::Instance()->GetAllStyles())
                 {
-                    QAction* pAction = nullptr;
-                    if (style.m_type == CStyleManager::CStyle::Dark)
-                        pAction = AddThemeAction(style.m_strName, pDarkThemeMenu);
-                    else if (style.m_type == CStyleManager::CStyle::Light)
-                        pAction = AddThemeAction(style.m_strName, pLightThemeMenu);
-                    else if (style.m_type == CStyleManager::CStyle::Office)
-                        pAction = AddThemeAction(style.m_strName, pOfficeThemeMenu);
-
+                    QAction* pAction = AddThemeAction(style.m_strName, pMenu);
                     pGroup->addAction(pAction);
                 }
 
@@ -208,7 +197,7 @@ void *StylePlugin::OnMessage(const char *msgType, void *para1, void *para2)
     else if (strMsgType == MODULE_MSG_IsDarkTheme)
     {
         CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
-        return (void*)((pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark) || m_curStyle == u8"Office2016深色");
+        return (void*)((pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark));
     }
     else if (strMsgType == MODULE_MSG_SetThemeColor)
     {

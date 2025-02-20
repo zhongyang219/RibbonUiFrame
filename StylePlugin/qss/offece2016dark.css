@@ -770,6 +770,10 @@ QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:
 background:@themeColorDarker1;
 }
 
+QWidget#MainFrameNavigationBar QPushButton#MainFrameBtn{
+min-height: 26px;
+}
+    
 *:disabled {
     color: #b1b1b1;
 }

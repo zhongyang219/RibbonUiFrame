@@ -41,6 +41,7 @@ border-radius:0px;
 color:#404040;
 background:none;
 border-style:none;
+min-height: 30px;
 }
 
 QWidget[nav="left"] QAbstractButton:hover{

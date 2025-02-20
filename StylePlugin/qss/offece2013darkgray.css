@@ -627,7 +627,7 @@ background-color:@themeColorDarker2;
 QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
 background:@themeColorDarker3;
 }
-
+    
 *:disabled {
     color: #b1b1b1;
 }

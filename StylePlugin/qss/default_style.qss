@@ -20,3 +20,7 @@ QPushButton#MainFrameBtn::menu-indicator{
 image:none;
 width:0px;
 }
+
+QWidget[nav="left"] QAbstractButton{
+min-height: 22px;
+}

@@ -18,8 +18,7 @@ public:
         enum StyleType
         {
             Light,
-            Dark,
-            Office
+            Dark
         };
 
         CStyle(const QString& strPath, const QString name, StyleType type, bool bParsePaletteColor = true);

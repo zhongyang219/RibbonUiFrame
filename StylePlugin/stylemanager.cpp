@@ -168,6 +168,7 @@ void CStyleManager::ApplyQComboboxItemStyle(QComboBox *pCombobox)
 CStyleManager::CStyleManager()
     : m_defaultStyle(":/qss/default_style.qss", CMD_DefaultStyle, CStyle::Light, false)
 {
+/*
     m_styleList.push_back(CStyle(":/qss/silvery.css", QSTR("银色"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/blue.css", QSTR("蓝色"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/lightblue.css", QSTR("浅蓝色"), CStyle::Light));
@@ -179,17 +180,18 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/lightblack.css", QSTR("浅黑色"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/darkblack.css", QSTR("深黑色"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/psblack.css", QSTR("PS黑色"), CStyle::Dark));
-    m_styleList.push_back(CStyle(":/qss/flatblack.css", QSTR("黑色扁平"), CStyle::Dark));
-    m_styleList.push_back(CStyle(":/qss/flatwhite.css", QSTR("白色扁平"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/flatwhite2.css", QSTR("白色扁平2"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/bf.css", QSTR("深黑色2"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/test.css", QSTR("紫色"), CStyle::Dark));
-    m_styleList.push_back(CStyle(":/qss/offece2010blue.css", QSTR("Office2010蓝色"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2010silvery.css", QSTR("Office2010银色"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2010black.css", QSTR("Office2010黑色"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2016.css", QSTR("Office2016彩色"), CStyle::Office));
-    m_styleList.push_back(CStyle(":/qss/offece2016dark.css", QSTR("Office2016深色"), CStyle::Office));
+*/
+    m_styleList.push_back(CStyle(":/qss/flatblack.css", QSTR("黑色扁平"), CStyle::Dark));
+    m_styleList.push_back(CStyle(":/qss/flatwhite.css", QSTR("白色扁平"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/flatwhite2.css", QSTR("现代白色扁平"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2010blue.css", QSTR("Office2010蓝色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2010silvery.css", QSTR("Office2010银色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2010black.css", QSTR("Office2010黑色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2016.css", QSTR("Office2016彩色"), CStyle::Light));
+    m_styleList.push_back(CStyle(":/qss/offece2016dark.css", QSTR("Office2016深色"), CStyle::Dark));
 }

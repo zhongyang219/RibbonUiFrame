@@ -41,6 +41,7 @@ border-radius:0px;
 color:#FFFFFF;
 background:none;
 border-style:none;
+min-height: 22px;
 }
 
 QWidget[nav="left"] QAbstractButton:hover{
@@ -759,6 +760,10 @@ QStatusBar {
     border-top: 1px solid #535353;
 }
 
+QWidget#MainFrameNavigationBar QPushButton#MainFrameBtn{
+border-radius: 0px;
+}
+    
 *:disabled{
 color:#969696;
 background:#191919;
