@@ -1,18 +1,18 @@
 ﻿#ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class CMainWidget;
 }
 
-class CMainWidget : public QWidget
+class CMainWidget : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit CMainWidget(QWidget *parent = nullptr);
+    explicit CMainWidget(QMainWindow *parent = nullptr);
     ~CMainWidget();
 
 private:
