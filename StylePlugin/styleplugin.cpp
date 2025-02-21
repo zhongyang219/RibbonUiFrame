@@ -259,13 +259,11 @@ void StylePlugin::SetStyle(const QString &styleName)
         QByteArray curStyleData = m_curStyle.toUtf8();
         m_pMainFrame->SendModuleMessage(nullptr, MODULE_MSG_StyleChanged, (void*)curStyleData.constData());
         //获取主窗口
-        auto widgets = QApplication::topLevelWidgets();
+        QWidget* widget = dynamic_cast<QWidget*>(m_pMainFrame);
         bool darkTheme = IsDarkTheme();
         //设置窗口标题栏颜色模式
-        for (const auto& widget : widgets)
-        {
+        if (widget != nullptr)
             StyleEventFilter::SetWindowDarkTheme((void*)widget->winId(), darkTheme);
-        }
     }
 }
 
