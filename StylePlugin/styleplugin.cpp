@@ -11,6 +11,7 @@
 #include <QColorDialog>
 #include "ribbonuipredefine.h"
 #include <QTimerEvent>
+#include <QProcess>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_STYLE_KEY "windowsvista"
@@ -73,6 +74,12 @@ static bool IsWindowsDarkColorMode()
     }
     RegCloseKey(hKey);
     return !windows10_light_theme;
+#elif defined Q_OS_LINUX
+    QProcess process;
+    process.start("gsettings", QStringList() << "get" << "org.gnome.desktop.interface" << "gtk-theme");
+    process.waitForFinished();
+    QString output = process.readAllStandardOutput().trimmed();
+    return (output.contains("dark", Qt::CaseInsensitive));
 #endif
     return false;
 }
@@ -101,7 +108,7 @@ bool StylePlugin::IsDarkTheme() const
 
 void StylePlugin::InitInstance()
 {
-    m_timerId = startTimer(1000);
+    m_timerId = startTimer(2000);
 
     //载入设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
@@ -323,6 +330,7 @@ void StylePlugin::timerEvent(QTimerEvent* event)
             QColor systemThemeColor = GetWindowsThemeColor();
             SetThemeColor(systemThemeColor);
         }
+#endif
 
         if (m_followSystemColorModeAction->isChecked())
         {
@@ -344,7 +352,6 @@ void StylePlugin::timerEvent(QTimerEvent* event)
                 lastDarkMode = isDarkMode;
             }
         }
-#endif
     }
 }
 
@@ -353,14 +360,12 @@ void StylePlugin::OnStyleActionTriggered(bool)
     QAction* pAction = qobject_cast<QAction*>(QObject::sender());
     if (pAction != nullptr)
     {
-#ifdef Q_OS_WIN
         //获取选择的主题的深色/浅色类型
         CStyleManager::CStyle* style = CStyleManager::Instance()->GetStyle(pAction->text());
         bool isStyleDark = (style != nullptr && style->m_type == CStyleManager::CStyle::Dark);
         //如果选择的主题的深色/浅色类型和当前系统不一致，则取消“跟随Windows深色/浅色主题”的勾选
         if (isStyleDark != IsWindowsDarkColorMode())
             m_followSystemColorModeAction->setChecked(false);
-#endif
         SetStyle(pAction->text());
     }
 }
