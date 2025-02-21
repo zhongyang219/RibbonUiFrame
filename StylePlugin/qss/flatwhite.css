@@ -757,10 +757,19 @@ QStatusBar {
 QWidget#MainFrameNavigationBar QPushButton#MainFrameBtn{
 border-radius: 0px;
 }
-    
+
+QScrollArea {
+    border: 1px solid #D2D2D2;
+    border-radius: 2px;
+    background: #F8F8F8;
+}
+
+QScrollArea .QWidget {
+    background: #F8F8F8;
+}
+
 *:disabled{
 color:#888888;
-background:#FFFFFF;
 border-color:#E4E4E4;
 }
 

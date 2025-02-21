@@ -777,12 +777,13 @@ QScrollBar::add-line:vertical {
 }
 
 QScrollArea {
-border:1px solid #919191;
-border-radius:2px;
+    border: 1px solid #919191;
+    border-radius: 2px;
+    background: #d5d5d5;
 }
 
 QScrollArea .QWidget{
-background:#d5d5d5;
+    background:#d5d5d5;
 }
 
 QAbstractButton#zoomInBtn{

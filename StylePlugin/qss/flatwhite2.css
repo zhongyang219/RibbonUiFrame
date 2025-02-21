@@ -971,6 +971,16 @@ QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,Q
 background:#FFFFFF;
 }
 
+QScrollArea {
+    border: 1px solid #D2D2D2;
+    border-radius: 2px;
+    background: #F8F8F8;
+}
+
+QScrollArea .QWidget {
+    background: #F8F8F8;
+}
+
 *:disabled{
 border-color:#E4E4E4;
 }
