@@ -330,12 +330,14 @@
     <ClCompile Include="stylemanager.cpp" />
     <ClCompile Include="styleplugin.cpp" />
     <ClCompile Include="themecolor.cpp" />
+    <ClCompile Include="StyleEventFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="StylePlugin_global.h" />
     <ClInclude Include="stylemanager.h" />
+    <ClInclude Include="StyleEventFilter.h" />
     <QtMoc Include="styleplugin.h" />
     <ClInclude Include="themecolor.h" />
   </ItemGroup>

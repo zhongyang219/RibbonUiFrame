@@ -1,4 +1,4 @@
-QT       += widgets
+﻿QT       += widgets
 
 TEMPLATE = lib
 DEFINES += STYLEPLUGIN_LIBRARY
@@ -20,14 +20,16 @@ SOURCES += \
     StringHelper.cpp \
     stylemanager.cpp \
     styleplugin.cpp \
-    themecolor.cpp
+    themecolor.cpp \
+	StyleEventFilter.cpp
 
 HEADERS += \
     StringHelper.h \
     StylePlugin_global.h \
     stylemanager.h \
     styleplugin.h \
-    themecolor.h
+    themecolor.h \
+	StyleEventFilter.h
 
 INCLUDEPATH += $$PWD/../include
 

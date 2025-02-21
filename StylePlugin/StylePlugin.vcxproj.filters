@@ -52,6 +52,9 @@
     <ClCompile Include="themecolor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StyleEventFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StringHelper.h">
@@ -67,6 +70,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="themecolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StyleEventFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

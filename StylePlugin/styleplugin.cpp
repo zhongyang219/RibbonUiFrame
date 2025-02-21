@@ -57,8 +57,23 @@ static QColor GetWindowsThemeColor()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
+StylePlugin* pIns = nullptr;
+ 
 StylePlugin::StylePlugin()
 {
+    // 安装本地事件过滤器
+    qApp->installNativeEventFilter(&darkTitleBarFilter);
+}
+
+StylePlugin* StylePlugin::Instance()
+{
+    return pIns;
+}
+
+bool StylePlugin::IsDarkTheme() const
+{
+    CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
+    return pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark;
 }
 
 
@@ -196,8 +211,7 @@ void *StylePlugin::OnMessage(const char *msgType, void *para1, void *para2)
     }
     else if (strMsgType == MODULE_MSG_IsDarkTheme)
     {
-        CStyleManager::CStyle* pStyle = CStyleManager::Instance()->GetStyle(m_curStyle);
-        return (void*)((pStyle != nullptr && pStyle->m_type == CStyleManager::CStyle::Dark));
+        return (void*)IsDarkTheme();
     }
     else if (strMsgType == MODULE_MSG_SetThemeColor)
     {
@@ -244,6 +258,14 @@ void StylePlugin::SetStyle(const QString &styleName)
         m_curStyle = styleName;
         QByteArray curStyleData = m_curStyle.toUtf8();
         m_pMainFrame->SendModuleMessage(nullptr, MODULE_MSG_StyleChanged, (void*)curStyleData.constData());
+        //获取主窗口
+        auto widgets = QApplication::topLevelWidgets();
+        bool darkTheme = IsDarkTheme();
+        //设置窗口标题栏颜色模式
+        for (const auto& widget : widgets)
+        {
+            StyleEventFilter::SetWindowDarkTheme((void*)widget->winId(), darkTheme);
+        }
     }
 }
 
@@ -315,6 +337,6 @@ void StylePlugin::OnCustomThemeColor()
 
 IModule* CreateInstance()
 {
-    return new StylePlugin();
-
+    pIns = new StylePlugin();
+    return pIns;
 }

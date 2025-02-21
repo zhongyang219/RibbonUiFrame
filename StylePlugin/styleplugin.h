@@ -6,6 +6,7 @@
 #include <QAction>
 #include <QPalette>
 #include "themecolor.h"
+#include "StyleEventFilter.h"
 
 class IMainFrame;
 
@@ -15,6 +16,8 @@ class STYLEPLUGIN_EXPORT StylePlugin
     Q_OBJECT
 public:
     StylePlugin();
+    static StylePlugin* Instance();
+    bool IsDarkTheme() const;
 
     // IModule interface
 public:
@@ -49,6 +52,7 @@ private:
     ThemeColor m_themeColor;
     QAction* m_followSystemColorAction{};
     int m_timerId{};
+    StyleEventFilter darkTitleBarFilter;
 };
 
 #ifdef __cplusplus
