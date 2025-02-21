@@ -8,11 +8,12 @@
 #include <QActionGroup>
 #include "themecolor.h"
 #include "StyleEventFilter.h"
+#include "styleinterface.h"
 
 class IMainFrame;
 
 class STYLEPLUGIN_EXPORT StylePlugin
-        : public QObject, public IModule
+        : public QObject, public IModule, public IRibbonStyle
 {
     Q_OBJECT
 public:
@@ -33,8 +34,6 @@ public:
 
 private:
     QAction* AddThemeAction(const QString& name, QMenu* pMenu);
-    void SetStyle(const QString& styleName);
-    void SetThemeColor(const QColor& color);
     virtual void timerEvent(QTimerEvent* event) override;
 
 private slots:
@@ -56,6 +55,17 @@ private:
     QAction* m_followSystemColorModeAction{};
     int m_timerId{};
     StyleEventFilter darkTitleBarFilter;
+
+    // 通过 IRibbonStyle 继承
+    void GetAllStyleNames(QStringList& styleNames) override;
+    QString GetCurrentStyle() override;
+    void SetCurrentStyle(const QString& styleName) override;
+    QColor GetThemeColor() override;
+    void SetThemeColor(QColor color) override;
+    void SetFollowingSystemThemeColor(bool followingSystemThemeColor) override;
+    bool IsFollowingSystemThemeColor() override;
+    void SetFollowingSystemColorMode(bool followingSystemColorMode) override;
+    bool IsFollowingSystemColorMode() override;
 };
 
 #ifdef __cplusplus

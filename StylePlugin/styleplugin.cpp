@@ -226,7 +226,7 @@ void StylePlugin::OnCommand(const char* strCmd, bool checked)
     Q_UNUSED(checked)
     if (QString(strCmd) == CMD_DefaultStyle)
     {
-        SetStyle(QString());
+        SetCurrentStyle(QString());
     }
 }
 
@@ -266,7 +266,7 @@ QAction *StylePlugin::AddThemeAction(const QString &name, QMenu *pMenu)
     return pAction;
 }
 
-void StylePlugin::SetStyle(const QString &styleName)
+void StylePlugin::SetCurrentStyle(const QString &styleName)
 {
     if (styleName != m_curStyle)
     {
@@ -311,7 +311,7 @@ void StylePlugin::SetStyle(const QString &styleName)
     }
 }
 
-void StylePlugin::SetThemeColor(const QColor &color)
+void StylePlugin::SetThemeColor(QColor color)
 {
     if (m_themeColor.OriginalColor() != color)
     {
@@ -347,7 +347,7 @@ void StylePlugin::timerEvent(QTimerEvent* event)
                 if (style != nullptr)
                 {
                     if (style->m_strName != m_curStyle)
-                        SetStyle(style->m_strName);
+                        SetCurrentStyle(style->m_strName);
                 }
                 lastDarkMode = isDarkMode;
             }
@@ -366,7 +366,7 @@ void StylePlugin::OnStyleActionTriggered(bool)
         //如果选择的主题的深色/浅色类型和当前系统不一致，则取消“跟随Windows深色/浅色主题”的勾选
         if (isStyleDark != IsWindowsDarkColorMode())
             m_followSystemColorModeAction->setChecked(false);
-        SetStyle(pAction->text());
+        SetCurrentStyle(pAction->text());
     }
 }
 
@@ -402,6 +402,46 @@ void StylePlugin::OnCustomThemeColor()
         SetThemeColor(colorDlg.currentColor());
         m_followSystemColorAction->setChecked(false);
     }
+}
+
+void StylePlugin::GetAllStyleNames(QStringList& styleNames)
+{
+    styleNames.clear();
+    auto allStyles = CStyleManager::Instance()->GetAllStyles();
+    for (const auto& style : allStyles)
+    {
+        styleNames.push_back(style->m_strName);
+    }
+}
+
+QString StylePlugin::GetCurrentStyle()
+{
+    return m_curStyle;
+}
+
+QColor StylePlugin::GetThemeColor()
+{
+    return m_themeColor.OriginalColor();
+}
+
+void StylePlugin::SetFollowingSystemThemeColor(bool followingSystemThemeColor)
+{
+    m_followSystemColorAction->setChecked(followingSystemThemeColor);
+}
+
+bool StylePlugin::IsFollowingSystemThemeColor()
+{
+    return m_followSystemColorAction->isChecked();
+}
+
+void StylePlugin::SetFollowingSystemColorMode(bool followingSystemColorMode)
+{
+    m_followSystemColorModeAction->setChecked(followingSystemColorMode);
+}
+
+bool StylePlugin::IsFollowingSystemColorMode()
+{
+    return m_followSystemColorModeAction->isChecked();
 }
 
 IModule* CreateInstance()
