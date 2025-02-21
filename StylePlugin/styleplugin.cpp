@@ -353,6 +353,14 @@ void StylePlugin::OnStyleActionTriggered(bool)
     QAction* pAction = qobject_cast<QAction*>(QObject::sender());
     if (pAction != nullptr)
     {
+#ifdef Q_OS_WIN
+        //获取选择的主题的深色/浅色类型
+        CStyleManager::CStyle* style = CStyleManager::Instance()->GetStyle(pAction->text());
+        bool isStyleDark = (style != nullptr && style->m_type == CStyleManager::CStyle::Dark);
+        //如果选择的主题的深色/浅色类型和当前系统不一致，则取消“跟随Windows深色/浅色主题”的勾选
+        if (isStyleDark != IsWindowsDarkColorMode())
+            m_followSystemColorModeAction->setChecked(false);
+#endif
         SetStyle(pAction->text());
     }
 }
