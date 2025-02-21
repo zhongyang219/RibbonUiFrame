@@ -1,4 +1,4 @@
-﻿QT       += widgets
+QT       += widgets
 
 TEMPLATE = lib
 DEFINES += STYLEPLUGIN_LIBRARY
