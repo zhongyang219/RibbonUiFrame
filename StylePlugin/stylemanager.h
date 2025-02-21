@@ -6,6 +6,8 @@
 #include <QWidget>
 #include <QComboBox>
 #include "themecolor.h"
+#include <memory>
+#include <functional>
 
 class CStyleManager
 {
@@ -46,17 +48,38 @@ public:
     };
 
     void ApplyStyleSheet(const QString& styleName, QWidget* pWidget = nullptr, ThemeColor* pThemeColor = nullptr);
-    const QList<CStyle>& GetAllStyles() const;
+    QList<std::shared_ptr<CStyle>> GetAllStyles();
     CStyle* GetStyle(const QString& styleName);
+
+    //获取一个主题对应的深色主题
+    CStyle* GetDarkStyle(const QString& styleName);
+
+    //获取一个主题对应的浅色主题
+    CStyle* GetLightStyle(const QString& styleName);
+
+    //遍历所有主题
+    //func返回true则终止遍历
+    void IterateStyles(std::function<bool(std::shared_ptr<CStyle>)> func);
 
     static void ApplyQComboboxItemStyle(QComboBox* pCombobox);
 
+    struct StylePair
+    {
+        std::shared_ptr<CStyle> lightStyle;
+        std::shared_ptr<CStyle> darkStyle;
+    };
+
 public:
-    QList<CStyle> m_styleList;
+    QList<StylePair> m_styleList;
     CStyle m_defaultStyle;
 
 private:
     CStyleManager();
+    //添加一对主题
+    void AddStylePair(const QString& lightStylePath, const QString& lightStyleName,
+        const QString& darkStylePath = QString(), const QString& darkStyleName = QString());
+
+    StylePair FindStylePair(const QString& styleName);
 
     static CStyleManager* m_instance;
 };

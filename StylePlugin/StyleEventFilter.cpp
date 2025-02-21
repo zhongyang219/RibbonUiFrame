@@ -19,6 +19,13 @@ bool StyleEventFilter::nativeEventFilter(const QByteArray& eventType, void* mess
             // 窗口创建时设置深色标题栏
             SetWindowDarkTheme(msg->hwnd, StylePlugin::Instance()->IsDarkTheme());
         }
+        //// 监听主题切换事件
+        //if (msg->message == WM_SETTINGCHANGE) {
+        //    if (msg->lParam && wcscmp(reinterpret_cast<LPCWSTR>(msg->lParam), L"ImmersiveColorSet") == 0)
+        //    {
+        //        int a = 0;
+        //    }
+        //}
     }
 #endif
     return false; // 返回 false，表示事件继续传递

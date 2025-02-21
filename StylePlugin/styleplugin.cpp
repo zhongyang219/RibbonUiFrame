@@ -55,6 +55,28 @@ static QColor GetWindowsThemeColor()
 #endif
 }
 
+static bool IsWindowsDarkColorMode()
+{
+#ifdef Q_OS_WIN
+    bool windows10_light_theme = false;
+    HKEY hKey;
+    DWORD dwThemeData(0);
+    LONG lRes = RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey);
+    if (lRes == ERROR_SUCCESS)
+    {
+        DWORD dwBufferSize(sizeof(DWORD));
+        DWORD dwResult(0);
+        lRes = RegQueryValueExW(hKey, L"SystemUsesLightTheme", NULL, NULL, reinterpret_cast<LPBYTE>(&dwResult), &dwBufferSize);
+        if (lRes == ERROR_SUCCESS)
+            dwThemeData = dwResult;
+        windows10_light_theme = (dwThemeData != 0);
+    }
+    RegCloseKey(hKey);
+    return !windows10_light_theme;
+#endif
+    return false;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 StylePlugin* pIns = nullptr;
@@ -90,16 +112,19 @@ void StylePlugin::InitInstance()
     m_followSystemColorAction = new QAction(u8"跟随系统主题颜色");
     m_followSystemColorAction->setCheckable(true);
     m_followSystemColorAction->setChecked(settings.value("followSystemThemeColor").toInt());
+    m_followSystemColorModeAction = new QAction(u8"跟随Windows深色/浅色主题");
+    m_followSystemColorModeAction->setCheckable(true);
+    m_followSystemColorModeAction->setChecked(settings.value("followSystemColorMode").toInt());
 }
 
 void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
 {
     m_pMainFrame = pMainFrame;
-    QActionGroup* pGroup = new QActionGroup(this);
+    m_themeActionGroup = new QActionGroup(this);
     if (pMainFrame != nullptr)
     {
         //默认主题
-        pGroup->addAction((QAction*)pMainFrame->GetAcion(CMD_DefaultStyle));
+        m_themeActionGroup->addAction((QAction*)pMainFrame->GetAcion(CMD_DefaultStyle));
         //查找“主题”菜单按钮
         QToolButton* pThemeBtn = qobject_cast<QToolButton*>((QWidget*)pMainFrame->GetWidget("Theme"));
         if (pThemeBtn != nullptr)
@@ -111,18 +136,21 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
                 QMenu* pPlatformSupportedTheme = pMenu->addMenu(QSTR("平台支持的主题"));
                 for (const auto& key : QStyleFactory::keys())
                 {
-                    pGroup->addAction(AddThemeAction(key, pPlatformSupportedTheme));
+                    m_themeActionGroup->addAction(AddThemeAction(key, pPlatformSupportedTheme));
                 }
 
                 //向“主题”菜单中添加Action
-                Q_FOREACH(const auto& style, CStyleManager::Instance()->GetAllStyles())
+                auto styles = CStyleManager::Instance()->GetAllStyles();
+                Q_FOREACH(const auto& style, styles)
                 {
-                    QAction* pAction = AddThemeAction(style.m_strName, pMenu);
-                    pGroup->addAction(pAction);
+                    QAction* pAction = AddThemeAction(style->m_strName, pMenu);
+                    m_themeActionGroup->addAction(pAction);
                 }
 
-                //主题颜色
                 pMenu->addSeparator();
+                pMenu->addAction(m_followSystemColorModeAction);
+
+                //主题颜色
                 QMenu* pThemeColorMenu = pMenu->addMenu(QSTR("主题颜色"));
                 pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_MS_WORD)), QSTR("Microsoft Word"), this, SLOT(OnThemeColorWord()));
                 pThemeColorMenu->addAction(CreateSingleColorIcon(QColor(DEFAULT_THEME_COLOR_MS_EXCEL)), QSTR("Microsoft Excel"), this, SLOT(OnThemeColorExcel()));
@@ -168,6 +196,7 @@ void StylePlugin::UnInitInstance()
     settings.setValue("style", m_curStyle);
     settings.setValue("themeColor", m_themeColor.OriginalColor().name());
     settings.setValue("followSystemThemeColor", static_cast<int>(m_followSystemColorAction->isChecked()));
+    settings.setValue("followSystemColorMode", static_cast<int>(m_followSystemColorModeAction->isChecked()));
 }
 
 IModule::eMainWindowType StylePlugin::GetMainWindowType() const
@@ -264,6 +293,14 @@ void StylePlugin::SetStyle(const QString &styleName)
         //设置窗口标题栏颜色模式
         if (widget != nullptr)
             StyleEventFilter::SetWindowDarkTheme((void*)widget->winId(), darkTheme);
+
+        //设置主题菜单的选中项
+        auto actions = m_themeActionGroup->actions();
+        for (const auto& action : actions)
+        {
+            if (action->text() == m_curStyle)
+                action->setChecked(true);
+        }
     }
 }
 
@@ -285,6 +322,27 @@ void StylePlugin::timerEvent(QTimerEvent* event)
         {
             QColor systemThemeColor = GetWindowsThemeColor();
             SetThemeColor(systemThemeColor);
+        }
+
+        if (m_followSystemColorModeAction->isChecked())
+        {
+            int lastDarkMode = -1;
+            int isDarkMode = IsWindowsDarkColorMode();
+            //系统
+            if (lastDarkMode != isDarkMode)
+            {
+                CStyleManager::CStyle* style;
+                if (isDarkMode)
+                    style = CStyleManager::Instance()->GetDarkStyle(m_curStyle);
+                else
+                    style = CStyleManager::Instance()->GetLightStyle(m_curStyle);
+                if (style != nullptr)
+                {
+                    if (style->m_strName != m_curStyle)
+                        SetStyle(style->m_strName);
+                }
+                lastDarkMode = isDarkMode;
+            }
         }
 #endif
     }

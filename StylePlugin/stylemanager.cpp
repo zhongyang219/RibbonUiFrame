@@ -132,31 +132,67 @@ CStyleManager *CStyleManager::Instance()
 
 void CStyleManager::ApplyStyleSheet(const QString &styleName, QWidget *pWidget, ThemeColor* pThemeColor)
 {
-    for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
-    {
-        if (iter->m_strName == styleName)
+    IterateStyles([&](std::shared_ptr<CStyle> style) ->bool {
+        if (style->m_strName == styleName)
         {
-            iter->ApplyStyleSheet(pWidget, pThemeColor);
-            break;
+            style->ApplyStyleSheet(pWidget, pThemeColor);
+            return true;
         }
-    }
+        return false;
+    });
 }
 
-const QList<CStyleManager::CStyle> &CStyleManager::GetAllStyles() const
+QList<std::shared_ptr<CStyleManager::CStyle>> CStyleManager::GetAllStyles()
 {
-    return m_styleList;
+    QList<std::shared_ptr<CStyleManager::CStyle>> styleList;
+    IterateStyles([&](std::shared_ptr<CStyle> style) {
+        styleList.push_back(style);
+        return false;
+    });
+    return styleList;
 }
 
 CStyleManager::CStyle *CStyleManager::GetStyle(const QString &styleName)
 {
-    for (auto iter = m_styleList.begin(); iter != m_styleList.end(); ++iter)
-    {
-        if (iter->m_strName == styleName)
+    CStyle* findStyle{};
+    IterateStyles([&](std::shared_ptr<CStyle> style) ->bool {
+        if (style->m_strName == styleName)
         {
-            return &(*iter);
+            findStyle = style.get();
+            return true;
+        }
+        return false;
+    });
+    return findStyle;
+}
+
+CStyleManager::CStyle* CStyleManager::GetDarkStyle(const QString& styleName)
+{
+    StylePair stylePair = FindStylePair(styleName);
+    return stylePair.darkStyle.get();
+}
+
+CStyleManager::CStyle* CStyleManager::GetLightStyle(const QString& styleName)
+{
+    StylePair stylePair = FindStylePair(styleName);
+    return stylePair.lightStyle.get();
+}
+
+void CStyleManager::IterateStyles(std::function<bool(std::shared_ptr<CStyle>)> func)
+{
+    for (const auto& stylePair : m_styleList)
+    {
+        if (stylePair.lightStyle != nullptr)
+        {
+            if (func(stylePair.lightStyle))
+                return;
+        }
+        if (stylePair.darkStyle != nullptr)
+        {
+            if (func(stylePair.darkStyle))
+                return;
         }
     }
-    return nullptr;
 }
 
 void CStyleManager::ApplyQComboboxItemStyle(QComboBox *pCombobox)
@@ -183,18 +219,37 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/bf.css", QSTR("深黑色2"), CStyle::Dark));
     m_styleList.push_back(CStyle(":/qss/test.css", QSTR("紫色"), CStyle::Dark));
 */
-    m_styleList.push_back(CStyle(":/qss/flatblack.css", QSTR("黑色扁平"), CStyle::Dark));
-    m_styleList.push_back(CStyle(":/qss/flatwhite.css", QSTR("白色扁平"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/flatwhite2.css", QSTR("现代白色扁平"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2010blue.css", QSTR("Office2010蓝色"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2010silvery.css", QSTR("Office2010银色"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2010black.css", QSTR("Office2010黑色"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2013white.css", QSTR("Office2013白色"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2016.css", QSTR("Office2016彩色"), CStyle::Light));
-    m_styleList.push_back(CStyle(":/qss/offece2016dark.css", QSTR("Office2016深色"), CStyle::Dark));
+    AddStylePair(":/qss/flatwhite.css", QSTR("白色扁平"), ":/qss/flatblack.css", QSTR("黑色扁平"));
+    AddStylePair(":/qss/flatwhite2.css", QSTR("现代白色扁平"));
+    AddStylePair(":/qss/offece2010blue.css", QSTR("Office2010蓝色"));
+    AddStylePair(":/qss/offece2010silvery.css", QSTR("Office2010银色"));
+    AddStylePair(":/qss/offece2010black.css", QSTR("Office2010黑色"));
+    AddStylePair(":/qss/offece2013white.css", QSTR("Office2013白色"));
+    AddStylePair(":/qss/offece2013lightgray.css", QSTR("Office2013亮灰"));
+    AddStylePair(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"));
+    AddStylePair(":/qss/offece2016.css", QSTR("Office2016彩色"), ":/qss/offece2016dark.css", QSTR("Office2016深色"));
 #ifdef QT_DEBUG
-    m_styleList.push_back(CStyle(":/qss/windows10light.css", QSTR("Windows10"), CStyle::Light));
+    AddStylePair(":/qss/windows10light.css", QSTR("Windows10"));
 #endif
+}
+
+void CStyleManager::AddStylePair(const QString& lightStylePath, const QString& lightStyleName, const QString& darkStylePath, const QString& darkStyleName)
+{
+    StylePair stylePair;
+    stylePair.lightStyle = std::make_shared<CStyle>(lightStylePath, lightStyleName, CStyle::Light);
+    if (!darkStylePath.isEmpty())
+        stylePair.darkStyle = std::make_shared<CStyle>(darkStylePath, darkStyleName, CStyle::Dark);
+    m_styleList.push_back(stylePair);
+}
+
+CStyleManager::StylePair CStyleManager::FindStylePair(const QString& styleName)
+{
+    for (const auto& stylePair : m_styleList)
+    {
+        if (stylePair.lightStyle != nullptr && stylePair.lightStyle->m_strName == styleName)
+            return stylePair;
+        if (stylePair.darkStyle != nullptr && stylePair.darkStyle->m_strName == styleName)
+            return stylePair;
+    }
+    return StylePair();
 }

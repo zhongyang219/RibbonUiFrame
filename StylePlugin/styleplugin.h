@@ -5,6 +5,7 @@
 #include "moduleinterface.h"
 #include <QAction>
 #include <QPalette>
+#include <QActionGroup>
 #include "themecolor.h"
 #include "StyleEventFilter.h"
 
@@ -50,7 +51,9 @@ private:
     QString m_curStyle;
     QPalette m_defaultPalette;
     ThemeColor m_themeColor;
+    QActionGroup* m_themeActionGroup{};
     QAction* m_followSystemColorAction{};
+    QAction* m_followSystemColorModeAction{};
     int m_timerId{};
     StyleEventFilter darkTitleBarFilter;
 };
