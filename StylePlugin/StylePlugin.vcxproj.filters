@@ -997,6 +997,9 @@
     <None Include="qss\offece2016dark.css">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="qss\windows10light.css">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="StylePlugin.rc" />

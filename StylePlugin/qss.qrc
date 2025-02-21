@@ -1,4 +1,4 @@
-<RCC>
+﻿<RCC>
     <qresource prefix="/">
         <file>qss/black.css</file>
         <file>qss/blue.css</file>
@@ -341,5 +341,8 @@
         <file>qss/office2013/branch_open_hover.png</file>
         <file>qss/office2016/branch_open_white.png</file>
         <file>qss/flatwhite2.css</file>
+        <file>qss/windows10/checkbox_black.png</file>
+        <file>qss/windows10/radiobutton_black.png</file>
+        <file>qss/windows10light.css</file>
     </qresource>
 </RCC>

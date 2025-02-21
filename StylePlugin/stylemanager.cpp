@@ -194,4 +194,7 @@ CStyleManager::CStyleManager()
     m_styleList.push_back(CStyle(":/qss/offece2013darkgray.css", QSTR("Office2013黑灰"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/offece2016.css", QSTR("Office2016彩色"), CStyle::Light));
     m_styleList.push_back(CStyle(":/qss/offece2016dark.css", QSTR("Office2016深色"), CStyle::Dark));
+#ifdef QT_DEBUG
+    m_styleList.push_back(CStyle(":/qss/windows10light.css", QSTR("Windows10"), CStyle::Light));
+#endif
 }

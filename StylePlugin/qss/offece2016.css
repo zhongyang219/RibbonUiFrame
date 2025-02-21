@@ -186,6 +186,10 @@ QToolButton:checked{
     background: @themeColorLighter2;
 }
 
+QToolBar#MainFrameToolbar QToolButton {
+    border: 1px solid transparent;
+}
+
 QToolBar#MainFrameToolbar QToolButton:hover {
     background: #d2d2d2;
 }
@@ -202,14 +206,12 @@ QToolBar#MainFrameToolbar QToolButton::menu-button:pressed {
 QToolBar#MainFrameToolbar QToolButton:checked {
     background: #c6c6c6;
     border: 1px solid #808080;
-    padding: 1px;
 }
 
 QToolBar#MainFrameToolbar QToolButton:hover:checked {
     background: #737373;
     color: #ffffff;
     border: 1px solid #949494;
-    padding: 1px;
 }
 
 QMenu {

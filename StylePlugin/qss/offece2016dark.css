@@ -26,6 +26,7 @@ QToolBar#MainFrameCornerBar {
 
 QToolBar#MainFrameCornerBar QToolButton {
     color: #ffffff;
+    border: 1px solid transparent;
 }
 
 QToolBar#MainFrameCornerBar QToolButton:hover {
@@ -45,7 +46,6 @@ QToolBar#MainFrameCornerBar QToolButton:hover:checked {
     background: #363636;
     color: #363636;
     border: 1px solid #808080;
-    padding: 1px;
 }
 
 /*快速启动栏分隔线*/
@@ -172,6 +172,10 @@ QToolButton:checked{
     background: #505050;
 }
 
+QToolBar#MainFrameToolbar QToolButton {
+    border: 1px solid transparent;
+}
+
 QToolBar#MainFrameToolbar QToolButton:hover {
     background: #505050;
 }
@@ -188,7 +192,6 @@ QToolBar#MainFrameToolbar QToolButton:hover:checked {
     background: #d2d2d2;
     color: #202020;
     border: 1px solid #808080;
-    padding: 1px;
 }
 
 QMenu {

@@ -132,14 +132,14 @@ width:0px;
 QToolButton {
     border-style: none;
     background: transparent;
-    padding:2px;
-    border-radius:2px;
+    padding: 2px;
+    border-radius: 2px;
+    border: 1px solid transparent;
 }
 
 QToolButton:hover,QPushButton:hover {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fbedb3,stop:0.5 #fae289,stop:1 #fcf8d9);
     border:1px solid #f0cd52;
-    padding: 1px;
 }
 
 QToolButton:disabled {
@@ -155,7 +155,6 @@ QPushButton:disabled{
 QToolButton:pressed,QPushButton:pressed {
     background: #ffe48a;
     border:1px solid #c28636;
-    padding: 1px;
 }
 
 /*菜单按钮（popupMode为QToolButton::MenuButtonPopup）*/
@@ -185,7 +184,6 @@ border-left:1px solid #c28636;
 QToolButton:checked,QPushButton:checked {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #ffe575,stop:0.5 #ffd86c,stop:1 #fff27e);
     border:1px solid #c28636;
-    padding: 1px;
 }
 
 QMenu{
@@ -195,10 +193,11 @@ padding:2px 2px;
 border-radius:2px;
 }
 
-QMenu::item{
-padding:2px 14px;
-padding-right: 24px;
-height: 20px;
+QMenu::item {
+    padding: 2px 14px;
+    padding-right: 24px;
+    height: 20px;
+    border: 1px solid transparent;
 }
 
 QMenu::icon {
@@ -258,23 +257,22 @@ background:#717171;
 padding:2px;
 }
 
-QMenuBar::item{
-border-radius:2px;
-padding:3px 8px;
-color:#ffffff;
+QMenuBar::item {
+    border-radius: 2px;
+    padding: 3px 8px;
+    color: #ffffff;
+    border: 1px solid transparent;
 }
 
 QMenuBar::item:selected {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #fbedb3,stop:0.5 #fae289,stop:1 #fcf8d9);
     border:1px solid #f0cd52;
-    padding: 1px;
     color:#3b3b3b;
 }
 
 QMenuBar::item:pressed {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #ffe575,stop:0.5 #ffd86c,stop:1 #fff27e);
     border:1px solid #c28636;
-    padding: 1px;
     color:#000000;
 }
 
