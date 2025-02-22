@@ -364,12 +364,10 @@ void StylePlugin::OnStyleActionTriggered(bool)
     QAction* pAction = qobject_cast<QAction*>(QObject::sender());
     if (pAction != nullptr)
     {
-        //获取选择的主题的深色/浅色类型
-        CStyleManager::CStyle* style = CStyleManager::Instance()->GetStyle(pAction->text());
-        bool isStyleDark = (style != nullptr && style->m_type == CStyleManager::CStyle::Dark);
         //如果选择的主题的深色/浅色类型和当前系统不一致，则取消“跟随Windows深色/浅色主题”的勾选
-        if (isStyleDark != IsWindowsDarkColorMode())
+        if (!IsStyleMatchSystemColorMode(pAction->text()))
             m_followSystemColorModeAction->setChecked(false);
+            
         SetCurrentStyle(pAction->text());
     }
 }
@@ -453,6 +451,14 @@ void StylePlugin::SetFollowingSystemColorMode(bool followingSystemColorMode)
 bool StylePlugin::IsFollowingSystemColorMode()
 {
     return m_followSystemColorModeAction->isChecked();
+}
+
+bool StylePlugin::IsStyleMatchSystemColorMode(const QString& styleName)
+{
+    //获取当前主题的深色/浅色类型
+    CStyleManager::CStyle* style = CStyleManager::Instance()->GetStyle(styleName);
+    bool isStyleDark = (style != nullptr && style->m_type == CStyleManager::CStyle::Dark);
+    return (isStyleDark == IsWindowsDarkColorMode());
 }
 
 IModule* CreateInstance()

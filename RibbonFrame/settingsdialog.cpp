@@ -71,6 +71,7 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
             ui->selectStyleCombo->addItem(styleName, styleName);
         }
         ui->selectStyleCombo->setCurrentText(m_ribbonStyle->GetCurrentStyle());
+        connect(ui->selectStyleCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnThemeComboboxIndexChanged(int)));
 
         ui->followSystemColorModeCheck->setChecked(m_ribbonStyle->IsFollowingSystemColorMode());
 
@@ -184,6 +185,18 @@ void SettingsDialog::OnSetCurThemeColor(const QColor& color)
 {
     m_curColor->SetColor(color);
     ui->followSystemThemeColorCheck->setChecked(false);
+}
+
+void SettingsDialog::OnThemeComboboxIndexChanged(int index)
+{
+    if (m_ribbonStyle != nullptr)
+    {
+        QString curStyle = ui->selectStyleCombo->currentData().toString();
+        if (!m_ribbonStyle->IsStyleMatchSystemColorMode(curStyle))
+        {
+            ui->followSystemColorModeCheck->setChecked(false);
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

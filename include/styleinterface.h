@@ -20,7 +20,9 @@ public:
 
     virtual void SetFollowingSystemColorMode(bool followingSystemColorMode) = 0;
     virtual bool IsFollowingSystemColorMode() = 0;
-
+    
+    //判断一个主题是否匹配当前系统深色/浅色主题
+    virtual bool IsStyleMatchSystemColorMode(const QString& styleName) = 0;
 };
 
 #endif

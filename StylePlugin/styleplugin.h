@@ -66,6 +66,7 @@ private:
     bool IsFollowingSystemThemeColor() override;
     void SetFollowingSystemColorMode(bool followingSystemColorMode) override;
     bool IsFollowingSystemColorMode() override;
+    virtual bool IsStyleMatchSystemColorMode(const QString& styleName) override;
 };
 
 #ifdef __cplusplus
