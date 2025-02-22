@@ -85,10 +85,10 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
         ColorIndicatorWidget* colorExcel = new ColorIndicatorWidget(QColor("#2a724b"), "Micorsoft Excel", this);
         ColorIndicatorWidget* colorPowerPoint = new ColorIndicatorWidget(QColor("#b7472a"), "Micorsoft PowerPoint", this);
         ColorIndicatorWidget* colorOneNote = new ColorIndicatorWidget(QColor("#80397b"), "Micorsoft OneNote", this);
-        connect(colorWord, SIGNAL(colorChanged(const QColor&)), m_curColor, SLOT(SetColor(const QColor&)));
-        connect(colorExcel, SIGNAL(colorChanged(const QColor&)), m_curColor, SLOT(SetColor(const QColor&)));
-        connect(colorPowerPoint, SIGNAL(colorChanged(const QColor&)), m_curColor, SLOT(SetColor(const QColor&)));
-        connect(colorOneNote, SIGNAL(colorChanged(const QColor&)), m_curColor, SLOT(SetColor(const QColor&)));
+        connect(colorWord, SIGNAL(colorChanged(const QColor&)), this, SLOT(OnSetCurThemeColor(const QColor&)));
+        connect(colorExcel, SIGNAL(colorChanged(const QColor&)), this, SLOT(OnSetCurThemeColor(const QColor&)));
+        connect(colorPowerPoint, SIGNAL(colorChanged(const QColor&)), this, SLOT(OnSetCurThemeColor(const QColor&)));
+        connect(colorOneNote, SIGNAL(colorChanged(const QColor&)), this, SLOT(OnSetCurThemeColor(const QColor&)));
         ui->colorPresetGroupbox->layout()->addWidget(colorWord);
         ui->colorPresetGroupbox->layout()->addWidget(colorExcel);
         ui->colorPresetGroupbox->layout()->addWidget(colorPowerPoint);
@@ -175,9 +175,15 @@ void SettingsDialog::OnBorwseThemeColor()
         QColorDialog dlg(m_ribbonStyle->GetThemeColor());
         if (dlg.exec() == QDialog::Accepted)
         {
-            m_curColor->SetColor(dlg.currentColor());
+            OnSetCurThemeColor(dlg.currentColor());
         }
     }
+}
+
+void SettingsDialog::OnSetCurThemeColor(const QColor& color)
+{
+    m_curColor->SetColor(color);
+    ui->followSystemThemeColorCheck->setChecked(false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

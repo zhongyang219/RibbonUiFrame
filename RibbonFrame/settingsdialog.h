@@ -45,6 +45,7 @@ public:
 private slots:
     void on_enableHideRibbonCheck_stateChanged(int arg1);
     void OnBorwseThemeColor();
+    void OnSetCurThemeColor(const QColor& color);
 
 private:
     void EnableControl();
