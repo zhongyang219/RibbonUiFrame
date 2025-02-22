@@ -2,7 +2,9 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include "styleinterface.h"
 
+class ColorIndicatorWidget;
 namespace Ui {
 class SettingsDialog;
 }
@@ -34,7 +36,7 @@ public:
         void Load();
     };
 
-    explicit SettingsDialog(QWidget *parent = nullptr);
+    explicit SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent = nullptr);
     ~SettingsDialog();
 
     void SetData(Data data);
@@ -42,12 +44,39 @@ public:
 
 private slots:
     void on_enableHideRibbonCheck_stateChanged(int arg1);
+    void OnBorwseThemeColor();
 
 private:
     void EnableControl();
+    virtual void accept() override;
 
 private:
     Ui::SettingsDialog *ui;
+    ColorIndicatorWidget* m_curColor{};
+    IRibbonStyle* m_ribbonStyle{};
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+class ColorIndicatorWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    ColorIndicatorWidget(const QColor& color, const QString& toolTip, QWidget* parent = nullptr);
+    QColor GetColor() const;
+
+public slots:
+    void SetColor(const QColor& color);
+
+signals:
+    void colorChanged(const QColor& color);
+
+private:
+    virtual void paintEvent(QPaintEvent* event) override;
+    virtual void mouseReleaseEvent(QMouseEvent* event) override;
+
+private:
+    QColor m_color;
 };
 
 #endif // SETTINGSDIALOG_H

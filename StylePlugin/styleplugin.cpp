@@ -407,10 +407,17 @@ void StylePlugin::OnCustomThemeColor()
 void StylePlugin::GetAllStyleNames(QStringList& styleNames)
 {
     styleNames.clear();
+    //添加所有主题
     auto allStyles = CStyleManager::Instance()->GetAllStyles();
     for (const auto& style : allStyles)
     {
         styleNames.push_back(style->m_strName);
+    }
+    //添加平台支持的主题
+    auto platformSupportedStyles = QStyleFactory::keys();
+    for (const auto& style : platformSupportedStyles)
+    {
+        styleNames.push_back(style);
     }
 }
 

@@ -28,11 +28,23 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>392</width>
-        <height>207</height>
+        <width>382</width>
+        <height>308</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>功能区设置</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QCheckBox" name="enableHideRibbonCheck">
          <property name="text">
@@ -86,6 +98,92 @@
         <widget class="QCheckBox" name="showStatusbarCheck">
          <property name="text">
           <string>显示状态栏</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>主题设置</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>选择主题：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="selectStyleCombo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="followSystemColorModeCheck">
+         <property name="text">
+          <string>跟随系统深色/浅色主题</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>主题颜色：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="themeColorHLayout">
+         <item>
+          <widget class="QGroupBox" name="colorPresetGroupbox">
+           <property name="title">
+            <string>预置颜色</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCustomColor">
+           <property name="text">
+            <string>自定义主题颜色...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="followSystemThemeColorCheck">
+         <property name="text">
+          <string>跟随系统主题颜色</string>
          </property>
         </widget>
        </item>

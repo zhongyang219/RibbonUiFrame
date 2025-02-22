@@ -189,3 +189,15 @@ QLabel* ImageLabel::TextLabel() const
 {
     return pTextLabel;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool WheelEventFilter::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::Wheel)
+    {
+        // 忽略滚轮事件
+        event->ignore();
+        return true; // 事件已处理，不再传递
+    }
+    return QObject::eventFilter(obj, event);
+}

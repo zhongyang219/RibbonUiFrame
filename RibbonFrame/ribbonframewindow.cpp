@@ -476,6 +476,10 @@ IModule *RibbonFrameWindow::LoadPlugin(const QString& strModulePath)
                     d->m_moduleNameMap[pModule->GetModuleName()] = pModule;
                     d->m_modulePathMap[strModulePath] = pModule;
                 }
+                //保存主题模块接口
+                IRibbonStyle* style = dynamic_cast<IRibbonStyle*>(pModule);
+                if (style != nullptr)
+                    d->m_ribbonStyle = style;
             }
             else
             {
@@ -1240,7 +1244,7 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
     }
     else if (strCmd == CMD_RibbonOptions)
     {
-        SettingsDialog dlg(this);
+        SettingsDialog dlg(d->m_ribbonStyle, this);
         dlg.SetData(d->m_ribbonOptionData);
         if (dlg.exec() == QDialog::Accepted)
         {

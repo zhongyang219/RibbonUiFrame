@@ -13,6 +13,7 @@
 #include <QDomElement>
 #include "widgets/navigatewidget.h"
 #include <QSplitter>
+#include "styleinterface.h"
 class QToolButton;
 
 class RibbonFrameHelper
@@ -82,6 +83,7 @@ public:
 
     QList<ModuleManagerDlg::ModuleInfo> moduleInfoList;
     QSet<QString> m_disabledModulePath;
+    IRibbonStyle* m_ribbonStyle{};      //主题模块接口
 
 public:
     RibbonFramePrivate(const QStringList& cmdLine);
@@ -111,11 +113,11 @@ private:
     QLabel* pTextLabel;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class CmdLineParser
-{
+//用于禁用鼠标滚轮的事件过滤器
+class WheelEventFilter : public QObject {
 public:
-    CmdLineParser();
-    bool IsModuleManager() const;
+    WheelEventFilter(QObject* parent = nullptr) : QObject(parent) {}
 
+protected:
+    bool eventFilter(QObject* obj, QEvent* event) override;
 };

@@ -365,13 +365,23 @@
     <ClCompile Include="modulemanagerdlg.cpp" />
     <ClCompile Include="RibbonFrameHelper.cpp" />
     <ClCompile Include="ribbonframewindow.cpp" />
-    <ClCompile Include="settingsdialog.cpp" />
+    <ClCompile Include="settingsdialog.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <ClCompile Include="widgets\navigatewidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h" />
     <ClInclude Include="..\include\mainframeinterface.h" />
     <ClInclude Include="..\include\moduleinterface.h" />
+    <ClInclude Include="..\include\styleinterface.h" />
     <ClInclude Include="RibbonFrameHelper.h" />
     <QtMoc Include="widgets\navigatewidget.h" />
     <QtMoc Include="modulemanagerdlg.h" />
