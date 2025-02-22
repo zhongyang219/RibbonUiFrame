@@ -130,8 +130,12 @@ void StylePlugin::UiInitComplete(IMainFrame *pMainFrame)
     m_themeActionGroup = new QActionGroup(this);
     if (pMainFrame != nullptr)
     {
-        //默认主题
-        m_themeActionGroup->addAction((QAction*)pMainFrame->GetAcion(CMD_DefaultStyle));
+        //查找“默认主题”Action
+        QAction* pDefaultStyleAction = (QAction*)pMainFrame->GetAcion(CMD_DefaultStyle);
+        if (pDefaultStyleAction != nullptr)
+        {
+            m_themeActionGroup->addAction(pDefaultStyleAction);
+        }
         //查找“主题”菜单按钮
         QToolButton* pThemeBtn = qobject_cast<QToolButton*>((QWidget*)pMainFrame->GetWidget("Theme"));
         if (pThemeBtn != nullptr)
