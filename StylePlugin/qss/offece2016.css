@@ -70,14 +70,15 @@ QTabWidget#MainFrameTab:pane {
 
 .QGroupBox{
 border:1px solid #C6C6C6;
-margin-top:3ex;
+margin-top: 2ex;
+padding-top: 2ex;
 }
 
 .QGroupBox::title{
 subcontrol-origin:margin;
 position:relative;
 left:10px;
-margin:4px;
+margin:0px 4px 0px 4px;
 }
 
 QLineEdit,QTextEdit,QPlainTextEdit,QSpinBox,QDoubleSpinBox,QComboBox,QDateEdit,QTimeEdit,QDateTimeEdit{
