@@ -344,5 +344,6 @@
         <file>qss/windows10/checkbox_black.png</file>
         <file>qss/windows10/radiobutton_black.png</file>
         <file>qss/windows10light.css</file>
+        <file>qss/winui3light.css</file>
     </qresource>
 </RCC>

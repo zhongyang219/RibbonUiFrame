@@ -596,6 +596,7 @@
     <None Include="qss\silvery\checkbox_unchecked_disable.png" />
     <None Include="qss\test\checkbox_unchecked_disable.png" />
     <None Include="qss\windows10light.css" />
+    <None Include="qss\winui3light.css" />
     <None Include="res\dark_mode.png" />
     <None Include="qss\darkblack.css" />
     <None Include="qss\darkblue.css" />
