@@ -56,24 +56,37 @@ static QColor GetWindowsThemeColor()
 #endif
 }
 
-static bool IsWindowsDarkColorMode()
-{
 #ifdef Q_OS_WIN
-    bool windows10_light_theme = false;
+static bool GetRegDWordValue(const wchar_t* path, const wchar_t* valueName, DWORD& valueData)
+{
+    bool succeed{ false };
     HKEY hKey;
-    DWORD dwThemeData(0);
-    LONG lRes = RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey);
+    LONG lRes = RegOpenKeyExW(HKEY_CURRENT_USER, path, 0, KEY_READ, &hKey);
     if (lRes == ERROR_SUCCESS)
     {
         DWORD dwBufferSize(sizeof(DWORD));
         DWORD dwResult(0);
-        lRes = RegQueryValueExW(hKey, L"SystemUsesLightTheme", NULL, NULL, reinterpret_cast<LPBYTE>(&dwResult), &dwBufferSize);
+        lRes = RegQueryValueExW(hKey, valueName, NULL, NULL, reinterpret_cast<LPBYTE>(&dwResult), &dwBufferSize);
         if (lRes == ERROR_SUCCESS)
-            dwThemeData = dwResult;
-        windows10_light_theme = (dwThemeData != 0);
+        {
+            valueData = dwResult;
+            succeed = true;
+        }
     }
     RegCloseKey(hKey);
-    return !windows10_light_theme;
+    return succeed;
+}
+#endif
+
+static bool IsWindowsDarkColorMode()
+{
+#ifdef Q_OS_WIN
+    DWORD dwThemeData{};
+    if (GetRegDWordValue(L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", L"AppsUseLightTheme", dwThemeData))
+    {
+        return dwThemeData == 0;
+    }
+    return false;
 #elif defined Q_OS_LINUX
     QProcess process;
     process.start("gsettings", QStringList() << "get" << "org.gnome.desktop.interface" << "gtk-theme");
