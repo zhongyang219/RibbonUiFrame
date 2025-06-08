@@ -40,6 +40,10 @@ else:CONFIG(debug, debug|release): {
     DESTDIR = $$PWD/../bin/debug
 }
 
+win32 {
+    LIBS += -lAdvapi32
+}
+
 # Default rules for deployment.
 unix {
     target.path = /usr/lib
