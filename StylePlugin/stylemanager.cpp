@@ -231,7 +231,6 @@ CStyleManager::CStyleManager()
 #ifdef QT_DEBUG
     AddStylePair(":/qss/windows10light.css", QSTR("Windows10"));
 #endif
-    AddStylePair(":/qss/winui3light.css", QSTR("WinUI3.0浅色"));
 }
 
 void CStyleManager::AddStylePair(const QString& lightStylePath, const QString& lightStyleName, const QString& darkStylePath, const QString& darkStyleName)
