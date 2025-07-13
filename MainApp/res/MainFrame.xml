@@ -169,7 +169,12 @@ ActionGroup节点
         <Action name="命令11" icon=":/res/Image/edit.png" id="TestCommand11"/>
         <Action name="命令12" icon=":/res/Image/proj.png" id="TestCommand12"/>
       </Menu>
-      <Action name="命令13（禁用）" icon=":/res/Image/proj.png" id="TestCommand13"/>
+      <ActionGroup name="显示">
+        <CheckBox name="显示左侧面板" id="ShowLeftPanelCheck"/>
+        <CheckBox name="显示右侧面板" id="ShowRightPanelCheck"/>
+        <CheckBox name="显示下方面板" id="ShowBottomPanelCheck"/>
+        <CheckBox name="显示菜单栏" id="ShowMenuBarCheck"/>
+      </ActionGroup>
       <ActionGroup name="命令组2">
         <Label name="标签1" id="Label1" icon=":/res/Image/proj.png"/>
         <LineEdit name="单行编辑框" id="LineEdit1" width="60"/>
@@ -183,10 +188,9 @@ ActionGroup节点
         <CheckBox name="复选框" id="CheckBox1"/>
         <RadioButton name="单选按钮1" id="RadioButton1" radioGroup="1"/>
         <RadioButton name="单选按钮2" id="RadioButton2" radioGroup="1"/>
-        <RadioButton name="单选按钮3" id="RadioButton3" radioGroup="1"/>
         <Separator/>
+        <RadioButton name="单选按钮3" id="RadioButton3" radioGroup="2"/>
         <RadioButton name="单选按钮4" id="RadioButton4" radioGroup="2"/>
-        <RadioButton name="单选按钮5" id="RadioButton5" radioGroup="2"/>
         <UserWidget name="用户自定义控件" id="UserWidget1"/>
       </ActionGroup>
     </Page>

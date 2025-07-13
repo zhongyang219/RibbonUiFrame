@@ -15,6 +15,11 @@ public:
     explicit CMainWidget(QMainWindow *parent = nullptr);
     ~CMainWidget();
 
+    QWidget* GetLeftPanel() const;
+    QWidget* GetRightPanel() const;
+    QWidget* GetBottomPanel() const;
+    QMenuBar* GetMenuBar() const;
+
 private:
     void InitSytemIcon();
 

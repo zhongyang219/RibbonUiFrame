@@ -35,6 +35,9 @@ CMainWidget::CMainWidget(QMainWindow *parent) :
     ui->widgetBottom->setProperty("form", "bottom");
     ui->widgetTop->setProperty("nav", "top");
 
+    ui->cbox1->setView(new QListView);
+    ui->cbox2->setView(new QListView);
+
     //设置“图标”页
     InitSytemIcon();
 }
@@ -42,6 +45,26 @@ CMainWidget::CMainWidget(QMainWindow *parent) :
 CMainWidget::~CMainWidget()
 {
     delete ui;
+}
+
+QWidget *CMainWidget::GetLeftPanel() const
+{
+    return ui->listWidget;
+}
+
+QWidget *CMainWidget::GetRightPanel() const
+{
+    return ui->textEdit;
+}
+
+QWidget *CMainWidget::GetBottomPanel() const
+{
+    return ui->textEdit_2;
+}
+
+QMenuBar *CMainWidget::GetMenuBar() const
+{
+    return ui->menubar;
 }
 
 void CMainWidget::InitSytemIcon()

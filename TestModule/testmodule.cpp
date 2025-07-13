@@ -10,6 +10,7 @@
 #include <QDateEdit>
 #include <QAction>
 #include <QStatusBar>
+#include <QMenuBar>
 #include "ribbonuipredefine.h"
 
 static TestModule* pIns = nullptr;
@@ -40,7 +41,12 @@ void TestModule::UnInitInstance()
 void TestModule::UiInitComplete(IMainFrame *pMainFrame)
 {
     m_pMainFrame = pMainFrame;
-    pMainFrame->SetItemEnable("TestCommand13", false);
+    pMainFrame->SetItemEnable("TestCommand5", false);
+    pMainFrame->SetItemChecked("ShowLeftPanelCheck", true);
+    pMainFrame->SetItemChecked("ShowRightPanelCheck", true);
+    pMainFrame->SetItemChecked("ShowBottomPanelCheck", false);
+    m_mainWidget.GetBottomPanel()->setVisible(false);
+    pMainFrame->SetItemChecked("ShowMenuBarCheck", true);
 }
 
 void* TestModule::GetMainWindow()
@@ -59,6 +65,24 @@ void TestModule::OnCommand(const char* strCmd, bool checked)
     QString str = QSTR("你点击了按钮“%1”，id=%2，checked=%3").arg(itemText).arg(strCmd).arg(checked);
     //QMessageBox::information(&m_mainWidget, QString(), str, QMessageBox::Ok);
     m_pMainFrame->SetStatusBarText(str.toUtf8().constData(), 15000);
+
+    QString cmd(strCmd);
+    if (cmd == "ShowLeftPanelCheck")
+    {
+        m_mainWidget.GetLeftPanel()->setVisible(checked);
+    }
+    else if (cmd == "ShowRightPanelCheck")
+    {
+        m_mainWidget.GetRightPanel()->setVisible(checked);
+    }
+    else if (cmd == "ShowBottomPanelCheck")
+    {
+        m_mainWidget.GetBottomPanel()->setVisible(checked);
+    }
+    else if (cmd == "ShowMenuBarCheck")
+    {
+        m_mainWidget.GetMenuBar()->setVisible(checked);
+    }
 }
 
 IModule* CreateInstance()
