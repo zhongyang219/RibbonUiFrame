@@ -6,22 +6,29 @@
 #define QSTR(str) QString::fromWCharArray(L ## str)
 
 MainWindow::MainWindow(QWidget *parent, const QStringList& cmdLine)
-    : RibbonFrameWindow(parent, ":/res/MainFrame.xml", false, cmdLine)
+    : RibbonFrameWindow(parent, QString(), false, cmdLine)
 {
-    QIcon appIcon(":/res/logo.png");
-    setWindowIcon(appIcon);
-    SetItemIcon("AppAbout", appIcon);
+    QIcon appIcon = windowIcon();
+    if (appIcon.isNull())
+    {
+        appIcon = QIcon(":/res/logo.png");
+        setWindowIcon(appIcon);
+        SetItemIcon("AppAbout", appIcon);
+    }
 }
 
 
 bool MainWindow::OnCommand(const QString &strCmd, bool checked)
 {
-    if (strCmd == "AppAbout")
+    if (!RibbonFrameWindow::OnCommand(strCmd, checked))
     {
-        QMessageBox::about(this, QSTR("关于 %1").arg(qApp->applicationName()), QSTR("%1 %2\r\n这是一个界面框架示例程序。\r\nCopyright(C) 2023 by ZhongYang").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
-        return true;
+        if (strCmd == "AppAbout")
+        {
+            QMessageBox::about(this, QSTR("关于 %1").arg(qApp->applicationName()), QSTR("%1 %2\r\n这是一个界面框架示例程序。\r\nCopyright(C) 2023 by ZhongYang").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+            return true;
+        }
     }
-    return RibbonFrameWindow::OnCommand(strCmd, checked);
+    return false;
 }
 
 
