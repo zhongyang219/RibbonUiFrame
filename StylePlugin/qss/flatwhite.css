@@ -211,6 +211,42 @@ margin:1px 1px 2px 1px;
 background-color:rgba(51,127,209,230);
 }
 
+QAbstractButton#btnMenu_Close:hover{
+background:#e81123;
+}
+
+QAbstractButton#btnMenu_Min{
+image:url(://qss/titleBar/minimize_d.png);
+}
+
+QAbstractButton#btnMenu_Min:hover{
+image:url(://qss/titleBar/minimize.png);
+}
+
+QAbstractButton#btnMenu_Max{
+image:url(://qss/titleBar/maximize_d.png);
+}
+
+QAbstractButton#btnMenu_Max:hover{
+image:url(://qss/titleBar/maximize.png);
+}
+
+QAbstractButton#btnMenu_Restore{
+image:url(://qss/titleBar/restore_d.png);
+}
+
+QAbstractButton#btnMenu_Restore:hover{
+image:url(://qss/titleBar/restore.png);
+}
+
+QAbstractButton#btnMenu_Close{
+image:url(://qss/titleBar/close_d.png);
+}
+
+QAbstractButton#btnMenu_Close:hover{
+image:url(://qss/titleBar/close.png);
+}
+
 QToolBar{
 border: 0px;
 border-radius: 6px;

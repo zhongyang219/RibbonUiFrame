@@ -12,6 +12,7 @@
 #include "modulemanagerdlg.h"
 #include <QDomElement>
 #include "widgets/navigatewidget.h"
+#include "widgets/titlebarwidget.h"
 #include <QSplitter>
 #include "styleinterface.h"
 class QToolButton;
@@ -80,6 +81,8 @@ public:
     bool ribbonShow{ true };    //功能区是否显示
     bool tabbarClicked{ false };    //点击ribbon标签后的500毫秒内为ture，其他时候为false
     bool showLeftNaviBar{};
+
+    TitleBarWidget* m_pTitleBar;
 
     SettingsDialog::Data m_ribbonOptionData;
 

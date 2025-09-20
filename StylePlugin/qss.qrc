@@ -344,5 +344,17 @@
         <file>qss/windows10/checkbox_black.png</file>
         <file>qss/windows10/radiobutton_black.png</file>
         <file>qss/windows10light.css</file>
+	<file>qss/titleBar/close.png</file>
+        <file>qss/titleBar/close_d.png</file>
+        <file>qss/titleBar/maximize.png</file>
+        <file>qss/titleBar/maximize_d.png</file>
+        <file>qss/titleBar/minimize.png</file>
+        <file>qss/titleBar/minimize_d.png</file>
+        <file>qss/titleBar/restore.png</file>
+        <file>qss/titleBar/restore_d.png</file>
+        <file>qss/office2010/title_close.png</file>
+        <file>qss/office2010/title_maxmize.png</file>
+        <file>qss/office2010/title_minimize.png</file>
+        <file>qss/office2010/title_restore.png</file>
     </qresource>
 </RCC>

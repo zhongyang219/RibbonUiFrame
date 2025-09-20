@@ -1,5 +1,13 @@
 ﻿QPalette{background:#b4b4b4;}*{outline:0px;color:#000000;}
 
+QWidget#RibbonTitleBar{
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #797979,stop:1 #717171);
+}
+
+QWidget#RibbonTitleBar QLabel{
+color:white;
+}
+
 QMessageBox {
     background: #ebebeb;
 }
@@ -25,6 +33,11 @@ QToolBar#MainFrameToolbar QToolBar::separator{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #909090, stop:0.5 #525252, stop:1 #909090);
 margin:4px;
 width: 1px;
+}
+
+/*自绘标题栏中的分隔线*/
+QWidget#RibbonTitleBar QFrame[frameShape="5"] {
+color:#ababab;
 }
 
 /*快速启动栏分隔线*/
@@ -185,6 +198,60 @@ border-left:1px solid #c28636;
 QToolButton:checked,QPushButton:checked {
     background: qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #ffe575,stop:0.5 #ffd86c,stop:1 #fff27e);
     border:1px solid #c28636;
+}
+
+QAbstractButton#btnMenu_Min,QAbstractButton#btnMenu_Max,QAbstractButton#btnMenu_Restore,QAbstractButton#btnMenu_Close{
+background:none;
+border-style:none;
+min-width:32px;
+max-width:32px;
+height:16px;
+border:1px solid transparent;
+border-radius:2px;
+padding:0px;
+margin:0px;
+color:transparent;
+margin-top:4px;
+}
+
+QAbstractButton#btnMenu_Close{
+margin-right:4px;
+}
+
+QAbstractButton#btnMenu_Min:hover,QAbstractButton#btnMenu_Restore:hover,QAbstractButton#btnMenu_Max:hover{
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #949494,stop:1 #777777);
+border-color:#4d4d4d;
+}
+QAbstractButton#btnMenu_Min:pressed,QAbstractButton#btnMenu_Restore:pressed,QAbstractButton#btnMenu_Max:pressed{
+background:#717171;
+border-color:#4d4d4d;
+}
+
+QAbstractButton#btnMenu_Close:hover{
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #ff8482,stop:1 #e36162);
+border-color:#9b3d3d;
+}
+
+QAbstractButton#btnMenu_Close:pressed{
+background:#f27776;
+border-color:#9b3d3d;
+}
+
+QAbstractButton#btnMenu_Min{
+image:url(://qss/office2010/title_minimize.png);
+
+}
+
+QAbstractButton#btnMenu_Max{
+image:url(://qss/office2010/title_maxmize.png);
+}
+
+QAbstractButton#btnMenu_Restore{
+image:url(://qss/office2010/title_restore.png);
+}
+
+QAbstractButton#btnMenu_Close{
+image:url(://qss/office2010/title_close.png);
 }
 
 QMenu{

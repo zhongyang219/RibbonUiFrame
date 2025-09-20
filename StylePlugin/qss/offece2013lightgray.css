@@ -1,5 +1,9 @@
 ﻿QPalette{background:#FFFFFF;}*{outline:0px;color:#000000;}
 
+QWidget#RibbonTitleBar{
+background:#f1f1f1;
+}
+
 QMessageBox {
     background: #FFFFFF;
 }
@@ -17,6 +21,11 @@ QToolBar#MainFrameToolbar::separator{
 background:#C6C6C6;
 margin:0px 4px;
 width: 1px;
+}
+
+/*自绘标题栏中的分隔线*/
+QWidget#RibbonTitleBar QFrame[frameShape="5"] {
+color:#e0e0e0;
 }
 
 /*快速启动栏分隔线*/
@@ -150,6 +159,42 @@ QToolButton::checked:hover{
 background: @themeColorLighter4;
 border:1px solid @themeColorLighter3;
 padding: 1px;
+}
+
+QAbstractButton#btnMenu_Min,QAbstractButton#btnMenu_Max,QAbstractButton#btnMenu_Restore,QAbstractButton#btnMenu_Close{
+background:none;
+border-style:none;
+min-width:16px;
+max-width:16px;
+height:16px;
+border-width:2px 8px 2px 8px;
+border-style:solid;
+border-color:transparent;
+color:transparent;
+}
+
+QAbstractButton#btnMenu_Min:hover,QAbstractButton#btnMenu_Restore:hover,QAbstractButton#btnMenu_Max:hover,QAbstractButton#btnMenu_Close:hover{
+background:@themeColorLighter3;
+}
+QAbstractButton#btnMenu_Min:pressed,QAbstractButton#btnMenu_Restore:pressed,QAbstractButton#btnMenu_Max:pressed,QAbstractButton#btnMenu_Close:pressed{
+background:@themeColorLighter2;
+}
+
+QAbstractButton#btnMenu_Min{
+image:url(://qss/titleBar/minimize_d.png);
+
+}
+
+QAbstractButton#btnMenu_Max{
+image:url(://qss/titleBar/maximize_d.png);
+}
+
+QAbstractButton#btnMenu_Restore{
+image:url(://qss/titleBar/restore_d.png);
+}
+
+QAbstractButton#btnMenu_Close{
+image:url(://qss/titleBar/close_d.png);
 }
 
 QMenu,QMenu:disabled{

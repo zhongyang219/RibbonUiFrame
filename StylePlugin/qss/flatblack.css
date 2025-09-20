@@ -209,6 +209,26 @@ margin:1px 1px 2px 1px;
 background-color:rgba(51,127,209,230);
 }
 
+QAbstractButton#btnMenu_Close:hover{
+background:#e81123;
+}
+
+QAbstractButton#btnMenu_Min{
+image:url(://qss/titleBar/minimize.png);
+}
+
+QAbstractButton#btnMenu_Max{
+image:url(://qss/titleBar/maximize.png);
+}
+
+QAbstractButton#btnMenu_Restore{
+image:url(://qss/titleBar/restore.png);
+}
+
+QAbstractButton#btnMenu_Close{
+image:url(://qss/titleBar/close.png);
+}
+
 QToolBar{
 border: 0px;
 border-radius: 6px;
@@ -225,12 +245,6 @@ QToolBar::separator{
 background: #535353;
 margin: 4px;
 width: 1px;
-}
-
-QPushButton#btnMenu_Close:hover{
-color:#FFFFFF;
-margin:1px 1px 2px 1px;
-background-color:rgba(238,0,0,128);
 }
 
 QRadioButton::indicator{

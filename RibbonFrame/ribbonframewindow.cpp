@@ -64,6 +64,19 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     d->showLeftNaviBar = d->m_ribbonOptionData.showLeftNaviBar;
 
     //初始化主窗口
+    QWidget* pCentralWidget = new QWidget(this);
+    QVBoxLayout* pLayout = new QVBoxLayout();
+    pLayout->setContentsMargins(0, 0, 0, 0);
+    pLayout->setSpacing(0);
+    pCentralWidget->setLayout(pLayout);
+    setCentralWidget(pCentralWidget);
+    //添加自定义标题栏
+#ifdef Q_OS_WIN
+    pLayout->addWidget(d->m_pTitleBar = new TitleBarWidget(this));
+    installEventFilter(d->m_pTitleBar);
+    d->m_pTitleBar->hide();
+#endif
+
     if (d->showLeftNaviBar)
     {
         d->m_pNaviSplitter = new QSplitter(this);
@@ -80,7 +93,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
         d->m_pNaviSplitter->addWidget(pRightWidget);
         d->m_pNaviSplitter->setStretchFactor(0, 1);
         d->m_pNaviSplitter->setStretchFactor(1, 3);
-        setCentralWidget(d->m_pNaviSplitter);
+        pLayout->addWidget(d->m_pNaviSplitter);
         QVBoxLayout* pRightLayout = new QVBoxLayout();
         pRightLayout->setContentsMargins(0, 0, 0, 0);
         pRightLayout->setSpacing(0);
@@ -92,12 +105,7 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     }
     else
     {
-        QWidget* pCentralWidget = new QWidget(this);
-        QVBoxLayout* pLayout = new QVBoxLayout();
-        pLayout->setContentsMargins(0, 0, 0, 0);
-        pLayout->setSpacing(0);
-        pCentralWidget->setLayout(pLayout);
-        setCentralWidget(pCentralWidget);
+        //添加TabWidget
         pLayout->addWidget(d->m_pTabWidget = new QTabWidget());
         d->m_pTabWidget->setObjectName("MainFrameTab");
         d->m_pTabWidget->setAttribute(Qt::WA_StyledBackground);
@@ -235,6 +243,8 @@ void RibbonFrameWindow::InitUi()
             //去掉Windows标题栏
             styles &= ~WS_CAPTION;
             SetWindowLong(hWnd, GWL_STYLE, styles);
+            //显示自定义标题栏
+            d->m_pTitleBar->show();
         }
 #endif
     }
@@ -629,7 +639,10 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QToolBar* pQuickAccessbar = new QToolBar(this);
             pQuickAccessbar->setObjectName("MainFrameCornerBar");
             pQuickAccessbar->setIconSize(QSize(ICON_SIZE_S, ICON_SIZE_S));
-            d->m_pTopLeftLayout->addWidget(pQuickAccessbar);
+            if (d->m_ribbonOptionData.customTitleBar)
+                d->m_pTitleBar->AddQuickAccessBar(pQuickAccessbar);
+            else
+                d->m_pTopLeftLayout->addWidget(pQuickAccessbar);
             LoadSimpleToolbar(nodeInfo, pQuickAccessbar);
             if (d->showLeftNaviBar)
                 d->m_pTopLeftLayout->addStretch();
@@ -1405,7 +1418,7 @@ bool RibbonFrameWindow::nativeEvent(const QByteArray &eventType, void *message, 
         {
         case WM_NCCALCSIZE:
         {
-            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar)
+            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar && !isMaximized())
             {
                 BOOL bCalcValidRects = (BOOL)msg->wParam;
                 NCCALCSIZE_PARAMS* lpncsp = (NCCALCSIZE_PARAMS*)msg->lParam;

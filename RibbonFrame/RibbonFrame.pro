@@ -22,7 +22,8 @@ SOURCES += \
     ribbonframewindow.cpp \
     settingsdialog.cpp \
     toolkits/WinVersionHelper.cpp \
-    widgets/navigatewidget.cpp
+    widgets/navigatewidget.cpp \
+    widgets/titlebarwidget.cpp
 
 HEADERS  += \
     ../include/mainframe_global.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     modulemanagerdlg.h \
     settingsdialog.h \
     toolkits/WinVersionHelper.h \
-    widgets/navigatewidget.h
+    widgets/navigatewidget.h \
+    widgets/titlebarwidget.h
 
 CONFIG(release, debug|release): {
     DESTDIR = $$PWD/../bin/release
