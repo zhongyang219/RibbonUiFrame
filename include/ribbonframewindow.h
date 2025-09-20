@@ -131,6 +131,7 @@ private:
     // QWidget interface
 protected:
     virtual void closeEvent(QCloseEvent*) override;
+    virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 
     // IMainFrame interface
 public:

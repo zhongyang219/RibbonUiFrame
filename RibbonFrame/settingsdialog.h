@@ -32,6 +32,8 @@ public:
         bool showLeftNaviBar{};             //是否在左侧显示导航栏
         bool showStatusBar{};               //是否显示状态栏
 
+        bool customTitleBar{};      //是否自定义标题栏，使用无边框窗口
+
         void Save() const;
         void Load();
     };

@@ -4,10 +4,10 @@
 #include <QIcon>
 #include <QWidget>
 #include <QBoxLayout>
-
+#include "mainframe_global.h"
 class QAbstractButton;
 
-class NavigateWidget : public QWidget
+class RIBBONFRAME_EXPORT NavigateWidget : public QWidget
 {
     Q_OBJECT
 public:

@@ -21,6 +21,7 @@ SOURCES += \
     modulemanagerdlg.cpp \
     ribbonframewindow.cpp \
     settingsdialog.cpp \
+    toolkits/WinVersionHelper.cpp \
     widgets/navigatewidget.cpp
 
 HEADERS  += \
@@ -32,6 +33,7 @@ HEADERS  += \
     RibbonFrameHelper.h \
     modulemanagerdlg.h \
     settingsdialog.h \
+    toolkits/WinVersionHelper.h \
     widgets/navigatewidget.h
 
 CONFIG(release, debug|release): {

@@ -27,9 +27,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>382</width>
-        <height>308</height>
+        <y>-84</y>
+        <width>365</width>
+        <height>487</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -98,6 +98,13 @@
         <widget class="QCheckBox" name="showStatusbarCheck">
          <property name="text">
           <string>显示状态栏</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="customTitleBarCheck">
+         <property name="text">
+          <string>使用自定义标题栏</string>
          </property>
         </widget>
        </item>

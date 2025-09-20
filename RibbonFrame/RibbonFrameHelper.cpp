@@ -108,6 +108,30 @@ bool RibbonFrameHelper::IsActionTag(const QString& tagName)
     return tagName == "Action" || tagName == "SysBarAction";
 }
 
+bool RibbonFrameHelper::SetApplicationNameByXml(QString xmlPath)
+{
+    if (xmlPath.isEmpty())
+        xmlPath = qApp->applicationDirPath() + "/MainFrame.xml";
+    QFile file(xmlPath);
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        return false;
+    QDomDocument doc;
+    if (!doc.setContent(&file, false))
+        return false;
+    QDomElement root = doc.documentElement();
+    if (root.isNull())
+        return false;
+
+    //获取应用程序名称
+    QString strTitle = root.attribute("appName");
+    if (!strTitle.isEmpty())
+    {
+        qApp->setApplicationName(strTitle);
+        return true;
+    }
+    return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RibbonFramePrivate::RibbonFramePrivate(const QStringList& cmdLine)

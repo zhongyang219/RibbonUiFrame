@@ -14,18 +14,21 @@
 void SettingsDialog::Data::Save() const
 {
     //保存设置
-    QSettings settings(SCOPE_NAME, qApp->applicationName());
+    QString applicationName = qApp->applicationName();
+    QSettings settings(SCOPE_NAME, applicationName);
     settings.setValue("ribbonHideEnable", static_cast<int>(ribbonHideEnable));
     settings.setValue("ribbonPin", static_cast<int>(ribbonPin));
     settings.setValue("ribbonDoubleClickEnable", static_cast<int>(ribbonDoubleClickEnable));
     settings.setValue("showWhenTabClicked", static_cast<int>(showWhenTabClicked));
     settings.setValue("showLeftNaviBar", static_cast<int>(showLeftNaviBar));
     settings.setValue("showStatusBar", static_cast<int>(showStatusBar));
+    settings.setValue("customTitleBar", static_cast<int>(customTitleBar));
 }
 
 void SettingsDialog::Data::Load()
 {
-    QSettings settings(SCOPE_NAME, qApp->applicationName());
+    QString applicationName = qApp->applicationName();
+    QSettings settings(SCOPE_NAME, applicationName);
     ribbonHideEnable = settings.value("ribbonHideEnable", false).toBool();
     if (!ribbonHideEnable)
         ribbonPin = true;
@@ -38,6 +41,10 @@ void SettingsDialog::Data::Load()
 //    showLeftNaviBar = true;
 //#endif
     showStatusBar = settings.value("showStatusBar", true).toBool();
+#ifdef Q_OS_WIN
+    //仅Windows下实现了使用自定义标题栏
+    customTitleBar = settings.value("customTitleBar", false).toBool();
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +65,10 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
     ui->showWhenTabClickedComboBox->addItem(u8"无");
     ui->showWhenTabClickedComboBox->addItem(u8"显示功能区");
     ui->showWhenTabClickedComboBox->addItem(u8"显示菜单");
+
+#ifndef Q_OS_WIN
+    ui->customTitleBarCheck->setEnabled(false);
+#endif
 
     if (m_ribbonStyle != nullptr)
     {
@@ -124,6 +135,7 @@ void SettingsDialog::SetData(Data data)
     ui->showWhenTabClickedComboBox->setCurrentIndex(static_cast<int>(data.showWhenTabClicked));
     ui->showLeftNaviBarCheck->setChecked(data.showLeftNaviBar);
     ui->showStatusbarCheck->setChecked(data.showStatusBar);
+    ui->customTitleBarCheck->setChecked(data.customTitleBar);
     EnableControl();
 }
 
@@ -138,6 +150,7 @@ SettingsDialog::Data SettingsDialog::GetData() const
         data.ribbonPin = true;
     data.showLeftNaviBar = ui->showLeftNaviBarCheck->isChecked();
     data.showStatusBar = ui->showStatusbarCheck->isChecked();
+    data.customTitleBar = ui->customTitleBarCheck->isChecked();
 
     return data;
 }

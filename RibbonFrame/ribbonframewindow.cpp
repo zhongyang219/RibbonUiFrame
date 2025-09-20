@@ -1,4 +1,9 @@
 ﻿#include "ribbonframewindow.h"
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#pragma comment(lib, "User32.lib")
+#include "toolkits/WinVersionHelper.h"
+#endif
 #include <QApplication>
 #include <QDebug>
 #include <QMap>
@@ -50,6 +55,9 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
 
     //设置主窗口最小大小
     setMinimumSize(DPI(400), DPI(300));
+
+    //从xml文件获取应用程序名称
+    RibbonFrameHelper::SetApplicationNameByXml(xmlPath);
 
     //载入功能区设置
     d->m_ribbonOptionData.Load();
@@ -217,6 +225,18 @@ void RibbonFrameWindow::InitUi()
             //退出程序
             QTimer::singleShot(0, qApp, &QCoreApplication::quit);
         }
+
+        //设置无边框窗口
+#ifdef Q_OS_WIN
+        if (d->m_ribbonOptionData.customTitleBar)
+        {
+            HWND hWnd = (HWND)winId();
+            LONG styles = GetWindowLong(hWnd, GWL_STYLE);
+            //去掉Windows标题栏
+            styles &= ~WS_CAPTION;
+            SetWindowLong(hWnd, GWL_STYLE, styles);
+        }
+#endif
     }
 }
 
@@ -409,11 +429,6 @@ void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
         QMessageBox::critical(this, QString(), strInfo);
         return;
     }
-
-    //获取应用程序名称
-    QString strTitle = root.attribute("appName");
-    if (!strTitle.isEmpty())
-        qApp->setApplicationName(strTitle);
 
     //设置字体
     QFont font = qApp->font();
@@ -1378,6 +1393,44 @@ void RibbonFrameWindow::closeEvent(QCloseEvent* event)
         }
     }
     QMainWindow::closeEvent(event);
+}
+
+bool RibbonFrameWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+{
+#ifdef Q_OS_WIN
+    if (eventType == "windows_generic_MSG" || eventType == "windows_dispatcher_MSG")
+    {
+        MSG *msg = static_cast<MSG*>(message);
+        switch(msg->message)
+        {
+        case WM_NCCALCSIZE:
+        {
+            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar)
+            {
+                BOOL bCalcValidRects = (BOOL)msg->wParam;
+                NCCALCSIZE_PARAMS* lpncsp = (NCCALCSIZE_PARAMS*)msg->lParam;
+                if (bCalcValidRects)
+                {
+                    //这里去掉使用了自绘标题栏时顶部的白边
+                    lpncsp->rgrc[0].top -= DPI(6);
+                }
+            }
+        }
+        break;
+        case WM_NCACTIVATE:
+        {
+            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar)
+            {
+                // 阻止默认窗口过程绘制非客户区边框
+                HWND hWnd = (HWND)winId();
+                return ::DefWindowProc(hWnd, WM_NCACTIVATE, msg->wParam, (LPARAM)-1);
+            }
+        }
+        break;
+        }
+    }
+#endif
+    return QMainWindow::nativeEvent(eventType, message, result);
 }
 
 QAction *RibbonFrameWindow::_GetAction(const QString& strCmd) const
