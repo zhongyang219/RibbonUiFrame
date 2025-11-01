@@ -364,6 +364,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="toolkits\Config.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
@@ -407,6 +408,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\MainFrame.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="toolkits\Config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

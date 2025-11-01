@@ -35,6 +35,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="toolkits">
+      <UniqueIdentifier>{afd540e7-fa9c-4ca1-a1f2-3aec0c94e27a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toolkits\Config.cpp">
+      <Filter>toolkits</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,5 +78,10 @@
     <Xml Include="res\MainFrame.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="toolkits\Config.h">
+      <Filter>toolkits</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ class MainWindow : public RibbonFrameWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr, const QStringList& cmdLine = QStringList());
+    virtual ~MainWindow();
 
 signals:
 

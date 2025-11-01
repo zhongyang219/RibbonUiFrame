@@ -375,7 +375,9 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="toolkits\WinVersionHelper.cpp" />
     <ClCompile Include="widgets\navigatewidget.cpp" />
+    <ClCompile Include="widgets\titlebarwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h" />
@@ -383,6 +385,8 @@
     <ClInclude Include="..\include\moduleinterface.h" />
     <ClInclude Include="..\include\styleinterface.h" />
     <ClInclude Include="RibbonFrameHelper.h" />
+    <ClInclude Include="toolkits\WinVersionHelper.h" />
+    <QtMoc Include="widgets\titlebarwidget.h" />
     <QtMoc Include="widgets\navigatewidget.h" />
     <QtMoc Include="modulemanagerdlg.h" />
     <ClInclude Include="resource.h" />

@@ -49,6 +49,12 @@
     <Filter Include="对话框\NavigateWidget">
       <UniqueIdentifier>{55cdc517-e84e-4de3-92b7-7373a2452072}</UniqueIdentifier>
     </Filter>
+    <Filter Include="toolkits">
+      <UniqueIdentifier>{d816d486-fa2a-4d64-829b-a2beacd4196a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框\TitlebarWidget">
+      <UniqueIdentifier>{5fa2ee57-1610-4098-bfbb-3ad7850823bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RibbonFrameHelper.cpp">
@@ -65,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="settingsdialog.cpp">
       <Filter>对话框\SettingsDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="toolkits\WinVersionHelper.cpp">
+      <Filter>toolkits</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\titlebarwidget.cpp">
+      <Filter>对话框\TitlebarWidget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="..\include\styleinterface.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkits\WinVersionHelper.h">
+      <Filter>toolkits</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +138,9 @@
     </QtMoc>
     <QtMoc Include="widgets\navigatewidget.h">
       <Filter>对话框\NavigateWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\titlebarwidget.h">
+      <Filter>对话框\TitlebarWidget</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
