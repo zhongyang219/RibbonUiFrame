@@ -535,6 +535,7 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             QString strModulePath = nodeInfo.attribute("modulePath");
 
             ModuleManagerDlg::ModuleInfo moduleInfo;
+            moduleInfo.type = ModuleManagerDlg::ModuleType::RibbonModule;
             moduleInfo.name = strTabName;
             moduleInfo.modulePath = strModulePath;
 
@@ -692,6 +693,21 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
             {
                 QDomElement pluginElement = pluginElements.at(i).toElement();
                 QString modulePath = pluginElement.attribute("path");
+
+                ModuleManagerDlg::ModuleInfo moduleInfo;
+                moduleInfo.type = ModuleManagerDlg::ModuleType::FuctionModule;
+                moduleInfo.name = QFileInfo(modulePath).baseName();
+                moduleInfo.modulePath = modulePath;
+
+                //获取图标
+                moduleInfo.icon = RibbonFrameHelper::CreateIcon(":/icon/res/plugin.png", ICON_SIZE_S);
+                if (!moduleInfo.modulePath.isEmpty())
+                    d->moduleInfoList.push_back(moduleInfo);
+
+                //如果模块被禁用，则这里不再加载模块
+                if (d->m_disabledModulePath.contains(modulePath))
+                    continue;
+
                 LoadPlugin(modulePath);
             }
         }

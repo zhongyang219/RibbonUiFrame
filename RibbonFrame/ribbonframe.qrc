@@ -3,6 +3,7 @@
         <file>res/ribbonOptionBtn.png</file>
         <file>res/settings.png</file>
         <file>res/module.png</file>
+        <file>res/plugin.png</file>
     </qresource>
     <qresource prefix="/qss"/>
 </RCC>

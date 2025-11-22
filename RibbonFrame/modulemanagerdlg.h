@@ -9,11 +9,18 @@ class ModuleManagerDlg : public QDialog
     Q_OBJECT
 
 public:
+    enum class ModuleType
+    {
+        RibbonModule,
+        FuctionModule
+    };
+
     struct ModuleInfo
     {
         QString name;
         QIcon icon;
         QString modulePath;
+        ModuleType type{};
     };
 
     ModuleManagerDlg(const QList<ModuleInfo>& moduleInfoList, QSet<QString>& disabledModulePath, QWidget *parent = nullptr);
