@@ -22,6 +22,7 @@ SOURCES += \
     ribbonframewindow.cpp \
     settingsdialog.cpp \
     toolkits/WinVersionHelper.cpp \
+    toolkits/moduletools.cpp \
     widgets/navigatewidget.cpp \
     widgets/titlebarwidget.cpp
 
@@ -35,6 +36,7 @@ HEADERS  += \
     modulemanagerdlg.h \
     settingsdialog.h \
     toolkits/WinVersionHelper.h \
+    toolkits/moduletools.h \
     widgets/navigatewidget.h \
     widgets/titlebarwidget.h
 

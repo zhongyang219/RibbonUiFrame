@@ -28,6 +28,7 @@ public:
 
 protected:
     void AddTableRow(const QIcon& icon, const QString& name, const QString& path, bool isEnabled);
+    QTreeWidgetItem* AddTreeRow(QTreeWidgetItem* parentItem, const QIcon& icon, const QString& name, const QString& path, bool isEnabled);
 
 private slots:
     void OnDisabledComboIndexChanged(int index);

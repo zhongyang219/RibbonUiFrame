@@ -78,6 +78,9 @@
     <ClCompile Include="widgets\titlebarwidget.cpp">
       <Filter>对话框\TitlebarWidget</Filter>
     </ClCompile>
+    <ClCompile Include="toolkits\moduletools.cpp">
+      <Filter>toolkits</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="toolkits\WinVersionHelper.h">
+      <Filter>toolkits</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkits\moduletools.h">
       <Filter>toolkits</Filter>
     </ClInclude>
   </ItemGroup>
