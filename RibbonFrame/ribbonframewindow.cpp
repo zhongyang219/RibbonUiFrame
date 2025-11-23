@@ -704,6 +704,10 @@ void RibbonFrameWindow::LoadMainFrameUi(const QDomElement &element)
                 if (!moduleInfo.modulePath.isEmpty())
                     d->moduleInfoList.push_back(moduleInfo);
 
+                //如果命令行参数中包含模块管理器，则不加载模块
+                if (d->IsModuleManager())
+                    continue;
+
                 //如果模块被禁用，则这里不再加载模块
                 if (d->m_disabledModulePath.contains(modulePath))
                     continue;
