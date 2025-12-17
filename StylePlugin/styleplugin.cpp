@@ -243,7 +243,7 @@ void StylePlugin::OnCommand(const char* strCmd, bool checked)
     Q_UNUSED(checked)
     if (QString(strCmd) == CMD_DefaultStyle)
     {
-        SetCurrentStyle(QString());
+        SetCurrentStyle("");
     }
 }
 
@@ -283,8 +283,9 @@ QAction *StylePlugin::AddThemeAction(const QString &name, QMenu *pMenu)
     return pAction;
 }
 
-void StylePlugin::SetCurrentStyle(const QString &styleName)
+void StylePlugin::SetCurrentStyle(const char * strStyleName)
 {
+    QString styleName = QString::fromUtf8(strStyleName);
     if (styleName != m_curStyle)
     {
         if (styleName.isEmpty())
@@ -328,13 +329,19 @@ void StylePlugin::SetCurrentStyle(const QString &styleName)
     }
 }
 
-void StylePlugin::SetThemeColor(QColor color)
+void StylePlugin::SetThemeColor(RGBColor color)
 {
-    if (m_themeColor.OriginalColor() != color)
-    {
-        m_themeColor.SetColor(color);
-        CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
-    }
+    QColor qColor(color.r, color.g, color.b);
+    SetThemeColor(qColor);
+}
+
+IRibbonStyle::RGBColor StylePlugin::GetThemeColor(int lightness)
+{
+    QColor color = m_themeColor.ChangeLightness(lightness);
+    int r = color.red();
+    int g = color.green();
+    int b = color.blue();
+    return IRibbonStyle::RGBColor(r, g, b);
 }
 
 void StylePlugin::timerEvent(QTimerEvent* event)
@@ -364,7 +371,7 @@ void StylePlugin::timerEvent(QTimerEvent* event)
                 if (style != nullptr)
                 {
                     if (style->m_strName != m_curStyle)
-                        SetCurrentStyle(style->m_strName);
+                        SetCurrentStyle(style->m_strName.toUtf8().constData());
                 }
                 lastDarkMode = isDarkMode;
             }
@@ -378,10 +385,10 @@ void StylePlugin::OnStyleActionTriggered(bool)
     if (pAction != nullptr)
     {
         //如果选择的主题的深色/浅色类型和当前系统不一致，则取消“跟随Windows深色/浅色主题”的勾选
-        if (!IsStyleMatchSystemColorMode(pAction->text()))
+        if (!IsStyleMatchSystemColorMode(pAction->text().toUtf8().constData()))
             m_followSystemColorModeAction->setChecked(false);
             
-        SetCurrentStyle(pAction->text());
+        SetCurrentStyle(pAction->text().toUtf8().constData());
     }
 }
 
@@ -419,31 +426,35 @@ void StylePlugin::OnCustomThemeColor()
     }
 }
 
-void StylePlugin::GetAllStyleNames(QStringList& styleNames)
+void StylePlugin::GetAllStyleNames(std::vector<std::string>& styleNames)
 {
     styleNames.clear();
     //添加所有主题
     auto allStyles = CStyleManager::Instance()->GetAllStyles();
     for (const auto& style : allStyles)
     {
-        styleNames.push_back(style->m_strName);
+        styleNames.push_back(style->m_strName.toUtf8().constData());
     }
     //添加平台支持的主题
     auto platformSupportedStyles = QStyleFactory::keys();
     for (const auto& style : platformSupportedStyles)
     {
-        styleNames.push_back(style);
+        styleNames.push_back(style.toUtf8().constData());
     }
 }
 
-QString StylePlugin::GetCurrentStyle()
+const char* StylePlugin::GetCurrentStyle()
 {
-    return m_curStyle;
+    return m_curStyle.toUtf8().constData();
 }
 
-QColor StylePlugin::GetThemeColor()
+IRibbonStyle::RGBColor StylePlugin::GetThemeColor()
 {
-    return m_themeColor.OriginalColor();
+    int r = m_themeColor.OriginalColor().red();
+    int g = m_themeColor.OriginalColor().green();
+    int b = m_themeColor.OriginalColor().blue();
+
+    return IRibbonStyle::RGBColor(r, g, b);
 }
 
 void StylePlugin::SetFollowingSystemThemeColor(bool followingSystemThemeColor)
@@ -466,12 +477,21 @@ bool StylePlugin::IsFollowingSystemColorMode()
     return m_followSystemColorModeAction->isChecked();
 }
 
-bool StylePlugin::IsStyleMatchSystemColorMode(const QString& styleName)
+bool StylePlugin::IsStyleMatchSystemColorMode(const char *styleName)
 {
     //获取当前主题的深色/浅色类型
     CStyleManager::CStyle* style = CStyleManager::Instance()->GetStyle(styleName);
     bool isStyleDark = (style != nullptr && style->m_type == CStyleManager::CStyle::Dark);
     return (isStyleDark == IsWindowsDarkColorMode());
+}
+
+void StylePlugin::SetThemeColor(QColor color)
+{
+    if (m_themeColor.OriginalColor() != color)
+    {
+        m_themeColor.SetColor(color);
+        CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
+    }
 }
 
 IModule* CreateInstance()

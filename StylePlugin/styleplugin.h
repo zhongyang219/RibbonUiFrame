@@ -57,16 +57,19 @@ private:
     StyleEventFilter darkTitleBarFilter;
 
     // 通过 IRibbonStyle 继承
-    void GetAllStyleNames(QStringList& styleNames) override;
-    QString GetCurrentStyle() override;
-    void SetCurrentStyle(const QString& styleName) override;
-    QColor GetThemeColor() override;
-    void SetThemeColor(QColor color) override;
-    void SetFollowingSystemThemeColor(bool followingSystemThemeColor) override;
-    bool IsFollowingSystemThemeColor() override;
-    void SetFollowingSystemColorMode(bool followingSystemColorMode) override;
-    bool IsFollowingSystemColorMode() override;
-    virtual bool IsStyleMatchSystemColorMode(const QString& styleName) override;
+    virtual void GetAllStyleNames(std::vector<std::string>& styleNames) override;
+    virtual const char* GetCurrentStyle() override;
+    virtual void SetCurrentStyle(const char* styleName) override;
+    virtual RGBColor GetThemeColor() override;
+    virtual RGBColor GetThemeColor(int lightness) override;
+    virtual void SetThemeColor(RGBColor color) override;
+    virtual void SetFollowingSystemThemeColor(bool followingSystemThemeColor) override;
+    virtual bool IsFollowingSystemThemeColor() override;
+    virtual void SetFollowingSystemColorMode(bool followingSystemColorMode) override;
+    virtual bool IsFollowingSystemColorMode() override;
+    virtual bool IsStyleMatchSystemColorMode(const char* styleName) override;
+
+    void SetThemeColor(QColor color);
 };
 
 #ifdef __cplusplus

@@ -77,12 +77,13 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
     {
         //初始化主题下拉列表
         ui->selectStyleCombo->setView(new QListView);
-        QStringList styleNameList;
+        std::vector<std::string> styleNameList;
         m_ribbonStyle->GetAllStyleNames(styleNameList);
         ui->selectStyleCombo->addItem(u8"默认主题");        //添加默认主题
         for (const auto& styleName : styleNameList)
         {
-            ui->selectStyleCombo->addItem(styleName, styleName);
+            QString strStyleName = QString::fromUtf8(styleName.c_str());
+            ui->selectStyleCombo->addItem(strStyleName, strStyleName);
         }
         ui->selectStyleCombo->setCurrentText(m_ribbonStyle->GetCurrentStyle());
         connect(ui->selectStyleCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnThemeComboboxIndexChanged(int)));
@@ -90,7 +91,8 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
         ui->followSystemColorModeCheck->setChecked(m_ribbonStyle->IsFollowingSystemColorMode());
 
         //添加当前颜色控件
-        m_curColor = new ColorIndicatorWidget(m_ribbonStyle->GetThemeColor(), u8"当前的主题颜色", this);
+        IRibbonStyle::RGBColor themeColor = m_ribbonStyle->GetThemeColor();
+        m_curColor = new ColorIndicatorWidget(QColor(themeColor.r, themeColor.g, themeColor.b), u8"当前的主题颜色", this);
         m_curColor->setFixedSize(QSize(DPI(28), DPI(22)));
         ui->themeColorHLayout->insertWidget(0, m_curColor);
 
@@ -171,9 +173,10 @@ void SettingsDialog::accept()
     //点击确定时保存主题设置
     if (m_ribbonStyle != nullptr)
     {
-        m_ribbonStyle->SetCurrentStyle(ui->selectStyleCombo->currentData().toString());
+        m_ribbonStyle->SetCurrentStyle(ui->selectStyleCombo->currentData().toString().toUtf8().constData());
         m_ribbonStyle->SetFollowingSystemColorMode(ui->followSystemColorModeCheck->isChecked());
-        m_ribbonStyle->SetThemeColor(m_curColor->GetColor());
+        IRibbonStyle::RGBColor themeColor(m_curColor->GetColor().red(), m_curColor->GetColor().green(), m_curColor->GetColor().blue());
+        m_ribbonStyle->SetThemeColor(themeColor);
         m_ribbonStyle->SetFollowingSystemThemeColor(ui->followSystemThemeColorCheck->isChecked());
     }
 
@@ -189,7 +192,8 @@ void SettingsDialog::OnBorwseThemeColor()
 {
     if (m_ribbonStyle != nullptr)
     {
-        QColorDialog dlg(m_ribbonStyle->GetThemeColor());
+        IRibbonStyle::RGBColor themeColor = m_ribbonStyle->GetThemeColor();
+        QColorDialog dlg(QColor(themeColor.r, themeColor.g, themeColor.b));
         if (dlg.exec() == QDialog::Accepted)
         {
             OnSetCurThemeColor(dlg.currentColor());
@@ -208,7 +212,7 @@ void SettingsDialog::OnThemeComboboxIndexChanged(int index)
     if (m_ribbonStyle != nullptr)
     {
         QString curStyle = ui->selectStyleCombo->currentData().toString();
-        if (!m_ribbonStyle->IsStyleMatchSystemColorMode(curStyle))
+        if (!m_ribbonStyle->IsStyleMatchSystemColorMode(curStyle.toUtf8().constData()))
         {
             ui->followSystemColorModeCheck->setChecked(false);
         }
