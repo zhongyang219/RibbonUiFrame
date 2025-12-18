@@ -491,6 +491,8 @@ void StylePlugin::SetThemeColor(QColor color)
     {
         m_themeColor.SetColor(color);
         CStyleManager::Instance()->ApplyStyleSheet(m_curStyle, nullptr, &m_themeColor);
+        IRibbonStyle::RGBColor rgbColor(color.red(), color.green(), color.blue());
+        m_pMainFrame->SendModuleMessage(nullptr, MODULE_MSG_ThemeColorChanged, (void*)&rgbColor);
     }
 }
 

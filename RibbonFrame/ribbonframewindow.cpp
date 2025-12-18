@@ -1622,8 +1622,10 @@ void *RibbonFrameWindow::SendModuleMessage(const char *moduleName, const char *m
         Q_FOREACH(IModule* pModule, d->m_moduleNameMap)
         {
             if (pModule != nullptr)
-                return pModule->OnMessage(msgType, para1, para2);
+                pModule->OnMessage(msgType, para1, para2);
         }
+        //向所有模块发送时，不获取返回值
+        return nullptr;
     }
     //否则向指定模块发送
     else
