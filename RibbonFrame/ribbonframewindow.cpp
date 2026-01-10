@@ -1310,7 +1310,7 @@ bool RibbonFrameWindow::OnCommand(const QString &strCmd, bool checked)
     }
     else if (strCmd == CMD_ModuleManager)
     {
-        ModuleManagerDlg dlg(d->moduleInfoList, d->m_disabledModulePath);
+        ModuleManagerDlg dlg(d->moduleInfoList, d->m_disabledModulePath, this);
         dlg.exec();
     }
     return false;

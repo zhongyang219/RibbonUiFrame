@@ -42,7 +42,7 @@ ModuleManagerDlg::ModuleManagerDlg(const QList<ModuleInfo>& moduleInfoList, QSet
             switch (moduleInfo.type)
             {
             case ModuleManagerDlg::ModuleType::RibbonModule:
-                strTypeName = u8"Ribbon模块";
+                strTypeName = u8"UI模块";
                 break;
             case ModuleManagerDlg::ModuleType::FuctionModule:
                 strTypeName = u8"功能模块";
