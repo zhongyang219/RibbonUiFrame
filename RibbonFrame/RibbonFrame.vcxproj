@@ -144,7 +144,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>release\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;RIBBONFRAME_LIBRARY;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;RIBBONFRAME_LIBRARY;QX_FRAMELESS_LIBRARY;QX_FRAMELESS_NATIVE;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>
       </ProgramDataBaseFileName>
@@ -262,7 +262,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>debug\</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;RIBBONFRAME_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;RIBBONFRAME_LIBRARY;QX_FRAMELESS_LIBRARY;QX_FRAMELESS_NATIVE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -363,6 +363,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="modulemanagerdlg.cpp" />
+    <ClCompile Include="qxframeless\framelesshelper.cpp" />
     <ClCompile Include="RibbonFrameHelper.cpp" />
     <ClCompile Include="ribbonframewindow.cpp" />
     <ClCompile Include="settingsdialog.cpp">
@@ -385,6 +386,9 @@
     <ClInclude Include="..\include\mainframeinterface.h" />
     <ClInclude Include="..\include\moduleinterface.h" />
     <ClInclude Include="..\include\styleinterface.h" />
+    <QtMoc Include="qxframeless\framelesshelper.h" />
+    <QtMoc Include="qxframeless\framelesshelper_p.h" />
+    <ClInclude Include="qxframeless\qxframeless_global.h" />
     <ClInclude Include="RibbonFrameHelper.h" />
     <ClInclude Include="toolkits\moduletools.h" />
     <ClInclude Include="toolkits\WinVersionHelper.h" />

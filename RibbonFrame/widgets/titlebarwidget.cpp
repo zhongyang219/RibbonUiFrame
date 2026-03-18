@@ -119,57 +119,6 @@ QFrame *TitleBarWidget::CreateSpacingLine()
     return line;
 }
 
-
-void TitleBarWidget::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        m_pressedPos = event->globalPos();
-        m_isPressed = true;
-    }
-}
-
-void TitleBarWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        m_isPressed = false;
-    }
-}
-
-void TitleBarWidget::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)      //双击时最大化/还原窗口
-    {
-        QWidget *pWindow = this->window();
-        pWindow->isMaximized() ? pWindow->showNormal() : pWindow->showMaximized();
-    }
-}
-
-void TitleBarWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (m_isPressed && m_pMainWindow != nullptr)
-    {
-        bool maximized = m_pMainWindow->isMaximized();
-        QPoint curPos = event->globalPos();
-//#ifdef Q_OS_WIN
-//        if (maximized)
-//        {
-//            m_pMainWindow->showNormal();
-//        }
-//        m_pMainWindow->move(m_pMainWindow->pos() + curPos - m_pressedPos);
-//        m_pressedPos = curPos;
-//#else
-        if (!maximized)
-        {
-            m_pMainWindow->move(m_pMainWindow->pos() + curPos - m_pressedPos);
-            m_pressedPos = curPos;
-        }
-//#endif
-    }
-}
-
-
 bool TitleBarWidget::eventFilter(QObject *watched, QEvent *event)
 {
     QWidget *pWidget = qobject_cast<QWidget *>(watched);

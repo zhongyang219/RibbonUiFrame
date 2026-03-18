@@ -55,6 +55,9 @@
     <Filter Include="对话框\TitlebarWidget">
       <UniqueIdentifier>{5fa2ee57-1610-4098-bfbb-3ad7850823bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="qxframeless">
+      <UniqueIdentifier>{6e039464-f193-42bd-8fa2-b616d1aa221e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RibbonFrameHelper.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="toolkits\moduletools.cpp">
       <Filter>toolkits</Filter>
     </ClCompile>
+    <ClCompile Include="qxframeless\framelesshelper.cpp">
+      <Filter>qxframeless</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h">
@@ -106,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="toolkits\moduletools.h">
       <Filter>toolkits</Filter>
+    </ClInclude>
+    <ClInclude Include="qxframeless\qxframeless_global.h">
+      <Filter>qxframeless</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +156,12 @@
     </QtMoc>
     <QtMoc Include="widgets\titlebarwidget.h">
       <Filter>对话框\TitlebarWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="qxframeless\framelesshelper.h">
+      <Filter>qxframeless</Filter>
+    </QtMoc>
+    <QtMoc Include="qxframeless\framelesshelper_p.h">
+      <Filter>qxframeless</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

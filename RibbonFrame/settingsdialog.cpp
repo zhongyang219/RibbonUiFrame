@@ -43,7 +43,8 @@ void SettingsDialog::Data::Load()
     showStatusBar = settings.value("showStatusBar", true).toBool();
 #ifdef Q_OS_WIN
     //仅Windows下实现了使用自定义标题栏
-    // customTitleBar = settings.value("customTitleBar", false).toBool();
+    customTitleBar = settings.value("customTitleBar", false).toBool();
+#else
     customTitleBar = false; //功能未完善，先隐藏此选项
 #endif
 }
@@ -66,12 +67,6 @@ SettingsDialog::SettingsDialog(IRibbonStyle* ribbonStyle, QWidget *parent) :
     ui->showWhenTabClickedComboBox->addItem(u8"无");
     ui->showWhenTabClickedComboBox->addItem(u8"显示功能区");
     ui->showWhenTabClickedComboBox->addItem(u8"显示菜单");
-
-    ui->customTitleBarCheck->setEnabled(false);
-
-#ifndef Q_OS_WIN
-    ui->customTitleBarCheck->setEnabled(false);
-#endif
 
     if (m_ribbonStyle != nullptr)
     {

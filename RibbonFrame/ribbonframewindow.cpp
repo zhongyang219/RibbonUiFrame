@@ -43,6 +43,7 @@
 #include "settingsdialog.h"
 #include "modulemanagerdlg.h"
 #include "RibbonFrameHelper.h"
+#include "qxframeless/framelesshelper.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,13 +239,12 @@ void RibbonFrameWindow::InitUi()
 #ifdef Q_OS_WIN
         if (d->m_ribbonOptionData.customTitleBar)
         {
-            HWND hWnd = (HWND)winId();
-            LONG styles = GetWindowLong(hWnd, GWL_STYLE);
-            //去掉Windows标题栏
-            styles &= ~WS_CAPTION;
-            SetWindowLong(hWnd, GWL_STYLE, styles);
             //显示自定义标题栏
             d->m_pTitleBar->show();
+            QxFrameless::FramelessHelper *helper = new QxFrameless::FramelessHelper(this);
+            helper->addCaptionClassName("QLabel");
+            helper->setTitleHeight(d->m_pTitleBar->height());
+            helper->setBorderWidth(DPI(6));
         }
 #endif
     }
@@ -1426,44 +1426,6 @@ void RibbonFrameWindow::closeEvent(QCloseEvent* event)
         }
     }
     QMainWindow::closeEvent(event);
-}
-
-bool RibbonFrameWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
-{
-#ifdef Q_OS_WIN
-    if (eventType == "windows_generic_MSG" || eventType == "windows_dispatcher_MSG")
-    {
-        MSG *msg = static_cast<MSG*>(message);
-        switch(msg->message)
-        {
-        case WM_NCCALCSIZE:
-        {
-            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar && !isMaximized())
-            {
-                BOOL bCalcValidRects = (BOOL)msg->wParam;
-                NCCALCSIZE_PARAMS* lpncsp = (NCCALCSIZE_PARAMS*)msg->lParam;
-                if (bCalcValidRects)
-                {
-                    //这里去掉使用了自绘标题栏时顶部的白边
-                    lpncsp->rgrc[0].top -= DPI(6);
-                }
-            }
-        }
-        break;
-        case WM_NCACTIVATE:
-        {
-            if (CWinVersionHelper::IsWindows10OrLater() && d->m_ribbonOptionData.customTitleBar)
-            {
-                // 阻止默认窗口过程绘制非客户区边框
-                HWND hWnd = (HWND)winId();
-                return ::DefWindowProc(hWnd, WM_NCACTIVATE, msg->wParam, (LPARAM)-1);
-            }
-        }
-        break;
-        }
-    }
-#endif
-    return QMainWindow::nativeEvent(eventType, message, result);
 }
 
 QAction *RibbonFrameWindow::_GetAction(const QString& strCmd) const

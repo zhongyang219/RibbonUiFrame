@@ -42,18 +42,6 @@ private:
     QLabel* m_pIconLabel;
     QLabel* m_pTitleLabel;
 
-    // 鼠标拖动
-    QPoint m_pressedPos;
-    bool m_isPressed;
-
-
-    // QWidget interface
-protected:
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QMouseEvent *event) override;
-    virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;
-
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;

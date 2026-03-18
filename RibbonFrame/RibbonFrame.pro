@@ -64,3 +64,5 @@ win32-msvc* {
 FORMS += \
     modulemanagerdlg.ui \
     settingsdialog.ui
+
+include($$PWD/qxframeless/qxframeless-lib.pri)
