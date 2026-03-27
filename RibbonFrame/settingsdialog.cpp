@@ -41,12 +41,12 @@ void SettingsDialog::Data::Load()
 //    showLeftNaviBar = true;
 //#endif
     showStatusBar = settings.value("showStatusBar", true).toBool();
-#ifdef Q_OS_WIN
-    //仅Windows下实现了使用自定义标题栏
+//#ifdef Q_OS_WIN
+//    //仅Windows下实现了使用自定义标题栏
     customTitleBar = settings.value("customTitleBar", false).toBool();
-#else
-    customTitleBar = false; //功能未完善，先隐藏此选项
-#endif
+//#else
+//    customTitleBar = false; //功能未完善，先隐藏此选项
+//#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////

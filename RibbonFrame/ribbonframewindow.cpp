@@ -72,11 +72,11 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
     pCentralWidget->setLayout(pLayout);
     setCentralWidget(pCentralWidget);
     //添加自定义标题栏
-#ifdef Q_OS_WIN
+//#ifdef Q_OS_WIN
     pLayout->addWidget(d->m_pTitleBar = new TitleBarWidget(this));
     installEventFilter(d->m_pTitleBar);
     d->m_pTitleBar->hide();
-#endif
+//#endif
 
     if (d->showLeftNaviBar)
     {
@@ -236,7 +236,7 @@ void RibbonFrameWindow::InitUi()
         }
 
         //设置无边框窗口
-#ifdef Q_OS_WIN
+//#ifdef Q_OS_WIN
         if (d->m_ribbonOptionData.customTitleBar)
         {
             //显示自定义标题栏
@@ -246,7 +246,7 @@ void RibbonFrameWindow::InitUi()
             helper->setTitleHeight(d->m_pTitleBar->height());
             helper->setBorderWidth(DPI(6));
         }
-#endif
+//#endif
     }
 }
 
