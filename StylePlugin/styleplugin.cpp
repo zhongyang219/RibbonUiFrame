@@ -445,7 +445,9 @@ void StylePlugin::GetAllStyleNames(std::vector<std::string>& styleNames)
 
 const char* StylePlugin::GetCurrentStyle()
 {
-    return m_curStyle.toUtf8().constData();
+    static std::string curStyle;
+    curStyle = m_curStyle.toUtf8().constData();
+    return curStyle.c_str();
 }
 
 IRibbonStyle::RGBColor StylePlugin::GetThemeColor()

@@ -104,7 +104,7 @@
        <item>
         <widget class="QCheckBox" name="customTitleBarCheck">
          <property name="text">
-          <string>使用自定义标题栏</string>
+          <string>使用自定义标题栏（需要重新启动）</string>
          </property>
         </widget>
        </item>
