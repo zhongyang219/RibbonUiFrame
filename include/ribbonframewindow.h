@@ -125,12 +125,18 @@ protected:
      */
     virtual QWidget* CreateUserWidget(const QString& strId, QWidget* pParent = nullptr) { return nullptr; }
 
+    /**
+     * @brief       更新窗口边框（仅使用自绘标题栏时有效）
+     */
+    void UpdateWindowFrame();
+
 private:
     RibbonFramePrivate* d;        //私有成员变量
 
     // QWidget interface
 protected:
     virtual void closeEvent(QCloseEvent*) override;
+    void changeEvent(QEvent *) override;
 
     // IMainFrame interface
 public:

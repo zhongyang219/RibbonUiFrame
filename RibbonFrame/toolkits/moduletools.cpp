@@ -1,21 +1,23 @@
 ﻿#include "moduletools.h"
 #include "mainframeinterface.h"
 #include "ribbonuipredefine.h"
-#include <QMainWindow>
 #include <QApplication>
+#include <QWidget>
 
 CModuleTools::CModuleTools()
 {
 
 }
 
-QMainWindow *CModuleTools::GetMainWindow()
+IMainFrame *CModuleTools::GetMainWindow()
 {
     Q_FOREACH (QWidget* w, qApp->topLevelWidgets())
     {
-        QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(w);
+        IMainFrame* pMainWindow = dynamic_cast<IMainFrame*>(w);
         if (pMainWindow != nullptr)
+        {
             return pMainWindow;
+        }
     }
     return nullptr;
 
@@ -23,7 +25,7 @@ QMainWindow *CModuleTools::GetMainWindow()
 
 bool CModuleTools::IsDarkTheme()
 {
-    IMainFrame *pMainFrame = dynamic_cast<IMainFrame*>(GetMainWindow());
+    IMainFrame *pMainFrame = GetMainWindow();
     if (pMainFrame != nullptr)
     {
         return (bool)pMainFrame->SendModuleMessage("StylePlugin", MODULE_MSG_IsDarkTheme);

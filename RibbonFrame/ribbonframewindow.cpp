@@ -2,7 +2,6 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #pragma comment(lib, "User32.lib")
-#include "toolkits/WinVersionHelper.h"
 #endif
 #include <QApplication>
 #include <QDebug>
@@ -236,7 +235,6 @@ void RibbonFrameWindow::InitUi()
         }
 
         //设置无边框窗口
-//#ifdef Q_OS_WIN
         if (d->m_ribbonOptionData.customTitleBar)
         {
             //显示自定义标题栏
@@ -245,8 +243,10 @@ void RibbonFrameWindow::InitUi()
             helper->addCaptionClassName("QLabel");
             helper->setTitleHeight(d->m_pTitleBar->height());
             helper->setBorderWidth(DPI(6));
+
+            //设置窗口边框
+            UpdateWindowFrame();
         }
-//#endif
     }
 }
 
@@ -1428,6 +1428,14 @@ void RibbonFrameWindow::closeEvent(QCloseEvent* event)
     QMainWindow::closeEvent(event);
 }
 
+void RibbonFrameWindow::changeEvent(QEvent * e)
+{
+    if (e->type() == QEvent::WindowStateChange)
+    {
+        UpdateWindowFrame();
+    }
+}
+
 QAction *RibbonFrameWindow::_GetAction(const QString& strCmd) const
 {
     auto iter = d->m_actionMap.find(strCmd);
@@ -1496,6 +1504,49 @@ void RibbonFrameWindow::SetDefaultWidget(QWidget* pWidget)
     d->m_pStackedWidget->addWidget(pWidget);
     d->m_pDefaultWidget = pWidget;
     OnTabIndexChanged(GetTabIndex());
+}
+
+void RibbonFrameWindow::UpdateWindowFrame()
+{
+    if (d->m_ribbonOptionData.customTitleBar)
+    {
+        static int lastMaximized = -1;
+        int maximized = isMaximized();
+        if (lastMaximized != maximized)
+        {
+            lastMaximized = maximized;
+            if (!maximized)
+            {
+                //获取主题颜色
+                QColor borderColor = QColor("#B4B4B4");
+                if (d->m_ribbonStyle != nullptr)
+                {
+                    auto themeColor = d->m_ribbonStyle->GetThemeColor();
+                    borderColor = QColor(themeColor.r, themeColor.g, themeColor.b);
+                }
+                //边框宽度
+                int borderWidth = DPI(1);
+                //设置窗口边框
+                QString style = QString("RibbonFrameWindow { border:%1px solid %2; }").arg(borderWidth).arg(borderColor.name());
+                setStyleSheet(style);
+                auto* pLayout = centralWidget()->layout();
+                if (pLayout != nullptr)
+                    pLayout->setContentsMargins(1, 1, 1, 1);
+                QStatusBar* statusbar = statusBar();
+                if (statusbar != nullptr)
+                {
+                    QString statusStyle = QString("QStatusBar { border:%1px solid %2; border-top: none; }").arg(borderWidth).arg(borderColor.name());
+                    statusbar->setStyleSheet(statusStyle);
+                }
+            }
+            else
+            {
+                auto* pLayout = centralWidget()->layout();
+                if (pLayout != nullptr)
+                    pLayout->setContentsMargins(0, 0, 0, 0);
+            }
+        }
+    }
 }
 
 IModule *RibbonFrameWindow::GetModule(const char *strModuleName) const
@@ -1570,12 +1621,18 @@ bool RibbonFrameWindow::IsItemChecked(const char *strCmd)
 
 void *RibbonFrameWindow::SendModuleMessage(const char *moduleName, const char *msgType, void *para1, void *para2)
 {
+    QString strMsgType = QString::fromUtf8(msgType);
     //响应主题变化
-    if (QString::fromUtf8(msgType) == MODULE_MSG_StyleChanged)
+    if (strMsgType == MODULE_MSG_StyleChanged)
     {
         //主题变化时，如果功能区未显示，则重新调用ShowHideRibbon函数以更新ribbon标签的高度
         if (!d->m_ribbonOptionData.ribbonPin)
             SetRibbonPin(false);
+    }
+    //响应主题颜色变化
+    else if (strMsgType == MODULE_MSG_ThemeColorChanged)
+    {
+        UpdateWindowFrame();
     }
 
     //如果模块名为空，则向所有模块发送
