@@ -107,6 +107,7 @@ release
 *.pro.user
 *.pro.user.*
 *.moc
+/.DS_Store
 moc_*.cpp
 qrc_*.cpp
 ui_*.h

@@ -38,6 +38,8 @@ public:
     static bool IsActionTag(const QString& tagName);
 
     static bool SetApplicationNameByXml(QString xmlPath);
+
+    static QString GetApplicationDirPath();
 };
 
 //保存主窗口的私有成员变量

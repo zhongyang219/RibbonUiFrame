@@ -4,6 +4,8 @@
 #include <QFileInfo>
 #include <QDebug>
 #include <QSettings>
+#include <QtGlobal>
+#include <QDir>
 
 bool RibbonFrameHelper::GetAttributeBool(const QDomElement& element, const QString& attr, bool defaultVal)
 {
@@ -88,7 +90,7 @@ QIcon RibbonFrameHelper::CreateIcon(QString strPath, int size)
     {
         //如果图标路径不是资源路径且文件不存在，则在路径前面加上应用程序目录
         if (!strPath.startsWith(":/") && !QFileInfo(strPath).isFile())
-            strPath = qApp->applicationDirPath() + '/' + strPath;
+            strPath = GetApplicationDirPath() + '/' + strPath;
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
             return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
@@ -111,7 +113,7 @@ bool RibbonFrameHelper::IsActionTag(const QString& tagName)
 bool RibbonFrameHelper::SetApplicationNameByXml(QString xmlPath)
 {
     if (xmlPath.isEmpty())
-        xmlPath = qApp->applicationDirPath() + "/MainFrame.xml";
+        xmlPath = GetApplicationDirPath() + "/MainFrame.xml";
     QFile file(xmlPath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
         return false;
@@ -132,6 +134,20 @@ bool RibbonFrameHelper::SetApplicationNameByXml(QString xmlPath)
     return false;
 }
 
+QString RibbonFrameHelper::GetApplicationDirPath()
+{
+    QString path = QCoreApplication::applicationDirPath();
+#ifdef Q_OS_MACOS
+    // macOS: appName.app/Contents/MacOS -> appName.app -> 应用所在目录
+    QDir dir(path);
+    dir.cdUp();  // Contents/MacOS -> Contents
+    dir.cdUp();  // Contents -> appName.app
+    dir.cdUp();  // appName.app -> 应用程序所在目录
+    path = dir.absolutePath();
+#endif
+    return path;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RibbonFramePrivate::RibbonFramePrivate(const QStringList& cmdLine)
@@ -149,7 +165,12 @@ void RibbonFramePrivate::LoadConfig()
 {
     //载入已禁用模块设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+    auto pathList = settings.value("disabledModulePath").toStringList();
+    m_disabledModulePath = QSet<QString>(pathList.constBegin(), pathList.constEnd());
+#else
     m_disabledModulePath = settings.value("disabledModulePath").toStringList().toSet();
+#endif
     //恢复导航栏的宽度
     if (m_pNaviSplitter != nullptr)
     {
@@ -170,7 +191,8 @@ void RibbonFramePrivate::SaveConfig() const
 {
     //保存禁用插件设置
     QSettings settings(SCOPE_NAME, qApp->applicationName());
-    settings.setValue("disabledModulePath", QStringList(m_disabledModulePath.toList()));
+    QStringList pathList = QStringList(m_disabledModulePath.constBegin(), m_disabledModulePath.constEnd());
+    settings.setValue("disabledModulePath", pathList);
     //保存导航栏的宽度
     if (m_pNaviSplitter != nullptr && !m_pNaviSplitter->sizes().isEmpty())
     {
