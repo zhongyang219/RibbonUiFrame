@@ -19,7 +19,7 @@ ModuleManagerDlg::ModuleManagerDlg(const QList<ModuleInfo>& moduleInfoList, QSet
 {
     ui.setupUi(this);
     if (layout() != nullptr)
-        layout()->setMargin(DPI(8));
+        layout()->setContentsMargins(DPI(8), DPI(8), DPI(8), DPI(8));
     resize(DPI(480), DPI(350));
 
     ui.treeWidget->setColumnCount(COL_MAX);

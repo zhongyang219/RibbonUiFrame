@@ -419,7 +419,7 @@ void RibbonFrameWindow::FocusChanged(QWidget *old, QWidget *now)
 void RibbonFrameWindow::LoadUIFromXml(QString xmlPath)
 {
     if (xmlPath.isEmpty())
-        xmlPath = qApp->applicationDirPath() + "/MainFrame.xml";
+        xmlPath = RibbonFrameHelper::GetApplicationDirPath() + "/MainFrame.xml";
     QFile file(xmlPath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {

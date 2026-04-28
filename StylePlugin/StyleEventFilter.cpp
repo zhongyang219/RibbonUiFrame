@@ -8,7 +8,12 @@
 #include "styleplugin.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+bool StyleEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
+#else
 bool StyleEventFilter::nativeEventFilter(const QByteArray& eventType, void* message, long* result)
+#endif
+
 {
 #ifdef Q_OS_WIN
     if (eventType == "windows_generic_MSG")

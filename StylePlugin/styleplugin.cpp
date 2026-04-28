@@ -12,6 +12,7 @@
 #include "ribbonuipredefine.h"
 #include <QTimerEvent>
 #include <QProcess>
+#include <QStyleHints>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_STYLE_KEY "windowsvista"
@@ -93,8 +94,10 @@ static bool IsWindowsDarkColorMode()
     process.waitForFinished();
     QString output = process.readAllStandardOutput().trimmed();
     return (output.contains("dark", Qt::CaseInsensitive));
+#else
+    auto colorScheme = QGuiApplication::styleHints()->colorScheme();
+    return colorScheme == Qt::ColorScheme::Dark;
 #endif
-    return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
