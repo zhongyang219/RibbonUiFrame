@@ -245,7 +245,7 @@ void RibbonFrameWindow::InitUi()
             helper->setBorderWidth(DPI(6));
 
             //设置窗口边框
-            UpdateWindowFrame();
+            UpdateWindowFrame(true);
         }
     }
 }
@@ -1432,7 +1432,7 @@ void RibbonFrameWindow::changeEvent(QEvent * e)
 {
     if (e->type() == QEvent::WindowStateChange)
     {
-        UpdateWindowFrame();
+        UpdateWindowFrame(false);
     }
 }
 
@@ -1506,13 +1506,13 @@ void RibbonFrameWindow::SetDefaultWidget(QWidget* pWidget)
     OnTabIndexChanged(GetTabIndex());
 }
 
-void RibbonFrameWindow::UpdateWindowFrame()
+void RibbonFrameWindow::UpdateWindowFrame(bool force)
 {
     if (d->m_ribbonOptionData.customTitleBar)
     {
-        static int lastMaximized = -1;
-        int maximized = isMaximized();
-        if (lastMaximized != maximized)
+        static bool lastMaximized = false;
+        bool maximized = isMaximized();
+        if (lastMaximized != maximized || force)
         {
             lastMaximized = maximized;
             if (!maximized)
@@ -1632,7 +1632,7 @@ void *RibbonFrameWindow::SendModuleMessage(const char *moduleName, const char *m
     //响应主题颜色变化
     else if (strMsgType == MODULE_MSG_ThemeColorChanged)
     {
-        UpdateWindowFrame();
+        UpdateWindowFrame(true);
     }
 
     //如果模块名为空，则向所有模块发送
