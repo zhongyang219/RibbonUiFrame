@@ -38,6 +38,7 @@
 #include <QSplitter>
 #include <QTimer>
 #include <QSet>
+#include <QMenuBar>
 #include "ribbonuipredefine.h"
 #include "settingsdialog.h"
 #include "modulemanagerdlg.h"
@@ -157,6 +158,28 @@ RibbonFrameWindow::RibbonFrameWindow(QWidget *parent, const QString& xmlPath, bo
 
     if (!initUiManual)
         InitUi();
+
+    //macos设置系统菜单
+#ifdef Q_OS_MACOS
+    QMenu *appMenu = menuBar()->addMenu(u8"选项");
+    appMenu->addAction(d->actionModuleManage);
+    appMenu->addAction(d->actionRibbonOptions);
+    d->actionModuleManage->setMenuRole(QAction::ApplicationSpecificRole);
+    d->actionRibbonOptions->setMenuRole(QAction::PreferencesRole);
+    QAction* aboutAction = _GetAction("AppAbout");
+    if (aboutAction != nullptr)
+    {
+        appMenu->addAction(aboutAction);
+        aboutAction->setMenuRole(QAction::AboutRole);
+    }
+    QAction* aboutQtAction = _GetAction("AppAboutQt");
+    if (aboutAction != nullptr)
+    {
+        appMenu->addAction(aboutQtAction);
+        aboutQtAction->setMenuRole(QAction::AboutQtRole);
+    }
+
+#endif
 }
 
 RibbonFrameWindow::~RibbonFrameWindow()
@@ -210,7 +233,7 @@ void RibbonFrameWindow::InitUi()
             connect(d->m_pTabWidget, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(OnTabBarDoubleClicked(int)));
         }
 
-        QObject::connect(qApp, &QApplication::focusChanged, this, &RibbonFrameWindow::FocusChanged);
+        QObject::connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(FocusChanged(QWidget*, QWidget*)));
 
         //为“关于Qt”命令设置图标
         QIcon qtIcon = QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton);
