@@ -128,7 +128,7 @@ protected:
     /**
      * @brief       更新窗口边框（仅使用自绘标题栏时有效）
      */
-    void UpdateWindowFrame();
+    void UpdateWindowFrame(bool force);
 
 private:
     RibbonFramePrivate* d;        //私有成员变量
