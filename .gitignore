@@ -123,3 +123,5 @@ Makefile*
 /bin
 *.qtvscr
 build
+.idea
+
