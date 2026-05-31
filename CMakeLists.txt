@@ -3,6 +3,6 @@ project(RibbonFrameDemo LANGUAGES CXX)
 
 add_subdirectory(RibbonFrame)
 add_subdirectory(StylePlugin)
-# add_subdirectory(TestModule)
+add_subdirectory(TestModule)
 add_subdirectory(MainApp)
 # add_subdirectory(OfficeStyleApp)

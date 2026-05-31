@@ -15,6 +15,10 @@ CMainWidget::CMainWidget(QMainWindow *parent) :
     ui(new Ui::CMainWidget)
 {
     ui->setupUi(this);
+#ifdef Q_OS_MACOS
+    //macOS下移除模块的菜单栏，使用框架的菜单栏
+    this->setMenuBar(nullptr);
+#endif
     ui->splitter->setStretchFactor(1, 2);
     ui->splitter_2->setStretchFactor(0, 2);
 

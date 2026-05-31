@@ -85,8 +85,8 @@ protected:
      * @brief       响应一个命令。
      * @note        当点击工具栏中的Action、CheckBox或RadioButton时会触发此函数。重写此函数用于响应需要在主窗口中响应的命令，
      *              需要在模块中响应的命令请在对应模块的OnCommand函数中响应。如果派生类重写了此函数，请在重写的函数中调用基类的函数。
-     * @param[in]	strCmd：命令的ID
-     * @param[in]	checked：命令是否选中（如果命令具有可选中属性时）
+     * @param[in]	strCmd 命令的ID
+     * @param[in]	checked 命令是否选中（如果命令具有可选中属性时）
      * @return      返回true表示命令已经被响应。如果命令需要在模块中响应，请返回false。
      */
     virtual bool OnCommand(const QString& strCmd, bool checked);

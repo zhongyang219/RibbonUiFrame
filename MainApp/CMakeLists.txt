@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(DeveloperTools LANGUAGES CXX)
+project(MainApp LANGUAGES CXX)
 
 # 设置C++标准和Qt自动处理
 set(CMAKE_CXX_STANDARD 17)
@@ -8,13 +8,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # 仅在 macOS 桌面平台下注入 MACOSX_BUNDLE 标志
-if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+if(APPLE)
     set(QT_BUNDLE_FLAG MACOSX_BUNDLE)
 else()
     set(QT_BUNDLE_FLAG "")
 endif()
 
-add_executable(${PROJECT_NAME} ${QT_BUNDLE_FLAG}
+# macOS下的图标
+set(MACOS_APP_ICON_PATH "res/logo.icns")
+get_filename_component(MACOS_APP_ICON_NAME ${MACOS_APP_ICON_PATH} NAME)
+
+set(APP_SOURCES
     mainwindow.h
     toolkits/Config.h
     main.cpp
@@ -23,6 +27,13 @@ add_executable(${PROJECT_NAME} ${QT_BUNDLE_FLAG}
     res/res.rc
     resource.qrc
 )
+
+# macOS 平台追加 .icns 图标文件到源列表
+if(APPLE)
+    list(APPEND APP_SOURCES ${MACOS_APP_ICON_PATH})
+endif()
+
+add_executable(${PROJECT_NAME} ${QT_BUNDLE_FLAG} ${APP_SOURCES})
 
 # 依赖的Qt组件
 set(QT_COMPONENTS Core Gui Widgets)
@@ -49,6 +60,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/../bin/debug
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/../bin/release
 )
+
+# macOS 平台配置 Bundle 图标与资源打包路径
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        MACOSX_BUNDLE_ICON_FILE ${MACOS_APP_ICON_NAME}
+    )
+    set_source_files_properties(${MACOS_APP_ICON_PATH} PROPERTIES
+        MACOSX_PACKAGE_LOCATION Resources
+    )
+endif()
 
 # 链接目录与库
 target_link_directories(${PROJECT_NAME} PRIVATE

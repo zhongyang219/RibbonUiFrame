@@ -90,7 +90,7 @@ QIcon RibbonFrameHelper::CreateIcon(QString strPath, int size)
     {
         //如果图标路径不是资源路径且文件不存在，则在路径前面加上应用程序目录
         if (!strPath.startsWith(":/") && !QFileInfo(strPath).isFile())
-            strPath = GetApplicationDirPath() + '/' + strPath;
+            strPath = QCoreApplication::applicationDirPath() + '/' + strPath;
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
             return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
@@ -113,7 +113,7 @@ bool RibbonFrameHelper::IsActionTag(const QString& tagName)
 bool RibbonFrameHelper::SetApplicationNameByXml(QString xmlPath)
 {
     if (xmlPath.isEmpty())
-        xmlPath = GetApplicationDirPath() + "/MainFrame.xml";
+        xmlPath = QCoreApplication::applicationDirPath() + "/MainFrame.xml";
     QFile file(xmlPath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
         return false;
@@ -132,20 +132,6 @@ bool RibbonFrameHelper::SetApplicationNameByXml(QString xmlPath)
         return true;
     }
     return false;
-}
-
-QString RibbonFrameHelper::GetApplicationDirPath()
-{
-    QString path = QCoreApplication::applicationDirPath();
-#ifdef Q_OS_MACOS
-    // macOS: appName.app/Contents/MacOS -> appName.app -> 应用所在目录
-    QDir dir(path);
-    dir.cdUp();  // Contents/MacOS -> Contents
-    dir.cdUp();  // Contents -> appName.app
-    dir.cdUp();  // appName.app -> 应用程序所在目录
-    path = dir.absolutePath();
-#endif
-    return path;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
