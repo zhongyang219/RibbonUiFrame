@@ -124,4 +124,5 @@ Makefile*
 *.qtvscr
 build
 .idea
+.DS_Store
 
