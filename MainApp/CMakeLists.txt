@@ -10,6 +10,8 @@ set(CMAKE_AUTOUIC ON)
 # 仅在 macOS 桌面平台下注入 MACOSX_BUNDLE 标志
 if(APPLE)
     set(QT_BUNDLE_FLAG MACOSX_BUNDLE)
+elseif(WIN32)
+    set(QT_BUNDLE_FLAG WIN32)
 else()
     set(QT_BUNDLE_FLAG "")
 endif()

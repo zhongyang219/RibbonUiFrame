@@ -44,12 +44,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # 编译宏定义
 target_compile_definitions(${PROJECT_NAME} PRIVATE TESTMODULE_LIBRARY)
 
-# 输出目录
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/../bin/debug
-    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/../bin/release
-)
-
 # 链接库
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${QT_LINK_TARGETS}
