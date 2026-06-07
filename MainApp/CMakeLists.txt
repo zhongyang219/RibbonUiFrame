@@ -16,6 +16,7 @@ endif()
 
 # macOS下的图标
 set(MACOS_APP_ICON_PATH "res/logo.icns")
+get_filename_component(MACOS_APP_ICON_NAME ${MACOS_APP_ICON_PATH} NAME)
 
 set(APP_SOURCES
     mainwindow.h
@@ -62,6 +63,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 # macOS 平台配置 Bundle 图标与资源打包路径
 if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        MACOSX_BUNDLE_ICON_FILE ${MACOS_APP_ICON_NAME}
+        MACOSX_BUNDLE_INFO_PLIST ""
+    )
     set_source_files_properties(${MACOS_APP_ICON_PATH} PROPERTIES
         MACOSX_PACKAGE_LOCATION Resources
     )
