@@ -38,6 +38,9 @@ public:
     static bool IsActionTag(const QString& tagName);
 
     static bool SetApplicationNameByXml(QString xmlPath);
+
+    //获取xml配置文件所在路径
+    static QString GetFrameResourceDir();
 };
 
 //保存主窗口的私有成员变量
