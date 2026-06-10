@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include <QFontDialog>
 #include <QColorDialog>
+#include <QFileDialog>
 #include "Common.h"
 #include "testmodule.h"
 
@@ -129,6 +130,16 @@ void CMainWidget::on_btnColor_clicked()
 {
     QColorDialog dlg(this);
     dlg.exec();
+}
+
+void CMainWidget::on_openFileDlgBtn_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, u8"打开", QString(), u8"所有文件 (*.*)");
+}
+
+void CMainWidget::on_openFileDlgQt_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, u8"打开", QString(), u8"所有文件 (*.*)", nullptr, QFileDialog::DontUseNativeDialog);
 }
 
 void CMainWidget::OnIconBtnClicked(bool)
