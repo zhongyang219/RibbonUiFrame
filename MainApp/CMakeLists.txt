@@ -66,6 +66,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # macOS 平台配置 Bundle 图标与资源打包路径
 if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_IDENTIFIER "com.zhongyang219.ribbonuiframe"  # 替换为你的反向域名标识符
+        MACOSX_BUNDLE_BUNDLE_NAME "MainApp"             # 替换为你的应用名称
+        MACOSX_BUNDLE_BUNDLE_VERSION "1.0.0"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
         MACOSX_BUNDLE_ICON_FILE ${MACOS_APP_ICON_NAME}
         MACOSX_BUNDLE_INFO_PLIST ""
     )

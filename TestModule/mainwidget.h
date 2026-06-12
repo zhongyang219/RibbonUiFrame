@@ -36,6 +36,10 @@ private slots:
 
     void on_btnColor_clicked();
 
+    void on_openFileDlgBtn_clicked();
+
+    void on_openFileDlgQt_clicked();
+
     void OnIconBtnClicked(bool);
 
     void OnNavChanged(const QString& text);

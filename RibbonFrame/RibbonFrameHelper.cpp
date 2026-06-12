@@ -93,9 +93,14 @@ QIcon RibbonFrameHelper::CreateIcon(QString strPath, int size)
             strPath = GetFrameResourceDir() + '/' + strPath;
         QPixmap pixmap(strPath);
         if (!pixmap.isNull())
-            return QIcon(pixmap.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        {
+            qreal dpr = qApp->devicePixelRatio();
+            return QIcon(pixmap.scaled(size * dpr, size * dpr, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        }
         else
+        {
             qDebug() << QString(u8"加载图标“%1”失败！").arg(strPath);
+        }
     }
     return QIcon();
 }
