@@ -1817,3 +1817,10 @@ void RibbonFrameWindow::SetItemCurIIndex(const char* strId, int index)
         return;
     }
 }
+
+IRibbonStyle* RibbonFrameWindow::GetRibbonStyle()
+{
+    IModule* pStyleModule = GetModule("StylePlugin");
+    IRibbonStyle* pRibbonStyle = dynamic_cast<IRibbonStyle*>(pStyleModule);
+    return pRibbonStyle;
+}

@@ -2,6 +2,7 @@
 #define MAINWINDOWINTERFACE
 
 class IModule;
+class IRibbonStyle;
 
 //界面框架接口
 //接口中所有const char*类型均为UTF8编码。
@@ -116,6 +117,12 @@ public:
      * @param[in]	timeOut 文本显示的时长，单位为毫秒，0表示一直显示
      */
     virtual void SetStatusBarText(const char* text, int timeOut) = 0;
+
+    /**
+     * @brief 获取当前Ribbon主题接口
+     * @return 
+     */
+    virtual IRibbonStyle* GetRibbonStyle() = 0;
 };
 
 #endif // MAINWINDOWINTERFACE

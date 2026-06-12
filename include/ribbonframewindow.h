@@ -7,6 +7,7 @@
 #include "moduleinterface.h"
 #include "mainframeinterface.h"
 #include "mainframe_global.h"
+#include "styleinterface.h"
 
 class QDomElement;
 class QToolBar;
@@ -155,6 +156,7 @@ public:
     virtual void SetStatusBarText(const char* text, int timeOut) override;
     virtual int GetItemCurIndex(const char* strId) override;
     virtual void SetItemCurIIndex(const char* strId, int index) override;
+    virtual IRibbonStyle* GetRibbonStyle() override;
 };
 
 #endif // RIBBONFRAMEWINDOW_H
