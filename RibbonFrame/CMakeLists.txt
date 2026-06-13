@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} SHARED
     ../include/moduleinterface.h
     ../include/ribbonframewindow.h
     ../include/ribbonuipredefine.h
+    ../include/styleinterface.h
     RibbonFrameHelper.h
     modulemanagerdlg.h
     settingsdialog.h
@@ -36,6 +37,8 @@ add_library(${PROJECT_NAME} SHARED
     qxframeless/framelesshelper_p.h
     qxframeless/qxframeless_global.h
     qxframeless/framelesshelper.cpp
+    ServiceManager/ServiceManager.cpp
+    ServiceManager/ServiceManager.h
 )
 
 # 依赖的Qt组件
