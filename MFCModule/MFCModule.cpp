@@ -6,6 +6,8 @@
 #include "framework.h"
 #include "MFCModule.h"
 #include "MFCModuleDlg.h"
+#include "mainframeinterface.h"
+#include "MFCModuleService.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -138,6 +140,9 @@ void MFCModuleInterface::UiInitComplete(IMainFrame* pMainFrame)
     //显示主窗口
     CMFCModuleDlg* pDlg = dynamic_cast<CMFCModuleDlg*>(AfxGetMainWnd());
     pDlg->SetWindowVisible(true);
+
+    //注册服务
+    pMainFrame->RegisterService(STR_MFC_MODULE_SERVICE, new MFCModuleService());
 }
 
 void* MFCModuleInterface::GetMainWindow()

@@ -58,6 +58,12 @@
     <Filter Include="qxframeless">
       <UniqueIdentifier>{6e039464-f193-42bd-8fa2-b616d1aa221e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{2cf242bb-e2d3-43d5-be8d-439867173360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServiceManager">
+      <UniqueIdentifier>{625b74bd-d277-4b21-b9dc-161828fec4f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RibbonFrameHelper.cpp">
@@ -87,15 +93,12 @@
     <ClCompile Include="qxframeless\framelesshelper.cpp">
       <Filter>qxframeless</Filter>
     </ClCompile>
+    <ClCompile Include="ServiceManager\ServiceManager.cpp">
+      <Filter>ServiceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mainframe_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\mainframeinterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\moduleinterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -103,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="RibbonFrameHelper.h">
       <Filter>RibbonFrameHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\styleinterface.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="toolkits\WinVersionHelper.h">
       <Filter>toolkits</Filter>
@@ -115,6 +115,24 @@
     </ClInclude>
     <ClInclude Include="qxframeless\qxframeless_global.h">
       <Filter>qxframeless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\mainframeinterface.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\moduleinterface.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\styleinterface.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ribbonuipredefine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\serviceinterface.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceManager\ServiceManager.h">
+      <Filter>ServiceManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

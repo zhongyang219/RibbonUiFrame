@@ -44,6 +44,7 @@
 #include "modulemanagerdlg.h"
 #include "RibbonFrameHelper.h"
 #include "qxframeless/framelesshelper.h"
+#include "ServiceManager/ServiceManager.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1823,4 +1824,14 @@ IRibbonStyle* RibbonFrameWindow::GetRibbonStyle()
     IModule* pStyleModule = GetModule("StylePlugin");
     IRibbonStyle* pRibbonStyle = dynamic_cast<IRibbonStyle*>(pStyleModule);
     return pRibbonStyle;
+}
+
+bool RibbonFrameWindow::RegisterService(const char* className, IService* pService)
+{
+    return CServiceManager::Instance().RegisterService(className, pService);
+}
+
+IService* RibbonFrameWindow::GetService(const char* className) const
+{
+    return CServiceManager::Instance().GetService(className);
 }

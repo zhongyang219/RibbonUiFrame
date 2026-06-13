@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33815.320
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11828.311 oobstable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RibbonFrame", "RibbonFrame\RibbonFrame.vcxproj", "{05D8A51A-C02D-38AE-A75B-DF7F4DFED005}"
 EndProject
@@ -16,8 +16,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCModule", "MFCModule\MFCModule.vcxproj", "{11F17CEA-9F39-40B1-9E04-2382F332265B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OfficeStyleApp", "OfficeStyleApp\OfficeStyleApp.vcxproj", "{BD1003C7-31C1-3A7B-9E19-BFB2BF54AB82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05D8A51A-C02D-38AE-A75B-DF7F4DFED005} = {05D8A51A-C02D-38AE-A75B-DF7F4DFED005}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RibbonUiTools", "RibbonUiTools\RibbonUiTools.vcxproj", "{1B3DE00F-D71D-3EC1-BF24-413401F8EF38}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05D8A51A-C02D-38AE-A75B-DF7F4DFED005} = {05D8A51A-C02D-38AE-A75B-DF7F4DFED005}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,7 +94,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {014E547D-F1C7-4F8D-8D41-32F48D0A5B9E}
 		Qt5Version = 5.15.2_msvc2019_64
+		SolutionGuid = {014E547D-F1C7-4F8D-8D41-32F48D0A5B9E}
 	EndGlobalSection
 EndGlobal

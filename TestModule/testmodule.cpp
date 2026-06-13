@@ -12,6 +12,7 @@
 #include <QStatusBar>
 #include <QMenuBar>
 #include "ribbonuipredefine.h"
+#include "../MFCModule/interface/IMFCModuleService.h"
 
 static TestModule* pIns = nullptr;
 TestModule::TestModule()
@@ -82,6 +83,14 @@ void TestModule::OnCommand(const char* strCmd, bool checked)
     else if (cmd == "ShowMenuBarCheck")
     {
         m_mainWidget.GetMenuBar()->setVisible(checked);
+    }
+    else if (cmd == "ModuleServiceTest")
+    {
+        IMFCModuleService* pMFCModuleService = dynamic_cast<IMFCModuleService*>(m_pMainFrame->GetService(STR_MFC_MODULE_SERVICE));
+        if (pMFCModuleService != nullptr)
+        {
+            pMFCModuleService->SetEditText(L"这是来自“TestModule”的消息！");
+        }
     }
 }
 

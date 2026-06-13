@@ -64,6 +64,11 @@ void CMFCModuleDlg::SetWindowVisible(bool visible)
     m_windowVisible = visible;
 }
 
+void CMFCModuleDlg::SetEditText(const wchar_t* strText)
+{
+	SetDlgItemTextW(IDC_EDIT1, strText);
+}
+
 void CMFCModuleDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);

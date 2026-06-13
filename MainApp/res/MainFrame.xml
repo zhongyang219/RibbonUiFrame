@@ -149,7 +149,7 @@ ActionGroup节点
     <Page name="模块1" icon="Image/module.png" modulePath="./TestModule">
       <Action name="命令1" icon="Image/User.png" id="TestCommand1"/>
       <Action name="命令2" icon="Image/more.png" id="TestCommand2" checkable="true" smallIcon="true"/>
-      <Action name="命令3" icon="Image/proj.png" id="TestCommand3" smallIcon="true"/>
+      <Action name="测试模块通信" icon="Image/proj.png" id="ModuleServiceTest" smallIcon="true"/>
       <ActionGroup name="命令组1" id="Group1Option" optionBtn="true">
         <Action name="命令4" icon="Image/edit.png" id="TestCommand4" smallIcon="true"/>
         <Action name="命令5" icon="Image/edit.png" id="TestCommand5" smallIcon="true"/>

@@ -157,6 +157,8 @@ public:
     virtual int GetItemCurIndex(const char* strId) override;
     virtual void SetItemCurIIndex(const char* strId, int index) override;
     virtual IRibbonStyle* GetRibbonStyle() override;
+    virtual bool RegisterService(const char* className, IService* pService) override;
+    virtual IService* GetService(const char* className) const override;
 };
 
 #endif // RIBBONFRAMEWINDOW_H

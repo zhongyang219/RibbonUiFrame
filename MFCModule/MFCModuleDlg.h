@@ -18,6 +18,8 @@ public:
 	enum { IDD = IDD_MFCMODULE_DIALOG };
 #endif
 
+	void SetEditText(const wchar_t* strText);
+
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 

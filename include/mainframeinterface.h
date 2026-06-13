@@ -3,6 +3,7 @@
 
 class IModule;
 class IRibbonStyle;
+class IService;
 
 //界面框架接口
 //接口中所有const char*类型均为UTF8编码。
@@ -123,6 +124,22 @@ public:
      * @return 
      */
     virtual IRibbonStyle* GetRibbonStyle() = 0;
+
+    /**
+     * @brief 注册一个服务
+     * @param className 服务类的类名
+     * @param pService 要注册服务类的对象（注册时需要new一个服务类的对象，该由智能指针管理，不能手动释放，不能传递栈上的对象）
+     * @return 如果服务已注册则返回false，否则返回true
+     */
+    virtual bool RegisterService(const char* className, IService* pService) = 0;
+
+    /**
+     * @brief 获取一个已注册的服务类对象
+     * @param className 服务类的类名
+     * @return 如果存在返回对象的指针，否则返回空指针
+     */
+    virtual IService* GetService(const char* className) const = 0;
+
 };
 
 #endif // MAINWINDOWINTERFACE
